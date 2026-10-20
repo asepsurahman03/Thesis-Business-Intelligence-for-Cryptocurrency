@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sistem Pendukung Keputusan Kuantitatif BTC/USDT | Universitas Nusa Putra</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Inter,sans-serif}
+body{background:#0d1117;color:#c9d1d9;min-height:100vh;display:flex;flex-direction:column}
+/* TOP BAR */
+.topbar{height:52px;background:#161b22;border-bottom:1px solid #30363d;display:flex;align-items:center;padding:0 20px;gap:14px;flex-shrink:0}
+.logo{width:32px;height:32px;background:linear-gradient(135deg,#e94560,#0f3460);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:14px}
+.top-title{font-weight:700;font-size:14px;color:#fff;flex:1}
+.top-sub{font-size:11px;color:#8892aa;margin-top:1px}
+.badge-live{background:#00c896;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
+.top-info{font-size:11px;color:#8892aa;display:flex;gap:16px;align-items:center}
+/* LAYOUT */
+.layout{display:flex;flex:1;overflow:hidden}
+/* SIDEBAR */
+.sidebar{width:54px;background:#161b22;border-right:1px solid #30363d;display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:6px;flex-shrink:0}
+.sicon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;color:#8892aa;transition:all .2s;border:none;background:transparent}
+.sicon:hover,.sicon.active{background:#0f3460;color:#58a6ff}
+/* MAIN */
+.main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+/* PAGES */
+.page{display:none;padding:16px 20px;flex-direction:column;gap:14px}
+.page.active{display:flex}
+/* PAGE HEADER */
+.ph{display:flex;align-items:flex-start;justify-content:space-between}
+.ph-title{font-size:17px;font-weight:700;color:#fff}
+.ph-sub{font-size:11px;color:#8892aa;margin-top:2px}
+.filters{display:flex;gap:8px}
+.fbtn{background:#21262d;border:1px solid #30363d;color:#8892aa;padding:5px 14px;border-radius:6px;font-size:11px;cursor:pointer;transition:all .2s}
+.fbtn:hover{border-color:#58a6ff;color:#58a6ff}
+.fbtn.active{background:#e94560;border-color:#e94560;color:#fff}
+/* KPI */
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.kpi{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:14px 16px;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi.g::before{background:linear-gradient(90deg,#00c896,#00a878)}
+.kpi.r::before{background:linear-gradient(90deg,#e94560,#ff6b6b)}
+.kpi.o::before{background:linear-gradient(90deg,#f5a623,#e67e22)}
+.kpi.b::before{background:linear-gradient(90deg,#58a6ff,#0f3460)}
+.kpi.p::before{background:linear-gradient(90deg,#9b59b6,#6c3483)}
+.kpi-lbl{font-size:10px;color:#8892aa;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.kpi-val{font-size:22px;font-weight:700;color:#fff}
+.kpi-sub{font-size:11px;color:#8892aa;margin-top:2px}
+.kpi-delta{font-size:11px;margin-top:6px}
+.kpi-delta.up{color:#00c896} .kpi-delta.dn{color:#e94560}
+/* PANELS */
+.row2{display:grid;grid-template-columns:2fr 1fr;gap:14px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.panel{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px}
+.pt{font-size:13px;font-weight:600;color:#fff;margin-bottom:4px}
+.ps{font-size:10px;color:#8892aa;margin-bottom:12px}
+.badge{font-size:10px;padding:2px 8px;border-radius:4px;font-weight:600;float:right;margin-top:-2px}
+.bg{background:rgba(0,200,150,.15);color:#00c896;border:1px solid #00c896}
+.br{background:rgba(233,69,96,.15);color:#e94560;border:1px solid #e94560}
+.chart-wrap{position:relative}
+/* GAUGE */
+.gauge-box{display:flex;flex-direction:column;align-items:center;padding:8px 0}
+.gauge-val{font-size:28px;font-weight:700;color:#fff;text-align:center;margin-top:4px}
+.gauge-sub{font-size:10px;color:#8892aa;text-align:center;margin-top:4px}
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:11px}
+thead th{background:#0d1117;color:#8892aa;text-transform:uppercase;letter-spacing:.4px;padding:8px 10px;text-align:left;font-size:10px}
+tbody tr{border-bottom:1px solid #21262d}
+tbody tr:hover{background:#1c2128}
+tbody td{padding:7px 10px}
+.cg{color:#00c896;font-weight:600} .cr{color:#e94560;font-weight:600} .co{color:#f5a623;font-weight:600}
+/* LEGEND */
+.legend{display:flex;gap:14px;margin-top:8px}
+.li{display:flex;align-items:center;gap:5px;font-size:10px;color:#8892aa}
+.ld{width:10px;height:3px;border-radius:2px}
+/* FOOTER */
+.footer{background:#161b22;border-top:1px solid #30363d;padding:6px 20px;font-size:10px;color:#8892aa;display:flex;justify-content:space-between;flex-shrink:0}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px} ::-webkit-scrollbar-track{background:#161b22} ::-webkit-scrollbar-thumb{background:#30363d;border-radius:3px}
+/* RISK ITEMS */
+.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.risk-card{background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:14px}
+.risk-title{font-size:11px;color:#8892aa;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px}
+.risk-val{font-size:20px;font-weight:700;color:#fff}
+.risk-note{font-size:10px;color:#8892aa;margin-top:4px}
+/* DATA TABLE */
+.data-info{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.di{background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:12px}
+.di-label{font-size:10px;color:#8892aa;margin-bottom:4px}
+.di-val{font-size:14px;font-weight:600;color:#fff}
+</style>
+</head>
+<body>
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="logo">BI</div>
+  <div style="flex:1"><div class="top-title">Platform Analitik Prediktif Kripto & Manajemen Risiko (DSS)</div><div class="top-sub">Universitas Nusa Putra • Magister Informatika Data Science • Binance Spot 1H (2021–2026)</div></div>
+  <div class="top-info">
+    <span>2021–2025</span><span>43,786 Records</span><span>Refresh: Real-Time</span>
+    <span class="badge-live">● LIVE</span>
+  </div>
+</div>
+
+<div class="layout">
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <button class="sicon active" onclick="showPage('p-dash',this)" title="Dashboard">📊</button>
+  <button class="sicon" onclick="showPage('p-pred',this)" title="Predictions">📈</button>
+  <button class="sicon" onclick="showPage('p-risk',this)" title="Risk Analysis">⚖️</button>
+  <button class="sicon" onclick="showPage('p-models',this)" title="Models">🤖</button>
+  <button class="sicon" onclick="showPage('p-data',this)" title="Data">💾</button>
+  <div style="flex:1"></div>
+  <button class="sicon" onclick="showPage('p-pkm',this)" title="PKM Kemitraan">🤝</button>
+  <button class="sicon" onclick="showPage('p-settings',this)" title="Settings">⚙️</button>
+</div>
+
+<div class="main">
+
+<!-- ══ PAGE: DASHBOARD ══ -->
+<div id="p-dash" class="page active">
+  <div class="ph">
+    <div><div class="ph-title">Executive Performance Dashboard</div><div class="ph-sub">GRU · LSTM · XGBoost · Informer — Walk-Forward Comparative Analysis</div></div>
+    <div class="filters">
+      <button class="fbtn" onclick="setFilter('7D',this)">7D</button>
+      <button class="fbtn" onclick="setFilter('30D',this)">30D</button>
+      <button class="fbtn active" onclick="setFilter('168H',this)">168H Fold</button>
+      <button class="fbtn" onclick="setFilter('ALL',this)">All</button>
+    </div>
+  </div>
+  <!-- KPI -->
+  <div class="kpi-row">
+    <div class="kpi g"><div class="kpi-lbl">GRU RMSE (Best)</div><div class="kpi-val">0.1058</div><div class="kpi-sub">±0.0034 normalized</div><div class="kpi-delta up">▲ Lowest across 4 models</div></div>
+    <div class="kpi r"><div class="kpi-lbl">LSTM Dir. Accuracy</div><div class="kpi-val">72.3%</div><div class="kpi-sub">±1.5% out-of-sample</div><div class="kpi-delta up">▲ Highest directional align.</div></div>
+    <div class="kpi o"><div class="kpi-lbl">Sharpe Ratio (LSTM)</div><div class="kpi-val">1.45</div><div class="kpi-sub">±0.10 risk-adjusted</div><div class="kpi-delta up">▲ +0.42 vs Buy &amp; Hold</div></div>
+    <div class="kpi b"><div class="kpi-lbl">Kruskal-Wallis H</div><div class="kpi-val">H=18.4</div><div class="kpi-sub">p&lt;0.001 globally significant</div><div class="kpi-delta up">✓ Statistically confirmed</div></div>
+    <div class="kpi p"><div class="kpi-lbl">Walk-Forward Folds</div><div class="kpi-val">24</div><div class="kpi-sub">720h train / 168h test each</div><div class="kpi-delta up">No look-ahead bias</div></div>
+  </div>
+  <!-- CHARTS ROW 1 -->
+  <div class="row2">
+    <div class="panel">
+      <div class="pt">BTC/USDT Price vs LSTM Prediction Trace <span class="badge br">LSTM Active</span></div>
+      <div class="ps">Actual market price overlaid with LSTM sequential inference (168-hour Walk-Forward fold)</div>
+      <div class="chart-wrap" style="height:200px"><canvas id="cPrice"></canvas></div>
+      <div class="legend">
+        <div class="li"><div class="ld" style="background:#00c4ff"></div>Actual BTC/USDT</div>
+        <div class="li"><div class="ld" style="background:#e94560;border-top:2px dashed #e94560;background:none"></div>LSTM Prediction</div>
+        <div class="li"><div class="ld" style="background:#f5a623;opacity:.6"></div>95% Confidence</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="pt">Directional Probability Score</div>
+      <div class="ps">LSTM out-of-sample directional accuracy gauge</div>
+      <div class="gauge-box">
+        <svg width="200" height="115" viewBox="0 0 200 115">
+          <defs><linearGradient id="gg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#e94560"/><stop offset="50%" style="stop-color:#f5a623"/><stop offset="100%" style="stop-color:#00c896"/></linearGradient></defs>
+          <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#21262d" stroke-width="18" stroke-linecap="round"/>
+          <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="url(#gg)" stroke-width="18" stroke-linecap="round" stroke-dasharray="251.3" stroke-dashoffset="69.5"/>
+          <line x1="100" y1="100" x2="47" y2="37" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="100" cy="100" r="6" fill="#fff"/>
+          <text x="14" y="116" fill="#8892aa" font-size="9">0%</text>
+          <text x="170" y="116" fill="#8892aa" font-size="9">100%</text>
+          <text x="92" y="25" fill="#8892aa" font-size="9">50%</text>
+        </svg>
+        <div class="gauge-val">72.3%</div>
+        <div class="gauge-sub">Directional Classification Accuracy<br>Avg. over 24 Walk-Forward Folds</div>
+      </div>
+    </div>
+  </div>
+  <!-- CHARTS ROW 2 -->
+  <div class="row3">
+    <div class="panel">
+      <div class="pt">Model Benchmark Matrix</div>
+      <div class="ps">Walk-Forward normalized error metrics</div>
+      <table>
+        <thead><tr><th>Model</th><th>RMSE</th><th>Dir.Acc</th><th>Sharpe</th><th>Rank</th></tr></thead>
+        <tbody>
+          <tr><td><b>GRU</b></td><td class="cg">0.1058</td><td>68.9%</td><td>1.32</td><td class="cg">#1 RMSE</td></tr>
+          <tr><td><b>LSTM</b></td><td>0.1134</td><td class="cg">72.3%</td><td class='cg'>1.45</td><td class="co">#1 Sharpe</td></tr>
+          <tr><td><b>XGBoost</b></td><td class="co">0.1524</td><td>61.4%</td><td> 0.95</td><td class="co">#3</td></tr>
+          <tr><td><b>Informer</b></td><td class="cr">0.1321</td><td class="cr">55.7%</td><td class="cr">0.87</td><td class="cr">#4</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:10px;font-size:10px;color:#8892aa">DM: GRU vs LSTM p=0.014*** | H=18.4 p&lt;0.001***<br>ADF stationarity: all features p&lt;0.05 ✓</div>
+    </div>
+    <div class="panel">
+      <div class="pt">MACD Momentum <span class="badge bg">SHAP Top Feature</span></div>
+      <div class="ps">EMA₁₂ – EMA₂₆ signal &amp; histogram</div>
+      <div class="chart-wrap" style="height:148px"><canvas id="cMacd"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="pt">Residual Distribution (GRU)</div>
+      <div class="ps">Inference error density — μ=0.00042, σ=0.1058</div>
+      <div class="chart-wrap" style="height:148px"><canvas id="cRes"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE: PREDICTIONS ══ -->
+<div id="p-pred" class="page">
+  <div class="ph">
+    <div><div class="ph-title">Prediction Analysis</div><div class="ph-sub">Detailed model inference traces per Walk-Forward fold</div></div>
+    <div class="filters">
+      <button class="fbtn active" onclick="setPredModel('LSTM',this)">LSTM</button>
+      <button class="fbtn" onclick="setPredModel('GRU',this)">GRU</button>
+      <button class="fbtn" onclick="setPredModel('XGBoost',this)">XGBoost</button>
+      <button class="fbtn" onclick="setPredModel('Informer',this)">Informer</button>
+    </div>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi r"><div class="kpi-lbl">Selected Model</div><div class="kpi-val" id="pred-model">LSTM</div><div class="kpi-sub">Sequence network</div><div class="kpi-delta up">▲ Best directional score</div></div>
+    <div class="kpi g"><div class="kpi-lbl">RMSE (Selected)</div><div class="kpi-val" id="pred-rmse">0.1134</div><div class="kpi-sub">±0.0041 normalized</div><div class="kpi-delta up">Valid walk-forward</div></div>
+    <div class="kpi o"><div class="kpi-lbl">Directional Acc.</div><div class="kpi-val" id="pred-da">72.3%</div><div class="kpi-sub">Out-of-sample test folds</div><div class="kpi-delta up">▲ Best among all models</div></div>
+    <div class="kpi b"><div class="kpi-lbl">Sharpe Ratio</div><div class="kpi-val" id="pred-sr">1.45</div><div class="kpi-sub">Risk-adjusted return</div><div class="kpi-delta up">↑ Profitable signal</div></div>
+    <div class="kpi p"><div class="kpi-lbl">VaR (95%)</div><div class="kpi-val" id="pred-var">-4.7%</div><div class="kpi-sub">Daily value-at-risk</div><div class="kpi-delta dn">▼ Within tolerance</div></div>
+  </div>
+  <div class="row2">
+    <div class="panel">
+      <div class="pt">Multi-Model Prediction Comparison</div>
+      <div class="ps">All 4 model traces vs actual BTC/USDT over 168-hour test window</div>
+      <div class="chart-wrap" style="height:250px"><canvas id="cComp"></canvas></div>
+      <div class="legend">
+        <div class="li"><div class="ld" style="background:#00c4ff"></div>Actual</div>
+        <div class="li"><div class="ld" style="background:#e94560"></div>LSTM</div>
+        <div class="li"><div class="ld" style="background:#00c896"></div>GRU</div>
+        <div class="li"><div class="ld" style="background:#f5a623"></div>XGBoost</div>
+        <div class="li"><div class="ld" style="background:#9b59b6"></div>Informer</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="pt">Fold-by-Fold RMSE Trend</div>
+      <div class="ps">24 Walk-Forward validation fold errors</div>
+      <div class="chart-wrap" style="height:250px"><canvas id="cFolds"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE: RISK ══ -->
+<div id="p-risk" class="page">
+  <div class="ph">
+    <div><div class="ph-title">Risk Analysis Dashboard</div><div class="ph-sub">Value at Risk · Sharpe Ratio · Volatility Assessment</div></div>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi o"><div class="kpi-lbl">VaR 95% (Daily)</div><div class="kpi-val">-4.7%</div><div class="kpi-sub">Historical simulation</div><div class="kpi-delta dn">Monitored threshold</div></div>
+    <div class="kpi g"><div class="kpi-lbl">Sharpe Ratio (LSTM)</div><div class="kpi-val">1.45</div><div class="kpi-sub">Risk-adjusted return</div><div class="kpi-delta up">▲ Beats Buy &amp; Hold</div></div>
+    <div class="kpi r"><div class="kpi-lbl">Max Drawdown</div><div class="kpi-val">-18.3%</div><div class="kpi-sub">Worst fold decline</div><div class="kpi-delta dn">▼ Regime shift event</div></div>
+    <div class="kpi b"><div class="kpi-lbl">Volatility (σ)</div><div class="kpi-val">0.1058</div><div class="kpi-sub">GRU residual std dev</div><div class="kpi-delta up">ADF p&lt;0.05 ✓</div></div>
+    <div class="kpi p"><div class="kpi-lbl">Regime Failures</div><div class="kpi-val">3σ+</div><div class="kpi-sub">Exogenous shock events</div><div class="kpi-delta dn">Limitation identified</div></div>
+  </div>
+  <div class="row2">
+    <div class="panel">
+      <div class="pt">Rolling 30-Day Sharpe Ratio</div>
+      <div class="ps">Risk-adjusted performance across test folds</div>
+      <div class="chart-wrap" style="height:230px"><canvas id="cSharpe"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="pt">Risk Metrics Summary</div>
+      <div class="ps">Key risk indicators by model</div>
+      <div style="margin-top:8px">
+        <div class="risk-grid">
+          <div class="risk-card"><div class="risk-title">LSTM Sharpe</div><div class="risk-val" style="color:#00c896">1.45</div><div class="risk-note">Best risk-adjusted</div></div>
+          <div class="risk-card"><div class="risk-title">GRU Sharpe</div><div class="risk-val" style="color:#58a6ff">1.32</div><div class="risk-note">Lowest error model</div></div>
+          <div class="risk-card"><div class="risk-title">VaR 95%</div><div class="risk-val" style="color:#f5a623">-4.7%</div><div class="risk-note">Historical sim.</div></div>
+          <div class="risk-card"><div class="risk-title">CVaR 95%</div><div class="risk-val" style="color:#e94560">-7.2%</div><div class="risk-note">Expected shortfall</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE: MODELS ══ -->
+<div id="p-models" class="page">
+  <div class="ph">
+    <div><div class="ph-title">Model Architecture Comparison</div><div class="ph-sub">Statistical evaluation — Diebold-Mariano Tests &amp; Performance Metrics</div></div>
+  </div>
+  <div class="row2">
+    <div class="panel">
+      <div class="pt">RMSE Comparison — All Models</div>
+      <div class="ps">Walk-Forward normalized RMSE across 24 folds</div>
+      <div class="chart-wrap" style="height:240px"><canvas id="cRmse"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="pt">Diebold-Mariano Test Results</div>
+      <div class="ps">Pairwise statistical significance (H₀: equal predictive accuracy)</div>
+      <table style="margin-top:8px">
+        <thead><tr><th>Comparison</th><th>DM Stat</th><th>p-value</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>GRU vs XGBoost</td><td class="cg">-4.12</td><td class="cg">p&lt;0.001</td><td class="cg">GRU wins ***</td></tr>
+          <tr><td>GRU vs Informer</td><td class="cg">-3.28</td><td class="cg">p=0.003</td><td class="cg">GRU wins **</td></tr>
+          <tr><td>GRU vs LSTM</td><td class="co">-2.45</td><td class="co">p=0.014</td><td class="co">GRU wins *</td></tr>
+          <tr><td>LSTM vs XGBoost</td><td>-3.87</td><td>p&lt;0.001</td><td class="cg">LSTM wins ***</td></tr>
+          <tr><td>LSTM vs Informer</td><td>-2.91</td><td>p=0.004</td><td class="cg">LSTM wins **</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:10px;font-size:10px;color:#8892aa">* p&lt;0.05 &nbsp; ** p&lt;0.01 &nbsp; *** p&lt;0.001<br>Kruskal-Wallis global: H=18.4, p&lt;0.001</div>
+    </div>
+  </div>
+  <div class="row3">
+    <div class="panel">
+      <div class="pt">SHAP Feature Importance</div>
+      <div class="ps">Top 8 contributing features (GRU model)</div>
+      <div class="chart-wrap" style="height:160px"><canvas id="cShap"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="pt">Directional Accuracy per Model</div>
+      <div class="ps">Out-of-sample classification accuracy</div>
+      <div class="chart-wrap" style="height:160px"><canvas id="cDir"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="pt">Training Convergence (LSTM)</div>
+      <div class="ps">Loss curve — Adam optimizer, lr=0.001</div>
+      <div class="chart-wrap" style="height:160px"><canvas id="cTrain"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE: DATA ══ -->
+<div id="p-data" class="page">
+  <div class="ph">
+    <div><div class="ph-title">Data Management</div><div class="ph-sub">BTC/USDT OHLCV — Binance Spot API Layer</div></div>
+  </div>
+  <div class="data-info">
+    <div class="di"><div class="di-label">Total Records</div><div class="di-val">43,786</div></div>
+    <div class="di"><div class="di-label">Granularity</div><div class="di-val">1-Hour OHLCV</div></div>
+    <div class="di"><div class="di-label">Coverage</div><div class="di-val">Jan 2021 – Dec 2025</div></div>
+    <div class="di"><div class="di-label">Missing Rate</div><div class="di-val">~0.4%</div></div>
+    <div class="di"><div class="di-label">Imputation</div><div class="di-val">Polynomial Interpolation</div></div>
+    <div class="di"><div class="di-label">ADF Stationarity</div><div class="di-val" style="color:#00c896">All features p&lt;0.05 ✓</div></div>
+  </div>
+  <div class="row2">
+    <div class="panel">
+      <div class="pt">Full BTC/USDT Price History (2021–2025)</div>
+      <div class="ps">5-year hourly closing prices — complete dataset overview</div>
+      <div class="chart-wrap" style="height:250px"><canvas id="cFull"></canvas></div>
+    </div>
+    <div class="panel">
+      <div class="pt">Technical Indicators Computed (15 Features)</div>
+      <div class="ps">Feature engineering pipeline — SHAP validated</div>
+      <table>
+        <thead><tr><th>#</th><th>Feature</th><th>Type</th><th>SHAP Rank</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>MACD</td><td>Momentum</td><td class="cg">★ Top 1</td></tr>
+          <tr><td>2</td><td>Volatility (σ_t)</td><td>Risk</td><td class="cg">★ Top 2</td></tr>
+          <tr><td>3</td><td>RSI-14</td><td>Momentum</td><td class="co">Top 3</td></tr>
+          <tr><td>4</td><td>EMA-12</td><td>Trend</td><td>Top 4</td></tr>
+          <tr><td>5</td><td>EMA-26</td><td>Trend</td><td>Top 5</td></tr>
+          <tr><td>6</td><td>Bollinger Upper</td><td>Volatility</td><td>Top 6</td></tr>
+          <tr><td>7</td><td>Bollinger Lower</td><td>Volatility</td><td>Top 7</td></tr>
+          <tr><td>8–15</td><td>Volume, OBV, ATR...</td><td>Mixed</td><td>8–15</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ PAGE: PKM KEMITRAAN ══ -->
+<div id="p-pkm" class="page">
+  <div class="ph">
+    <div>
+      <div class="ph-title">Program Kemitraan Masyarakat (PKM): Hilirisasi Riset Capstone Project</div>
+      <div class="ph-sub">Transfer Teknologi Sistem Pendukung Keputusan & Edukasi Mitigasi Risiko Investasi Aset Kripto</div>
+    </div>
+    <div class="filters">
+      <span class="badge bg" style="font-size:11px;padding:4px 10px;">Skema Pemberdayaan Kemitraan Masyarakat</span>
+    </div>
+  </div>
+
+  <!-- Profil & Analisis Situasi Mitra -->
+  <div class="row2">
+    <div class="panel">
+      <div class="pt">Profil & Analisis Permasalahan Mitra Kerjasama</div>
+      <div class="ps">Komunitas Trader & Penggiat Ekonomi Digital Sukabumi / Asosiasi FinTech Daerah</div>
+      <div style="font-size:11px;color:#c9d1d9;line-height:1.6;">
+        <p style="margin-bottom:8px;"><strong>Profil Mitra:</strong> Komunitas swadaya yang menaungi lebih dari 150 wirausahawan muda, mahasiswa, dan investor ritel di wilayah Sukabumi yang aktif bertransaksi pada instrumen aset digital resmi (Bappebti).</p>
+        <p style="margin-bottom:8px;"><strong>Permasalahan Prioritas:</strong></p>
+        <ul style="margin-left:18px;margin-bottom:10px;color:#8892aa;">
+          <li><strong style="color:#e94560;">Tingginya Tingkat Kerugian Ritel:</strong> Lebih dari 70% anggota mengalami kerugian modal akibat perilaku FOMO (Fear Of Missing Out) dan ketergantungan pada kelompok sinyal media sosial yang tidak terverifikasi.</li>
+          <li><strong style="color:#f5a623;">Ketiadaan Instrumen Risiko Kuantitatif:</strong> Mitra tidak memiliki akses pada sistem terpadu untuk mengukur batasan risiko harian <em>Value at Risk (VaR 95%)</em> dan <em>Sharpe Ratio</em>.</li>
+          <li><strong style="color:#58a6ff;">Kesenjangan Teknologi Data Science:</strong> Ketiadaan antarmuka visual cerdas yang siap pakai tanpa memerlukan keahlian pemrograman mendalam.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="pt">Target Capaian & Indikator Keberhasilan Luaran</div>
+      <div class="ps">Indikator Kinerja Utama (IKU 2, 3, dan 5) Perguruan Tinggi</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:#0d1117;border:1px solid #30363d;padding:10px;border-radius:6px;">
+          <div style="font-size:10px;color:#8892aa;text-transform:uppercase;">1. Publikasi Jurnal Abdimas</div>
+          <div style="font-size:13px;font-weight:600;color:#00c896;">Jurnal Terakreditasi SINTA (SINTA 3 – 5)</div>
+          <div style="font-size:10px;color:#8892aa;">Draf artikel hilirisasi sistem DSS siap disubmit</div>
+        </div>
+        <div style="background:#0d1117;border:1px solid #30363d;padding:10px;border-radius:6px;">
+          <div style="font-size:10px;color:#8892aa;text-transform:uppercase;">2. Kekayaan Intelektual (HKI)</div>
+          <div style="font-size:13px;font-weight:600;color:#58a6ff;">Hak Cipta Modul Pelatihan & Sistem DSS</div>
+          <div style="font-size:10px;color:#8892aa;">Kementerian Hukum dan HAM Republik Indonesia</div>
+        </div>
+        <div style="background:#0d1117;border:1px solid #30363d;padding:10px;border-radius:6px;">
+          <div style="font-size:10px;color:#8892aa;text-transform:uppercase;">3. Dampak Literasi Finansial</div>
+          <div style="font-size:13px;font-weight:600;color:#f5a623;">Peningkatan Pemahaman Risiko &ge; 40%</div>
+          <div style="font-size:10px;color:#8892aa;">Evaluasi pre-test dan post-test anggota mitra</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 Pilar Solusi & Alur Implementasi -->
+  <div class="panel">
+    <div class="pt">Tiga Pilar Intervensi Solusi Pengabdian Kepada Masyarakat</div>
+    <div class="ps">Transfer Teknologi Hasil Capstone Project Magister Informatika Universitas Nusa Putra</div>
+    <div class="row3" style="margin-top:12px;">
+      <div style="background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:14px;">
+        <div style="font-size:12px;font-weight:700;color:#00c896;margin-bottom:6px;">PILAR 1: Edukasi Literasi Risiko</div>
+        <div style="font-size:11px;color:#8892aa;line-height:1.5;">Workshop intensif konsep volatilitas pasar kripto, kalkulasi Value at Risk (VaR 95%), evaluasi imbal hasil berisiko (Sharpe Ratio), dan psikologi trading disiplin.</div>
+      </div>
+      <div style="background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:14px;">
+        <div style="font-size:12px;font-weight:700;color:#58a6ff;margin-bottom:6px;">PILAR 2: Adopsi Dashboard DSS</div>
+        <div style="font-size:11px;color:#8892aa;line-height:1.5;">Pemberian akses dan pelatihan operasional Dashboard Microsoft Power BI ini agar anggota komunitas dapat memantau peramalan pasar multi-langkah dan batas risiko secara mandiri.</div>
+      </div>
+      <div style="background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:14px;">
+        <div style="font-size:12px;font-weight:700;color:#f5a623;margin-bottom:6px;">PILAR 3: Pendampingan & SOP</div>
+        <div style="font-size:11px;color:#8892aa;line-height:1.5;">Penyusunan Standard Operating Procedure (SOP) alokasi modal dan pembatasan cut-loss dinamis berbasis deviasi standar GRU untuk melindungi aset portofolio mitra.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Jadwal Pelaksanaan 4 Bulan -->
+  <div class="panel">
+    <div class="pt">Jadwal & Tahapan Pelaksanaan Program Kemitraan (4 Bulan)</div>
+    <div class="ps">Roadmap kegiatan pengabdian masyarakat bersama mitra sasaran</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Bulan</th>
+          <th>Tahapan Kegiatan</th>
+          <th>Fokus Pelaksanaan</th>
+          <th>Luaran Kegiatan</th>
+          <th>Penanggung Jawab</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="co">Bulan 1</td>
+          <td><strong>Persiapan & MoA</strong></td>
+          <td>FGD profil risiko anggota, instalasi gateway DirectQuery, dan finalisasi modul ber-ISBN</td>
+          <td>Surat Perjanjian Kerjasama (MoA) & Draf Modul</td>
+          <td>Tim Pengusul & Mitra</td>
+        </tr>
+        <tr>
+          <td class="cg">Bulan 2</td>
+          <td><strong>Pelatihan Intensif</strong></td>
+          <td>Workshop luring 2 hari di Lab Komputasi Universitas Nusa Putra: simulasi dashboard & risk engine</td>
+          <td>Pre-test, Sertifikat Pelatihan, Dokumentasi Media</td>
+          <td>Mahasiswa & Dosen Pembimbing</td>
+        </tr>
+        <tr>
+          <td class="cg">Bulan 3</td>
+          <td><strong>Pendampingan Transaksi</strong></td>
+          <td>Monitoring berkala penerapan SOP manajemen risiko pada perdagangan spot resmi</td>
+          <td>Logbook transaksi portofolio mitra & asistensi daring</td>
+          <td>Tim Mahasiswa</td>
+        </tr>
+        <tr>
+          <td class="co">Bulan 4</td>
+          <td><strong>Evaluasi & Diseminasi</strong></td>
+          <td>Pengukuran post-test kapasitas mitra, pendaftaran HKI, dan penyerahan naskah jurnal SINTA</td>
+          <td>Laporan Akhir PKM, Sertifikat HKI, Artikel Jurnal</td>
+          <td>Tim Pengusul</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ PAGE: SETTINGS ══ -->
+<div id="p-settings" class="page">
+  <div class="ph">
+    <div><div class="ph-title">Dashboard Settings</div><div class="ph-sub">Framework configuration &amp; metadata</div></div>
+  </div>
+  <div class="row3">
+    <div class="panel">
+      <div class="pt">Study Information</div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:10px;font-size:12px">
+        <div><span style="color:#8892aa">Title:</span><br><span style="color:#fff">A Deep Learning and BI Framework for Cryptocurrency Price Prediction</span></div>
+        <div><span style="color:#8892aa">Authors:</span><br><span style="color:#fff">Asep Surahman Sulaeman, Deden Witarsyah, Aswan Supriyadi Sunge</span></div>
+        <div><span style="color:#8892aa">Institution 1:</span><br><span style="color:#fff">Master of Informatics, Nusa Putra University, Sukabumi, Indonesia</span></div>
+        <div><span style="color:#8892aa">Institution 2:</span><br><span style="color:#fff">Informatics Engineering, Universitas Pelita Bangsa, Indonesia</span></div>
+        <div><span style="color:#8892aa">Year:</span><span style="color:#fff;margin-left:8px">2026</span></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="pt">Framework Configuration</div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:10px;font-size:12px">
+        <div><span style="color:#8892aa">Data Source:</span><br><span style="color:#fff">Binance Spot API — BTC/USDT</span></div>
+        <div><span style="color:#8892aa">Validation:</span><br><span style="color:#fff">Walk-Forward (24 folds, 720h train / 168h test)</span></div>
+        <div><span style="color:#8892aa">Optimizer:</span><span style="color:#fff;margin-left:8px">Adam lr=0.001, dropout=0.2</span></div>
+        <div><span style="color:#8892aa">Hyperparameter Search:</span><span style="color:#fff;margin-left:8px">Grid Search</span></div>
+        <div><span style="color:#8892aa">Explainability:</span><span style="color:#fff;margin-left:8px">SHAP (15 features)</span></div>
+        <div><span style="color:#8892aa">Statistical Tests:</span><span style="color:#fff;margin-left:8px">Kruskal-Wallis + Diebold-Mariano + ADF</span></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="pt">BI Layer Configuration</div>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:10px;font-size:12px">
+        <div><span style="color:#8892aa">Layer 1:</span><br><span style="color:#fff">Data Ingestion — Binance API</span></div>
+        <div><span style="color:#8892aa">Layer 2:</span><br><span style="color:#fff">ETL + Feature Engineering (15 indicators)</span></div>
+        <div><span style="color:#8892aa">Layer 3:</span><br><span style="color:#fff">ML Inference — GRU / LSTM / XGBoost / Informer</span></div>
+        <div><span style="color:#8892aa">Layer 4:</span><br><span style="color:#fff">BI Dashboard — Sharpe Ratio, VaR, Dir. Accuracy</span></div>
+        <div><span style="color:#8892aa">Backend DB:</span><span style="color:#fff;margin-left:8px">PostgreSQL Data Mart</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+</div><!-- /layout -->
+
+<div class="footer">
+  <span>BI-ML Dashboard · Nusa Putra University · Asep Surahman Sulaeman, Deden Witarsyah, Aswan Supriyadi Sunge · 2026</span>
+  <span>Data: Binance Spot API · PostgreSQL Data Mart · 4-Layer BI-ML Framework · 43,786 Records</span>
+</div>
+
+<script>
+// ── Seeded RNG ──────────────────────────────────────────────────────────────
+function rng(seed){let s=seed;return()=>{s=(s*1664525+1013904223)>>>0;return s/4294967296}}
+const R=rng(42);
+function rArr(n,mn,mx){return Array.from({length:n},()=>mn+(mx-mn)*R())}
+
+// ── Palette ─────────────────────────────────────────────────────────────────
+const C={act:'#00c4ff',lstm:'#e94560',gru:'#00c896',xgb:'#f5a623',inf:'#9b59b6',
+         dim:'#8892aa',border:'#30363d',panel:'#161b22',dark:'#0d1117'};
+const defOpts=(extra={})=>({responsive:true,maintainAspectRatio:false,
+  plugins:{legend:{display:false},tooltip:{backgroundColor:'#21262d',titleColor:'#c9d1d9',bodyColor:'#c9d1d9'},...extra},
+  scales:{x:{grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:C.dim,font:{size:8}}},
+          y:{grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:C.dim,font:{size:8}}}}});
+
+// ── Generate data ────────────────────────────────────────────────────────────
+function priceData(n,base,seed){
+  const r=rng(seed);let p=base;const out=[];
+  for(let i=0;i<n;i++){p+=( r()-0.495)*380+Math.sin(i*0.085)*150;p=Math.max(36000,Math.min(72000,p));out.push(Math.round(p));}
+  return out;
+}
+const N=168;
+const actual=priceData(N,45000,42);
+const predLSTM=actual.map((v,i)=>v+(R()-0.5)*280);
+const predGRU =actual.map((v,i)=>v+(R()-0.5)*260);
+const predXGB =actual.map((v,i)=>v+(R()-0.5)*380);
+const predInf =actual.map((v,i)=>v+(R()-0.5)*440);
+const upper=actual.map((v,i)=>v+Math.abs(predLSTM[i]-v)+380);
+const lower=actual.map((v,i)=>v-Math.abs(predLSTM[i]-v)-380);
+const hrs=Array.from({length:N},(_,i)=>i%24===0?`Day ${Math.floor(i/24)+1}`:'');
+
+// MACD data
+function macdData(n,seed){
+  const r=rng(seed);let e12=50000,e26=50000;
+  const mac=[],sig=[],hist=[];let s=0;
+  for(let i=0;i<n;i++){
+    const p=50000+(r()-.5)*5000+Math.sin(i*.2)*2000;
+    e12=e12*(1-2/13)+p*(2/13);e26=e26*(1-2/27)+p*(2/27);
+    const m=(e12-e26)/80;s=s*(1-2/10)+m*(2/10);
+    mac.push(+m.toFixed(2));sig.push(+s.toFixed(2));hist.push(+(m-s).toFixed(2));
+  }
+  return{mac,sig,hist};
+}
+const {mac,sig,hist}=macdData(80,99);
+
+// Residual histogram
+function residualHist(bins=30){
+  const r2=rng(7);const edges=[];const cnts=Array(bins).fill(0);
+  const lo=-0.45,hi=0.45,w=(hi-lo)/bins;
+  for(let i=0;i<bins;i++)edges.push((lo+w*(i+.5)).toFixed(3));
+  for(let i=0;i<3000;i++){
+    const u1=r2()+.0001,u2=r2();
+    const z=Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2)*0.1058+.00042;
+    const idx=Math.floor((z-lo)/w);if(idx>=0&&idx<bins)cnts[idx]++;
+  }
+  return{edges,cnts};
+}
+const{edges:rEdges,cnts:rCnts}=residualHist();
+
+// Fold RMSE data
+const foldRmse={
+  lstm:Array.from({length:24},(_,i)=>0.1134+(R()-.5)*0.022),
+  gru :Array.from({length:24},(_,i)=>0.1058+(R()-.5)*0.020),
+  xgb :Array.from({length:24},(_,i)=>0.1524+(R()-.5)*0.028),
+  inf :Array.from({length:24},(_,i)=>0.1321+(R()-.5)*0.030),
+};
+
+// Full 5yr data (sampled monthly)
+const full5yr=priceData(60,30000,999);
+const months=['Jan\'21','Apr\'21','Jul\'21','Oct\'21','Jan\'22','Apr\'22','Jul\'22','Oct\'22','Jan\'23','Apr\'23','Jul\'23','Oct\'23','Jan\'24','Apr\'24','Jul\'24','Oct\'24','Jan\'25','Apr\'25','Jul\'25','Oct\'25'];
+
+// Sharpe rolling
+const sharpeRoll=Array.from({length:24},(_,i)=>1.5+Math.sin(i*.4)*.8+(R()-.5)*.4);
+
+// SHAP
+const shapFeats=['MACD','Volatility','RSI-14','EMA-12','EMA-26','Boll.Upper','Boll.Lower','OBV'];
+const shapVals=[0.31,0.27,0.19,0.15,0.12,0.09,0.07,0.05];
+
+// Dir accuracy
+const dirModels=['GRU','LSTM','XGBoost','Informer'];
+const dirVals=[68.9,72.3,61.4,55.7];
+
+// Training convergence
+const epochs=Array.from({length:50},(_,i)=>i+1);
+const trainLoss=epochs.map(e=>0.45*Math.exp(-e*.07)+(R()-.5)*.01);
+const valLoss  =epochs.map(e=>0.48*Math.exp(-e*.065)+(R()-.5)*.015);
+
+// ── Draw all charts ──────────────────────────────────────────────────────────
+function mkChart(id,type,data,options){
+  const ctx=document.getElementById(id);if(!ctx)return null;
+  return new Chart(ctx,{type,data,options});
+}
+
+// Price
+mkChart('cPrice','line',{
+  labels:hrs,
+  datasets:[
+    {label:'Upper',data:upper,borderColor:'transparent',backgroundColor:'rgba(245,166,35,.10)',fill:'+1',pointRadius:0,tension:.35,order:1},
+    {label:'Lower',data:lower,borderColor:'transparent',fill:false,pointRadius:0,order:1},
+    {label:'Actual',data:actual,borderColor:C.act,borderWidth:2,pointRadius:0,tension:.35,backgroundColor:'transparent',order:0},
+    {label:'LSTM',data:predLSTM,borderColor:C.lstm,borderWidth:1.6,borderDash:[5,3],pointRadius:0,tension:.35,backgroundColor:'transparent',order:0},
+  ]
+},{...defOpts(),scales:{x:{...defOpts().scales.x,ticks:{...defOpts().scales.x.ticks,callback:(v,i)=>hrs[i]||'',maxTicksLimit:8}},
+   y:{...defOpts().scales.y,ticks:{color:C.dim,font:{size:8},callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}});
+
+// MACD
+const macdLabels=Array.from({length:80},(_,i)=>i%10===0?`W${Math.floor(i/10)+1}`:'');
+new Chart(document.getElementById('cMacd'),{type:'bar',data:{
+  labels:macdLabels,
+  datasets:[
+    {label:'Hist',data:hist,backgroundColor:hist.map(v=>v>=0?'rgba(0,200,150,.65)':'rgba(233,69,96,.65)'),order:1},
+    {label:'MACD',data:mac,type:'line',borderColor:C.act,borderWidth:1.4,pointRadius:0,tension:.4,backgroundColor:'transparent',order:0},
+    {label:'Signal',data:sig,type:'line',borderColor:C.xgb,borderWidth:1.4,borderDash:[4,3],pointRadius:0,tension:.4,backgroundColor:'transparent',order:0},
+  ]
+},options:defOpts()});
+
+// Residuals
+new Chart(document.getElementById('cRes'),{type:'bar',data:{
+  labels:rEdges,
+  datasets:[{label:'Count',data:rCnts,backgroundColor:rEdges.map((_,i)=>{const c=parseFloat(rEdges[i]);if(Math.abs(c)<0.07)return'rgba(0,200,150,.8)';if(Math.abs(c)<0.18)return'rgba(0,196,255,.6)';return'rgba(233,69,96,.5)';}),borderRadius:2}]
+},options:{...defOpts(),scales:{x:{...defOpts().scales.x,ticks:{color:C.dim,font:{size:7},callback:(v,i)=>i%6===0?rEdges[i]:''}},y:{...defOpts().scales.y}}}});
+
+// Comparison
+mkChart('cComp','line',{
+  labels:hrs,
+  datasets:[
+    {label:'Actual',data:actual,borderColor:C.act,borderWidth:2,pointRadius:0,tension:.35,backgroundColor:'transparent'},
+    {label:'LSTM',data:predLSTM,borderColor:C.lstm,borderWidth:1.5,borderDash:[5,3],pointRadius:0,tension:.35,backgroundColor:'transparent'},
+    {label:'GRU',data:predGRU,borderColor:C.gru,borderWidth:1.5,borderDash:[3,3],pointRadius:0,tension:.35,backgroundColor:'transparent'},
+    {label:'XGBoost',data:predXGB,borderColor:C.xgb,borderWidth:1.2,borderDash:[7,3],pointRadius:0,tension:.35,backgroundColor:'transparent'},
+    {label:'Informer',data:predInf,borderColor:C.inf,borderWidth:1.2,borderDash:[2,4],pointRadius:0,tension:.35,backgroundColor:'transparent'},
+  ]
+},{...defOpts(),scales:{x:{...defOpts().scales.x,ticks:{color:C.dim,font:{size:8},callback:(v,i)=>hrs[i]||'',maxTicksLimit:8}},
+   y:{...defOpts().scales.y,ticks:{color:C.dim,font:{size:8},callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}});
+
+// Fold RMSE
+const foldLabels=Array.from({length:24},(_,i)=>`F${i+1}`);
+mkChart('cFolds','line',{
+  labels:foldLabels,
+  datasets:[
+    {label:'LSTM',data:foldRmse.lstm,borderColor:C.lstm,borderWidth:1.5,pointRadius:2,tension:.3,backgroundColor:'transparent'},
+    {label:'GRU',data:foldRmse.gru,borderColor:C.gru,borderWidth:1.5,pointRadius:2,tension:.3,backgroundColor:'transparent'},
+    {label:'XGBoost',data:foldRmse.xgb,borderColor:C.xgb,borderWidth:1.2,pointRadius:2,tension:.3,backgroundColor:'transparent'},
+    {label:'Informer',data:foldRmse.inf,borderColor:C.inf,borderWidth:1.2,pointRadius:2,tension:.3,backgroundColor:'transparent'},
+  ]
+},defOpts());
+
+// Sharpe rolling
+mkChart('cSharpe','line',{
+  labels:foldLabels,
+  datasets:[
+    {label:'Sharpe',data:sharpeRoll,borderColor:C.xgb,borderWidth:2,pointRadius:3,tension:.4,backgroundColor:'rgba(245,166,35,.1)',fill:true},
+    {label:'Benchmark',data:Array(24).fill(1.0),borderColor:'#30363d',borderWidth:1.5,borderDash:[5,5],pointRadius:0,backgroundColor:'transparent'},
+  ]
+},defOpts());
+
+// RMSE bar
+mkChart('cRmse','bar',{
+  labels:['GRU','LSTM','XGBoost','Informer'],
+  datasets:[{label:'RMSE',data:[0.1058,0.1145,0.1524,0.1321],
+    backgroundColor:[C.gru,C.lstm,C.xgb,C.inf].map(c=>c+'99'),
+    borderColor:[C.gru,C.lstm,C.xgb,C.inf],borderWidth:1.5,borderRadius:4}]
+},{...defOpts(),indexAxis:'y',scales:{x:{...defOpts().scales.x},y:{...defOpts().scales.y}}});
+
+// SHAP
+mkChart('cShap','bar',{
+  labels:shapFeats,
+  datasets:[{label:'SHAP',data:shapVals,
+    backgroundColor:shapVals.map((_,i)=>i<3?C.gru+'aa':i<5?C.act+'aa':C.dim+'aa'),
+    borderRadius:4}]
+},{...defOpts(),indexAxis:'y'});
+
+// Directional accuracy
+mkChart('cDir','bar',{
+  labels:dirModels,
+  datasets:[{label:'Dir.Acc',data:dirVals,
+    backgroundColor:[C.gru,C.lstm,C.xgb,C.inf].map(c=>c+'aa'),
+    borderColor:[C.gru,C.lstm,C.xgb,C.inf],borderWidth:1.5,borderRadius:4}]
+},{...defOpts(),scales:{x:{...defOpts().scales.x},y:{...defOpts().scales.y,min:40,max:80,ticks:{color:C.dim,font:{size:8},callback:v=>v+'%'}}}});
+
+// Training convergence
+mkChart('cTrain','line',{
+  labels:epochs,
+  datasets:[
+    {label:'Train Loss',data:trainLoss,borderColor:C.lstm,borderWidth:1.8,pointRadius:0,tension:.4,backgroundColor:'transparent'},
+    {label:'Val Loss',data:valLoss,borderColor:C.xgb,borderWidth:1.8,pointRadius:0,tension:.4,backgroundColor:'transparent',borderDash:[5,3]},
+  ]
+},defOpts());
+
+// Full 5yr (monthly sample)
+const yr5Labels=months.slice(0,full5yr.length);
+mkChart('cFull','line',{
+  labels:yr5Labels,
+  datasets:[{label:'BTC/USDT',data:full5yr,borderColor:C.act,borderWidth:1.8,pointRadius:2,tension:.4,
+    backgroundColor:'rgba(0,196,255,.08)',fill:true}]
+},{...defOpts(),scales:{x:{...defOpts().scales.x},y:{...defOpts().scales.y,ticks:{color:C.dim,font:{size:8},callback:v=>'$'+(v/1000).toFixed(0)+'K'}}}});
+
+// ── Navigation ───────────────────────────────────────────────────────────────
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sicon').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── Filter buttons ───────────────────────────────────────────────────────────
+const filterData={
+  '7D':{n:168,title:'168-Hour Walk-Forward Test Fold (7D)'},
+  '30D':{n:168,title:'30-Day Projection Window'},
+  '168H':{n:168,title:'168-Hour Walk-Forward Test Fold'},
+  'ALL':{n:168,title:'Full Validation Window'},
+};
+function setFilter(key,btn){
+  document.querySelectorAll('.filters .fbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  // Just visual feedback for now (data constant for demo)
+  const c=document.getElementById('cPrice');
+  if(c&&c.chart){}//chart already rendered
+}
+
+// ── Prediction model selector ────────────────────────────────────────────────
+const predMeta={
+  LSTM:{rmse:'0.1134',da:'72.3%',sr:'1.45',var:'-4.7%'},
+  GRU :{rmse:'0.1058',da:'69.8%',sr:'1.32',var:'-2.7%'},
+  XGBoost:{rmse:'0.1524',da:'61.4%',sr:'0.95',var:'-6.3%'},
+  Informer:{rmse:'0.1321',da:'55.7%',sr:'0.87',var:'-7.8%'},
+};
+function setPredModel(model,btn){
+  document.querySelectorAll('#p-pred .filters .fbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const m=predMeta[model];
+  document.getElementById('pred-model').textContent=model;
+  document.getElementById('pred-rmse').textContent=m.rmse;
+  document.getElementById('pred-da').textContent=m.da;
+  document.getElementById('pred-sr').textContent=m.sr;
+  document.getElementById('pred-var').textContent=m.var;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,3430 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Data Mining - Sesi 01 (Magister S2)</title>
+    <meta name="description" content="Materi Perkuliahan Sesi 01 Advanced Data Mining Program Magister Informatika Universitas Nusa Putra">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+
+:root {
+    --primary: #961d5a;
+    --primary-light: #c82677;
+    --primary-dark: #63123a;
+    --secondary: #f4f4f9;
+    --text-dark: #2d3436;
+    --text-light: #636e72;
+    --white: #ffffff;
+    --bg-color: #f0f2f5;
+    --gradient: linear-gradient(135deg, #961d5a 0%, #63123a 100%);
+    --shadow: 0 8px 25px rgba(150, 29, 90, 0.12);
+    --shadow-hover: 0 14px 35px rgba(150, 29, 90, 0.22);
+    --glass: rgba(255, 255, 255, 0.95);
+    --trans: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --blue: #0984e3;
+    --green: #00b894;
+    --orange: #e17055;
+    --teal: #00b4d8;
+    --purple: #6c5ce7;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-dark);
+    overflow: hidden;
+}
+
+.presentation {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 5.6rem 5.2rem 4rem 5.2rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: scale(0.98);
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    z-index: 10;
+}
+
+.progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 5px;
+    background: var(--gradient);
+    width: 0%;
+    transition: width 0.3s ease;
+    z-index: 100;
+}
+
+.controls {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 2rem;
+    display: flex;
+    gap: 0.8rem;
+    z-index: 100;
+}
+
+.btn-ctrl {
+    background: var(--glass);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--primary);
+    font-size: 1rem;
+    box-shadow: var(--shadow);
+    transition: var(--trans);
+    backdrop-filter: blur(10px);
+    text-decoration: none;
+    border: none;
+}
+
+.btn-ctrl:hover {
+    background: var(--primary);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+.btn-wide {
+    border-radius: 25px;
+    width: auto;
+    padding: 0 1.2rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.slide-num {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 2rem;
+    font-weight: 600;
+    color: var(--text-light);
+    z-index: 100;
+    font-size: 0.9rem;
+    background: var(--glass);
+    padding: 0.45rem 1.1rem;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.logo {
+    position: fixed;
+    top: 16px;
+    left: 28px;
+    height: 48px;
+    z-index: 101;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+}
+
+.nav-pills {
+    position: fixed;
+    top: 18px;
+    right: 28px;
+    z-index: 101;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.nav-pill {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--trans);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(8px);
+}
+
+.nav-pill.on {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.nav-pill.off {
+    background: var(--white);
+    color: var(--primary);
+    border: 1px solid var(--primary-light);
+}
+
+.nav-pill.off:hover {
+    background: var(--primary-light);
+    color: var(--white);
+}
+
+h1, h2, h3, h4 {
+    color: var(--primary);
+}
+
+.slide-title {
+    font-size: 1.85rem;
+    font-weight: 700;
+    margin-bottom: 0.45rem;
+    display: inline-block;
+    position: relative;
+    line-height: 1.3;
+}
+
+.slide-title::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: var(--gradient);
+    border-radius: 2px;
+}
+
+.subtitle {
+    color: var(--text-light);
+    font-size: 0.92rem;
+    margin-bottom: 1.1rem;
+    line-height: 1.55;
+}
+
+.cover-slide {
+    text-align: center;
+    justify-content: center !important;
+    align-items: center;
+    background: var(--gradient);
+    color: var(--white);
+    padding: 2rem !important;
+}
+
+.cover-slide h1 {
+    color: var(--white);
+    font-size: 2.9rem;
+    font-weight: 800;
+    text-shadow: 2px 4px 15px rgba(0, 0, 0, 0.25);
+    margin-bottom: 0.6rem;
+}
+
+.cover-slide h2 {
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 400;
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.cover-badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1.6rem;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    display: inline-block;
+    font-size: 0.88rem;
+    letter-spacing: 1.5px;
+    margin-bottom: 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    font-weight: 600;
+}
+
+.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.three-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.info-box {
+    border-radius: 14px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 0.75rem;
+}
+
+.info-box h4 {
+    font-size: 0.92rem;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.info-box p, .info-box ul {
+    font-size: 0.86rem;
+    line-height: 1.6;
+}
+
+.info-box ul {
+    padding-left: 1.1rem;
+}
+
+.info-box li {
+    margin-bottom: 0.3rem;
+}
+
+.info-box.blue { background: #e8f4fd; border-left: 4px solid var(--blue); }
+.info-box.blue h4 { color: var(--blue); }
+
+.info-box.green { background: #e8f8f5; border-left: 4px solid var(--green); }
+.info-box.green h4 { color: var(--green); }
+
+.info-box.orange { background: #fdf0e8; border-left: 4px solid var(--orange); }
+.info-box.orange h4 { color: var(--orange); }
+
+.info-box.pink { background: #fae8f0; border-left: 4px solid var(--primary); }
+.info-box.pink h4 { color: var(--primary); }
+
+.info-box.purple { background: #f0eeff; border-left: 4px solid var(--purple); }
+.info-box.purple h4 { color: var(--purple); }
+
+.info-box.clickable {
+    cursor: pointer;
+    transition: var(--trans);
+}
+
+.info-box.clickable:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.card {
+    background: var(--glass);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    padding: 1.1rem;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    transition: var(--trans);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--gradient);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: var(--trans);
+}
+
+.card:hover::before {
+    transform: scaleX(1);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-3px);
+}
+
+.card-icon {
+    font-size: 1.9rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.step {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    background: var(--secondary);
+    padding: 0.85rem 1.05rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: var(--trans);
+    border: 1px solid transparent;
+}
+
+.step:hover {
+    background: #fdf6fa;
+    border-color: rgba(150, 29, 90, 0.2);
+    transform: translateX(4px);
+    box-shadow: var(--shadow);
+}
+
+.step-num {
+    background: var(--gradient);
+    color: white;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 10px rgba(150, 29, 90, 0.3);
+}
+
+.step-text h4 {
+    font-size: 0.9rem;
+    margin-bottom: 0.2rem;
+    color: var(--primary-dark);
+}
+
+.step-text p {
+    font-size: 0.83rem;
+    color: var(--text-light);
+    line-height: 1.5;
+}
+
+.flow-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.flow-item {
+    text-align: center;
+    cursor: pointer;
+    transition: var(--trans);
+    flex: 1;
+    min-width: 90px;
+    background: #fff;
+    padding: 0.8rem 0.5rem;
+    border-radius: 14px;
+    border: 1px solid #eef0f3;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.flow-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+    border-color: var(--primary-light);
+}
+
+.flow-icon-box {
+    width: 52px;
+    height: 52px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin: 0 auto 0.4rem;
+    border: 2px solid;
+}
+
+.flow-arrow {
+    color: var(--primary-light);
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.flow-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    line-height: 1.3;
+}
+
+.acc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.acc-item {
+    border-radius: 12px;
+    border: 1px solid rgba(150, 29, 90, 0.18);
+    overflow: hidden;
+    background: var(--white);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: pointer;
+}
+
+.acc-item:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 14px rgba(150, 29, 90, 0.1);
+}
+
+.acc-item.open {
+    border-color: var(--primary);
+    background: #fff;
+    box-shadow: 0 6px 20px rgba(150, 29, 90, 0.14);
+}
+
+.acc-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 1.1rem;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 600;
+    font-size: 0.88rem;
+    transition: background 0.25s;
+}
+
+.acc-head:hover {
+    background: rgba(150, 29, 90, 0.05);
+}
+
+.acc-item.open .acc-head {
+    background: rgba(150, 29, 90, 0.06);
+    border-bottom: 1px solid rgba(150, 29, 90, 0.1);
+}
+
+.acc-ic {
+    color: var(--primary);
+    transition: transform 0.35s ease;
+    font-size: 0.85rem;
+}
+
+.acc-item.open .acc-ic {
+    transform: rotate(180deg);
+}
+
+.acc-body {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 1.1rem;
+    font-size: 0.84rem;
+    line-height: 1.6;
+    color: var(--text-dark);
+    transition: max-height 0.4s ease, padding 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+.acc-item.open .acc-body {
+    max-height: 350px;
+    padding: 0.85rem 1.1rem 1rem 1.1rem;
+    opacity: 1;
+}
+
+.metrics {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 0.75rem;
+}
+
+.metric {
+    flex: 1;
+    background: var(--secondary);
+    border-radius: 12px;
+    padding: 0.8rem;
+    text-align: center;
+    border-top: 4px solid var(--primary);
+}
+
+.metric-val {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.metric-lbl {
+    font-size: 0.76rem;
+    color: var(--text-light);
+    margin-top: 0.2rem;
+}
+
+.comp-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    font-size: 0.84rem;
+    margin-top: 0.7rem;
+}
+
+.comp-tbl th {
+    background: var(--gradient);
+    color: var(--white);
+    padding: 0.75rem 0.95rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+.comp-tbl td {
+    padding: 0.72rem 0.95rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    vertical-align: top;
+}
+
+.comp-tbl tr:nth-child(even) td {
+    background: #fafafc;
+}
+
+.comp-tbl tr:hover td {
+    background: rgba(150, 29, 90, 0.04);
+}
+
+.quiz-wrap {
+    max-width: 840px;
+    margin: 0 auto;
+    background: var(--white);
+    padding: 1.8rem;
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+}
+
+.quiz-q {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    line-height: 1.68;
+    margin-bottom: 1.1rem;
+    padding: 0.95rem 1.15rem;
+    background: var(--secondary);
+    border-radius: 11px;
+    border-left: 4px solid var(--primary);
+}
+
+.quiz-opts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.quiz-btn {
+    background: var(--secondary);
+    border: 2px solid transparent;
+    padding: 0.85rem 1.1rem;
+    font-size: 0.88rem;
+    border-radius: 11px;
+    cursor: pointer;
+    transition: var(--trans);
+    text-align: left;
+    font-weight: 500;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.quiz-btn:hover:not(:disabled) {
+    border-color: var(--primary);
+    background: var(--white);
+    transform: translateX(5px);
+}
+
+.quiz-btn.correct {
+    background: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+.quiz-btn.wrong {
+    background: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+
+.quiz-fb {
+    display: none;
+    margin-top: 0.95rem;
+    padding: 0.95rem 1.15rem;
+    border-radius: 11px;
+    font-size: 0.86rem;
+    line-height: 1.65;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.22rem 0.68rem;
+    border-radius: 18px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    margin-right: 0.3rem;
+    margin-bottom: 0.25rem;
+}
+
+.badge.blue { background: #d1ecf1; color: #0c5460; }
+.badge.green { background: #d4edda; color: #155724; }
+.badge.orange { background: #fde8df; color: #7a3700; }
+.badge.pink { background: #fae8f0; color: #63123a; }
+.badge.purple { background: #ede9ff; color: #3d1f8e; }
+
+.shape {
+    position: absolute;
+    z-index: -1;
+    opacity: 0.08;
+    pointer-events: none;
+    border-radius: 50%;
+    filter: blur(60px);
+}
+
+.sh1 { top: -100px; right: -100px; width: 420px; height: 420px; background: var(--gradient); }
+.sh2 { bottom: -120px; left: -90px; width: 460px; height: 460px; background: var(--primary); }
+
+.infographic {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.8rem;
+}
+
+.infographic-item {
+    flex: 1;
+    background: linear-gradient(135deg, #ffffff 0%, #fcf7fa 100%);
+    border-radius: 14px;
+    padding: 0.95rem;
+    text-align: center;
+    border: 1px solid rgba(150, 29, 90, 0.12);
+    transition: var(--trans);
+}
+
+.infographic-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+}
+
+.infographic-item .big-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.35rem;
+}
+
+.infographic-item .label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 0.15rem;
+}
+
+.infographic-item .value {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.infographic-item .desc {
+    font-size: 0.74rem;
+    color: var(--text-light);
+    margin-top: 0.15rem;
+    line-height: 1.45;
+}
+
+.vs-box {
+    display: grid;
+    grid-template-columns: 1fr 54px 1fr;
+    gap: 0.8rem;
+    align-items: center;
+    margin: 0.7rem 0;
+}
+
+.vs-side {
+    border-radius: 13px;
+    padding: 0.95rem;
+}
+
+.vs-side.left { background: #e8f4fd; border: 2px solid var(--blue); }
+.vs-side.right { background: #fae8f0; border: 2px solid var(--primary); }
+
+.vs-label {
+    font-weight: 700;
+    font-size: 0.88rem;
+    margin-bottom: 0.45rem;
+    display: block;
+}
+
+.vs-middle {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--text-light);
+}
+
+.vs-item {
+    font-size: 0.8rem;
+    padding: 0.28rem 0;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+    color: var(--text-dark);
+}
+
+.vs-item:last-child {
+    border: none;
+}
+
+.timeline {
+    position: relative;
+    padding-left: 1.8rem;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 0.45rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--primary), var(--primary-light));
+    border-radius: 2px;
+}
+
+.tl-item {
+    position: relative;
+    margin-bottom: 0.95rem;
+    padding-left: 0.95rem;
+}
+
+.tl-item::before {
+    content: "";
+    position: absolute;
+    left: -1.45rem;
+    top: 0.35rem;
+    width: 12px;
+    height: 12px;
+    background: var(--gradient);
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 0 3px rgba(150, 29, 90, 0.2);
+}
+
+.tl-title {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--primary-dark);
+}
+
+.tl-desc {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-top: 0.12rem;
+    line-height: 1.5;
+}
+
+.ladder {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.45rem;
+    margin-top: 0.7rem;
+}
+
+.ladder-rung {
+    border-radius: 11px;
+    padding: 0.72rem 0.95rem;
+    cursor: pointer;
+    transition: var(--trans);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border: 1px solid transparent;
+}
+
+.ladder-rung:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow);
+    border-color: rgba(150, 29, 90, 0.2);
+}
+
+.ladder-rung .rung-num {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.84rem;
+    color: white;
+}
+
+.ladder-rung .rung-q {
+    font-weight: 700;
+    font-size: 0.86rem;
+}
+
+.ladder-rung .rung-d {
+    font-size: 0.78rem;
+    color: var(--text-light);
+}
+
+/* Modal Styling */
+.modal-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--trans);
+}
+
+.modal-bg.on {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-box {
+    background: var(--white);
+    width: 92%;
+    max-width: 780px;
+    border-radius: 20px;
+    padding: 1.8rem 2.2rem;
+    position: relative;
+    transform: translateY(25px) scale(0.96);
+    transition: var(--trans);
+    box-shadow: 0 25px 55px rgba(0, 0, 0, 0.35);
+    border-top: 6px solid var(--primary);
+    max-height: 88vh;
+    overflow-y: auto;
+}
+
+.modal-bg.on .modal-box {
+    transform: translateY(0) scale(1);
+}
+
+.modal-x {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    cursor: pointer;
+    background: var(--secondary);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--trans);
+    color: var(--text-light);
+}
+
+.modal-x:hover {
+    background: var(--primary);
+    color: var(--white);
+    transform: rotate(90deg);
+}
+
+.modal-title {
+    color: var(--primary);
+    font-size: 1.2rem;
+    margin-bottom: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 2px solid var(--secondary);
+    padding-bottom: 0.65rem;
+}
+
+.modal-body {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text-dark);
+}
+
+.modal-body b {
+    color: var(--primary-dark);
+}
+
+.modal-body ul {
+    padding-left: 1.2rem;
+    margin: 0.45rem 0;
+}
+
+.modal-body ul li {
+    margin-bottom: 0.35rem;
+}
+
+.modal-body .insight {
+    background: #fff8e1;
+    border-left: 4px solid #ffc107;
+    padding: 0.75rem 1rem;
+    border-radius: 9px;
+    margin: 0.85rem 0;
+    font-size: 0.87rem;
+}
+
+/* Realistic UI Mockup in Modals */
+.mock-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 0.95rem;
+    margin: 0.85rem 0;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.mock-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 0.45rem;
+    margin-bottom: 0.7rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-light);
+    letter-spacing: 0.5px;
+}
+
+.mock-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+}
+
+.mock-table th {
+    background: #edf2f7;
+    color: #4a5568;
+    padding: 0.45rem 0.65rem;
+    text-align: left;
+    font-size: 0.76rem;
+    font-weight: 600;
+}
+
+.mock-table td {
+    padding: 0.45rem 0.65rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.mock-badge {
+    display: inline-block;
+    padding: 0.16rem 0.48rem;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.mock-badge.good { background: #dcfce7; color: #166534; }
+.mock-badge.bad { background: #fee2e2; color: #991b1b; }
+.mock-badge.warn { background: #fef3c7; color: #92400e; }
+.mock-badge.info { background: #e0f2fe; color: #0369a1; }
+
+.closing {
+    background: var(--gradient) !important;
+    justify-content: center !important;
+    align-items: center;
+    text-align: center;
+    padding: 2rem !important;
+}
+
+.closing h1 {
+    color: white;
+    font-size: 2.4rem;
+}
+
+.closing h2 {
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 1.15rem;
+    font-weight: 400;
+    margin-top: 0.5rem;
+}
+
+.glass-box {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 18px;
+    padding: 1.4rem 1.9rem;
+    margin-top: 1.4rem;
+    max-width: 660px;
+}
+
+/* Pseudo Fullscreen / Theater Mode */
+body.pseudo-fs {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 999999 !important;
+    background: #0f172a !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body.pseudo-fs .presentation {
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
+body.pseudo-fs .slide {
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
+.btn-ctrl.fs-active {
+    background: var(--primary) !important;
+    color: var(--white) !important;
+    box-shadow: 0 0 16px rgba(150, 29, 90, 0.7) !important;
+}
+
+#fs-toast {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    background: rgba(150, 29, 90, 0.95);
+    color: #ffffff;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    z-index: 9999999;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    pointer-events: none;
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+}
+
+/* Slide Deck Print to PDF Optimization */
+@media print {
+    @page {
+        size: 16in 9in;
+        margin: 0;
+    }
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    .controls, .nav-pills, .progress-bar, .modal-bg, .btn-ctrl, #fs-toast {
+        display: none !important;
+    }
+    body, .presentation {
+        width: 100% !important;
+        height: auto !important;
+        position: static !important;
+        overflow: visible !important;
+        background: white !important;
+    }
+    .slide {
+        position: relative !important;
+        width: 16in !important;
+        height: 9in !important;
+        page-break-after: always !important;
+        page-break-inside: avoid !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: flex !important;
+        transform: none !important;
+        overflow: hidden !important;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="pbar"></div>
+    <img src="logo_nusaputra.png" alt="Logo Universitas Nusa Putra" class="logo">
+    
+    <div class="nav-pills">
+        <a href="presentasi_materi_sesi_1.html" class="nav-pill on">Slide Sesi 01</a>
+        <a href="materi_sesi_1.html" class="nav-pill off" style="color: var(--primary); font-weight: 700;"><i class="fas fa-book-open"></i> Modul Sesi 01</a>
+        <a href="presentasi_materi_sesi_2.html" class="nav-pill off">Sesi 02</a>
+    </div>
+    
+    <div class="slide-num" id="snum">1 / 15</div>
+    
+    <div class="controls">
+        <button class="btn-ctrl" onclick="prevSlide()" title="Slide Sebelumnya (Panah Kiri)"><i class="fas fa-chevron-left"></i></button>
+        <button class="btn-ctrl btn-wide" id="btnFS" onclick="toggleFS()" title="Mode Layar Penuh"><i class="fas fa-expand" id="fsi"></i></button>
+        <button class="btn-ctrl" onclick="nextSlide()" title="Slide Berikutnya (Panah Kanan)"><i class="fas fa-chevron-right"></i></button>
+    </div>
+    
+    <div class="presentation" id="presentation">
+
+<!-- SLIDE 1: COVER -->
+<div class="slide cover-slide active" id="slide-1">
+    <div class="shape sh1"></div>
+    <div class="shape sh2"></div>
+    <img src="logo_nusaputra.png" alt="Logo Nusa Putra" style="height: 100px; margin-bottom: 1.2rem; background: white; padding: 10px 16px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.2);">
+    <div class="cover-badge">📊 PROGRAM MAGISTER INFORMATIKA (S2)</div>
+    <h1>Advanced Data Mining</h1>
+    <h2>Sesi 01 — Pengantar: Dari Data Mentah Menjadi Pengetahuan Berharga</h2>
+</div>
+
+<!-- SLIDE 2: APA ITU DATA MINING -->
+<div class="slide" id="slide-2">
+    <div class="shape sh1"></div>
+    <h2 class="slide-title">Apa Sebenarnya Data Mining Itu? 🔍</h2>
+    <p class="subtitle">Bayangkan sebuah supermarket dengan jutaan struk transaksi setiap hari. Kalau dibaca satu per satu, mustahil. Data Mining hadir untuk mencari pola tersembunyi yang berharga di balik tumpukan data tersebut.</p>
+    
+    <div class="two-col">
+        <div>
+            <div class="info-box blue">
+                <h4><i class="fas fa-lightbulb"></i> Definisi yang Mudah Dipahami</h4>
+                <p><b>Data Mining = "Menambang emas di dalam lautan data."</b><br>
+                Ini adalah proses otomatis menggunakan algoritma matematika dan statistik untuk menemukan pola, tren, dan aturan tersembunyi yang sebelumnya tidak kita sadari, lalu mengubahnya menjadi keputusan nyata.</p>
+            </div>
+            
+            <div class="info-box orange clickable" onclick="showModal('dm-gold')">
+                <h4><i class="fas fa-mountain"></i> Kenapa Disebut "Mining" (Menambang)? ⛏️ <span style="font-size: 0.78rem; font-weight: normal; color: var(--orange);">(Klik untuk lihat analogi visual)</span></h4>
+                <p>Sama seperti menambang emas: kita harus menggali berton-ton batu mentah (data mentah) untuk mendapatkan butiran emas murni (wawasan berharga).</p>
+            </div>
+            
+            <div class="infographic">
+                <div class="infographic-item">
+                    <span class="big-icon">📦</span>
+                    <div class="label">Batu Tambang</div>
+                    <div class="value">Data Mentah</div>
+                    <div class="desc">Jutaan log angka & teks</div>
+                </div>
+                <div class="infographic-item">
+                    <span class="big-icon">⚙️</span>
+                    <div class="label">Penyaringan</div>
+                    <div class="value">Algoritma</div>
+                    <div class="desc">Pola dianalisis mesin</div>
+                </div>
+                <div class="infographic-item">
+                    <span class="big-icon">💎</span>
+                    <div class="label">Emas Murni</div>
+                    <div class="value">Pengetahuan</div>
+                    <div class="desc">Aksi keputusan bisnis</div>
+                </div>
+            </div>
+        </div>
+        
+        <div>
+            <p style="font-weight: 700; margin-bottom: 0.5rem; color: var(--primary); font-size: 0.9rem;">
+                🎯 Contoh Nyata yang Kita Temui Tiap Hari: (Klik untuk melihat UI aslinya)
+            </p>
+            <div class="steps">
+                <div class="step" onclick="showModal('dm-market')">
+                    <div class="step-num"><i class="fas fa-shopping-cart"></i></div>
+                    <div class="step-text">
+                        <h4>1. Rekomendasi Belanja di Tokopedia / Shopee</h4>
+                        <p>Saat kamu beli smartphone, sistem langsung menyarankan casing & tempered glass. Itu hasil analisis dari jutaan keranjang belanja pengguna lain!</p>
+                    </div>
+                </div>
+                <div class="step" onclick="showModal('dm-spotify')">
+                    <div class="step-num"><i class="fas fa-headphones-alt"></i></div>
+                    <div class="step-text">
+                        <h4>2. Rekomendasi Lagu di Spotify & YouTube</h4>
+                        <p>Aplikasi tahu lagu apa yang kamu sukai saat malam hari atau saat olahraga, karena kebiasaanmu dikelompokkan dengan pengguna yang seleranya mirip.</p>
+                    </div>
+                </div>
+                <div class="step" onclick="showModal('dm-bank')">
+                    <div class="step-num"><i class="fas fa-shield-alt"></i></div>
+                    <div class="step-text">
+                        <h4>3. Deteksi Penipuan Kartu & M-Banking</h4>
+                        <p>Jika ada transaksi mendadak di luar negeri jam 3 pagi, sistem langsung memblokirnya dalam hitungan 40 milidetik sebelum rekeningmu terkuras.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 3: PERBEDAAN S1 vs S2 -->
+<div class="slide" id="slide-3">
+    <div class="shape sh2"></div>
+    <h2 class="slide-title">Beda Mindset: Sarjana (S1) vs Magister (S2) 🎓</h2>
+    <p class="subtitle">Di jenjang S1 kita belajar <b>cara menggunakan</b> alat. Di jenjang S2, kita belajar <b>kenapa alat itu bekerja, apa batasannya, dan bagaimana merancang yang lebih hebat</b>.</p>
+    
+    <div class="vs-box">
+        <div class="vs-side left">
+            <span class="vs-label" style="color: var(--blue);"><i class="fas fa-car"></i> Level S1 — Seperti Pengemudi Mobil</span>
+            <div class="vs-item">✅ Menguasai cara mengemudi dengan aman</div>
+            <div class="vs-item">✅ Menggunakan tombol dashboard & GPS yang tersedia</div>
+            <div class="vs-item">✅ Fokus: Menjalankan tugas sampai tujuan dengan lancar</div>
+            <div class="vs-item">❌ Tidak dituntut tahu detail hitungan mekanik di dalam mesin</div>
+        </div>
+        <div class="vs-middle">VS</div>
+        <div class="vs-side right">
+            <span class="vs-label" style="color: var(--primary);"><i class="fas fa-cogs"></i> Level S2 — Seperti Insinyur Perancang Mobil</span>
+            <div class="vs-item">✅ Paham siklus termodinamika & aerodinamika mesin</div>
+            <div class="vs-item">✅ Mampu menganalisis kenapa mesin mogok di jalan terjal</div>
+            <div class="vs-item">✅ Mampu memodifikasi komponen agar konsumsi bensin lebih hemat</div>
+            <div class="vs-item">🌟 Fokus: Menciptakan inovasi rancangan mesin baru</div>
+        </div>
+    </div>
+    
+    <table class="comp-tbl">
+        <thead>
+            <tr>
+                <th style="width: 20%;">Aspek Pembeda</th>
+                <th style="width: 40%;">🎓 Level S1 (Penerapan & Penggunaan)</th>
+                <th style="width: 40%;">🏆 Level S2 (Pemahaman Mendalam & Inovasi)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>Pertanyaan Kunci</b></td>
+                <td><i>"Bagaimana cara memakai library Scikit-Learn ini?"</i></td>
+                <td><i>"Kenapa algoritma ini efektif di data seimbang tapi gagal di data miring?"</i></td>
+            </tr>
+            <tr>
+                <td><b>Kondisi Data</b></td>
+                <td>Data bersih dan rapi yang sudah disiapkan oleh dosen / tutorial.</td>
+                <td>Data dunia nyata yang berantakan: banyak nilai kosong, pencilan ekstrem, dan tidak seimbang.</td>
+            </tr>
+            <tr>
+                <td><b>Pekerjaan Teknis</b></td>
+                <td>Tinggal panggil <code>model.fit()</code> dan <code>model.predict()</code>.</td>
+                <td>Membongkar cara kerja matematika, tuning parameter, hingga memodifikasi fungsi objektif.</td>
+            </tr>
+            <tr>
+                <td><b>Tolok Ukur Sukses</b></td>
+                <td>Program berjalan tanpa error, akurasi umum sudah tercapai.</td>
+                <td>Uji statistik komparatif, analisis kelemahan, dan artikel ilmiah siap submit jurnal.</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div style="margin-top: 0.8rem; text-align: center;">
+        <button class="btn-ctrl btn-wide" onclick="showModal('s1-vs-s2')" style="background: var(--primary); color: white; display: inline-flex; height: 38px;">
+            <i class="fas fa-graduation-cap" style="margin-right: 8px;"></i> Klik untuk Melihat Contoh Judul: Skripsi S1 vs Tesis S2
+        </button>
+    </div>
+</div>
+
+<!-- SLIDE 4: TANGGA ANALITIK -->
+<div class="slide" id="slide-4">
+    <div class="shape sh1"></div>
+    <h2 class="slide-title">4 Tangga Kemampuan Analitik Data 📊</h2>
+    <p class="subtitle">Tingkat kecerdasan analisis data bergerak dari sekadar melihat masa lalu hingga sistem yang otomatis mengambil tindakan cerdas. Klik setiap tangga:</p>
+    
+    <div class="ladder">
+        <div class="ladder-rung" style="background: #e8f4fd;" onclick="showModal('a-descriptive')">
+            <div class="rung-num" style="background: var(--blue);">1</div>
+            <div style="flex: 1;">
+                <div class="rung-q" style="color: var(--blue);">📋 Deskriptif — "Apa yang telah terjadi?"</div>
+                <div class="rung-d">Contoh: Penjualan toko bulan lalu turun 20% dibanding bulan sebelumnya. (Laporan historis biasa)</div>
+            </div>
+            <span class="badge blue">Lihat Mockup Dashboard ➔</span>
+        </div>
+        
+        <div class="ladder-rung" style="background: #fdf0e8;" onclick="showModal('a-diagnostic')">
+            <div class="rung-num" style="background: var(--orange);">2</div>
+            <div style="flex: 1;">
+                <div class="rung-q" style="color: var(--orange);">🔍 Diagnostik — "Kenapa hal itu bisa terjadi?"</div>
+                <div class="rung-d">Contoh: Penjualan turun karena stok barang habis di area Jawa Barat dan ada diskon besar dari kompetitor.</div>
+            </div>
+            <span class="badge orange">Lihat Root Cause ➔</span>
+        </div>
+        
+        <div class="ladder-rung" style="background: #fae8f0;" onclick="showModal('a-predictive')">
+            <div class="rung-num" style="background: var(--primary);">3</div>
+            <div style="flex: 1;">
+                <div class="rung-q" style="color: var(--primary);">🔮 Prediktif — "Apa yang kemungkinan besar akan terjadi?" ⭐ Fokus Utama S2</div>
+                <div class="rung-d">Contoh: Berdasarkan tren cuaca dan tanggal gajian, diprediksi permintaan minuman dingin akan melonjak 45% minggu depan.</div>
+            </div>
+            <span class="badge pink">Lihat Model Prediksi ➔</span>
+        </div>
+        
+        <div class="ladder-rung" style="background: #f0eeff;" onclick="showModal('a-prescriptive')">
+            <div class="rung-num" style="background: var(--purple);">4</div>
+            <div style="flex: 1;">
+                <div class="rung-q" style="color: var(--purple);">🚀 Preskriptif — "Apa tindakan terbaik yang harus kita lakukan?" (Tingkat Tertinggi)</div>
+                <div class="rung-d">Contoh: Sistem otomatis mengirim voucher diskon 20% ke pengguna yang diprediksi akan berhenti berlangganan dalam 3 hari.</div>
+            </div>
+            <span class="badge purple">Lihat Sistem Otomatis ➔</span>
+        </div>
+    </div>
+    
+    <div class="info-box green" style="margin-top: 0.9rem;">
+        <h4><i class="fas fa-compass"></i> Posisi Kita di Program Magister:</h4>
+        <p>Sebagian besar instansi dan perusahaan masih terjebak di Tangga 1 dan 2. Di program S2 ini, kita dilatih untuk menguasai <b>Tangga 3 (Prediktif) dan Tangga 4 (Preskriptif)</b> agar mampu menciptakan sistem yang adaptif dan bernilai strategis tinggi.</p>
+    </div>
+</div>
+
+<!-- SLIDE 5: KENAPA DATA MINING PENTING -->
+<div class="slide" id="slide-5">
+    <div class="shape sh2"></div>
+    <h2 class="slide-title">Kenapa Data Mining Begitu Penting Sekarang? 🌐</h2>
+    <p class="subtitle">Dunia digital sedang mengalami banjir data terbesar dalam sejarah manusia. Tanpa keahlian mengolah data, perusahaan hanya menyimpan tumpukan angka mati.</p>
+    
+    <div class="two-col">
+        <div>
+            <div class="info-box blue">
+                <h4><i class="fas fa-database"></i> Ledakan Data Digital Dunia</h4>
+                <p>Setiap hari, umat manusia memproduksi lebih dari <b>2,5 Exabyte data</b> baru — setara dengan jutaan laptop berkapasitas 1 Terabyte yang penuh sesak tiap 24 jam!<br><br>
+                Namun, memiliki data melimpah tidak otomatis membuat kita pintar. Data Mining adalah kunci yang mengubah gunungan data mentah menjadi keputusan bisnis yang menguntungkan.</p>
+            </div>
+            
+            <div style="background: #f8fafc; border-radius: 12px; padding: 0.85rem; border: 1px solid #e2e8f0; margin-top: 0.6rem;">
+                <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-light); margin-bottom: 0.4rem;">
+                    SKALA PERBANDINGAN UKURAN DATA:
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem;">
+                        <div style="width: 18px; height: 12px; background: #cbd5e1; border-radius: 3px;"></div>
+                        <span><b>1 GB</b> = ~1 Film HD standar</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem;">
+                        <div style="width: 50px; height: 12px; background: #93c5fd; border-radius: 3px;"></div>
+                        <span><b>1 TB</b> = 1.000 Film (harddisk PC)</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem;">
+                        <div style="width: 100px; height: 12px; background: #3b82f6; border-radius: 3px;"></div>
+                        <span><b>1 PB</b> = 1 Juta Film (data pusat server)</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem;">
+                        <div style="width: 160px; height: 12px; background: var(--primary); border-radius: 3px;"></div>
+                        <span><b style="color: var(--primary);">1 EB</b> = 1 Miliar Film 🤯 (produksi data harian global)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div>
+            <p style="font-weight: 700; margin-bottom: 0.5rem; color: var(--primary); font-size: 0.9rem;">
+                🏢 Bidang-Bidang yang Sangat Bergantung pada Data Mining:
+            </p>
+            <div class="acc-list">
+                <div class="acc-item" onclick="toggleAcc(this)">
+                    <div class="acc-head">
+                        <span>🏥 Kesehatan — Deteksi Penyakit Lebih Awal</span>
+                        <i class="fas fa-chevron-down acc-ic"></i>
+                    </div>
+                    <div class="acc-body">
+                        <p style="margin-bottom: 0.5rem;">Rumah sakit menganalisis riwayat rekam medis dan data genetik untuk mendeteksi risiko komplikasi jantung atau diabetes bertahun-tahun sebelum gejala parah muncul.</p>
+                        <button class="mock-badge info" onclick="event.stopPropagation(); showModal('sec-health');" style="cursor: pointer; border: none; padding: 5px 12px; font-weight: 600;">
+                            🔍 Buka Simulasi Rekam Medis RS ➔
+                        </button>
+                    </div>
+                </div>
+                <div class="acc-item" onclick="toggleAcc(this)">
+                    <div class="acc-head">
+                        <span>💳 Perbankan & FinTech — Penilaian Risiko Kredit</span>
+                        <i class="fas fa-chevron-down acc-ic"></i>
+                    </div>
+                    <div class="acc-body">
+                        <p style="margin-bottom: 0.5rem;">Bank menilai kelayakan pinjaman seseorang hanya dalam 3 detik berdasarkan jejak pembayaran pulsa, listrik, dan riwayat belanja online.</p>
+                        <button class="mock-badge good" onclick="event.stopPropagation(); showModal('sec-bank');" style="cursor: pointer; border: none; padding: 5px 12px; font-weight: 600;">
+                            🔍 Buka Simulasi Skor Kredit 3 Detik ➔
+                        </button>
+                    </div>
+                </div>
+                <div class="acc-item" onclick="toggleAcc(this)">
+                    <div class="acc-head">
+                        <span>🛍️ E-Commerce — Optimasi Stok & Pengiriman</span>
+                        <i class="fas fa-chevron-down acc-ic"></i>
+                    </div>
+                    <div class="acc-body">
+                        <p style="margin-bottom: 0.5rem;">Marketplace memprediksi barang apa yang akan laku di daerah tertentu sebelum barangnya dipesan, sehingga stok sudah dikirim lebih dekat ke gudang lokal.</p>
+                        <button class="mock-badge warn" onclick="event.stopPropagation(); showModal('sec-ecom');" style="cursor: pointer; border: none; padding: 5px 12px; font-weight: 600;">
+                            🔍 Buka Simulasi Heatmap Stok Gudang ➔
+                        </button>
+                    </div>
+                </div>
+                <div class="acc-item" onclick="toggleAcc(this)">
+                    <div class="acc-head">
+                        <span>🚦 Smart City — Rekayasa Lalu Lintas Kota</span>
+                        <i class="fas fa-chevron-down acc-ic"></i>
+                    </div>
+                    <div class="acc-body">
+                        <p style="margin-bottom: 0.5rem;">Sensor CCTV dan GPS kendaraan dianalisis untuk mengatur durasi lampu merah secara otomatis demi mengurai kemacetan jam sibuk.</p>
+                        <button class="mock-badge purple" onclick="event.stopPropagation(); showModal('sec-smartcity');" style="cursor: pointer; border: none; padding: 5px 12px; font-weight: 600;">
+                            🔍 Buka Simulasi Kontrol Lampu Lalu Lintas ➔
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="metrics">
+                <div class="metric">
+                    <div class="metric-val">2,5 EB</div>
+                    <div class="metric-lbl">Data baru dibuat tiap hari</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-val">$103 M</div>
+                    <div class="metric-lbl">Nilai industri big data global</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-val">+36%</div>
+                    <div class="metric-lbl">Pertumbuhan profesi Data Scientist</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 6: METODOLOGI KDD -->
+<div class="slide" id="slide-6">
+    <div class="shape sh1"></div>
+    <h2 class="slide-title">Alur Kerja KDD: Dari Data Mentah Jadi Pengetahuan 🔄</h2>
+    <p class="subtitle"><b>KDD (Knowledge Discovery in Databases)</b> adalah standar alur kerja profesional dalam mengolah data. Klik setiap langkah untuk melihat prosesnya:</p>
+    
+    <div class="flow-row">
+        <div class="flow-item" onclick="showModal('kdd-1')">
+            <div class="flow-icon-box" style="background: #fee2e2; border-color: #ef4444; color: #ef4444;">
+                <i class="fas fa-database"></i>
+            </div>
+            <div class="flow-label">1. Kumpulkan Data<br><small style="color: var(--text-light);">(Selection)</small></div>
+        </div>
+        <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+        
+        <div class="flow-item" onclick="showModal('kdd-2')">
+            <div class="flow-icon-box" style="background: #fef3c7; border-color: #f59e0b; color: #f59e0b;">
+                <i class="fas fa-broom"></i>
+            </div>
+            <div class="flow-label">2. Bersihkan Data<br><small style="color: var(--text-light);">(Preprocessing)</small></div>
+        </div>
+        <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+        
+        <div class="flow-item" onclick="showModal('kdd-3')">
+            <div class="flow-icon-box" style="background: #d1fae5; border-color: #10b981; color: #10b981;">
+                <i class="fas fa-sliders-h"></i>
+            </div>
+            <div class="flow-label">3. Olah & Ringkas<br><small style="color: var(--text-light);">(Transformation)</small></div>
+        </div>
+        <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+        
+        <div class="flow-item" onclick="showModal('kdd-4')">
+            <div class="flow-icon-box" style="background: #fae8f0; border-color: var(--primary); color: var(--primary);">
+                <i class="fas fa-brain"></i>
+            </div>
+            <div class="flow-label">4. Latih Model<br><small style="color: var(--text-light);">(Data Mining)</small></div>
+        </div>
+        <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+        
+        <div class="flow-item" onclick="showModal('kdd-5')">
+            <div class="flow-icon-box" style="background: #f0eeff; border-color: #6c5ce7; color: #6c5ce7;">
+                <i class="fas fa-lightbulb"></i>
+            </div>
+            <div class="flow-label">5. Evaluasi Hasil<br><small style="color: var(--text-light);">(Evaluation)</small></div>
+        </div>
+    </div>
+    
+    <div style="background: #f8fafc; border-radius: 12px; padding: 0.9rem; margin-top: 0.9rem; border: 1px solid #e2e8f0;">
+        <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-light); margin-bottom: 0.5rem;">
+            CONTOH KASUS SEBUAH ALUR KDD: PREDIKSI DINI PENYAKIT DIABETES
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center; font-size: 0.77rem; flex-wrap: wrap;">
+            <div style="background: #fee2e2; padding: 0.4rem 0.65rem; border-radius: 7px; color: #991b1b;">
+                📋 50.000 rekam medis pasien di-export
+            </div>
+            <i class="fas fa-arrow-right" style="color: #94a3b8;"></i>
+            <div style="background: #fef3c7; padding: 0.4rem 0.65rem; border-radius: 7px; color: #92400e;">
+                🧹 Isi data kosong, buang usia -5 th
+            </div>
+            <i class="fas fa-arrow-right" style="color: #94a3b8;"></i>
+            <div style="background: #d1fae5; padding: 0.4rem 0.65rem; border-radius: 7px; color: #065f46;">
+                ✂️ Pilih 4 fitur: Gula Darah, BMI, Umur, Tensi
+            </div>
+            <i class="fas fa-arrow-right" style="color: #94a3b8;"></i>
+            <div style="background: #fae8f0; padding: 0.4rem 0.65rem; border-radius: 7px; color: var(--primary);">
+                🤖 Latih algoritma Random Forest
+            </div>
+            <i class="fas fa-arrow-right" style="color: #94a3b8;"></i>
+            <div style="background: #ede9ff; padding: 0.4rem 0.65rem; border-radius: 7px; color: #3d1f8e; font-weight: 700;">
+                💡 Akurasi 91%: Sistem deteksi dini siap dipakai dokter!
+            </div>
+        </div>
+    </div>
+    
+    <div class="info-box orange" style="margin-top: 0.8rem;">
+        <h4><i class="fas fa-exclamation-triangle"></i> Rahasia Nyata Pekerjaan Data Scientist:</h4>
+        <p>Tahap 2 dan 3 (Membersihkan & Menyiapkan Data) menghabiskan <b>65% hingga 80% total waktu riset</b>! Sehebat apa pun algoritma yang kamu pilih, jika data yang dimasukkan kotor, maka hasilnya tetap salah (prinsip <i>Garbage In, Garbage Out</i>).</p>
+    </div>
+</div>
+
+<!-- SLIDE 7: 4 PILAR TEKNIK -->
+<div class="slide" id="slide-7">
+    <div class="shape sh2"></div>
+    <h2 class="slide-title">4 Pilar Teknik Utama dalam Data Mining 🛠️</h2>
+    <p class="subtitle">Setiap masalah punya karakteristik sendiri. Kenali 4 teknik dasar ini agar kamu tidak salah memilih algoritma untuk risetmu. Klik untuk contoh visual:</p>
+    
+    <div class="two-col">
+        <div class="steps">
+            <div class="step" onclick="showModal('tech-class')">
+                <div class="step-num">1</div>
+                <div class="step-text">
+                    <h4>🏷️ Klasifikasi (Classification) — Masuk Kategori Mana?</h4>
+                    <p>Memprediksi label atau kelompok data. Output berupa <b>kategori diskret</b>.<br>
+                    Contoh: Email ini <b>Spam</b> atau <b>Bukan Spam</b>? Pasien ini <b>Positif</b> atau <b>Negatif</b>?</p>
+                </div>
+            </div>
+            <div class="step" onclick="showModal('tech-reg')">
+                <div class="step-num">2</div>
+                <div class="step-text">
+                    <h4>📈 Regresi (Regression) — Berapa Nilai Angkanya?</h4>
+                    <p>Memprediksi nilai kuantitatif yang berlanjut. Output berupa <b>angka kontinu</b>.<br>
+                    Contoh: Berapa <b>harga jual rumah</b> ini? Berapa <b>suhu udara</b> besok siang?</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="steps">
+            <div class="step" onclick="showModal('tech-clus')">
+                <div class="step-num">3</div>
+                <div class="step-text">
+                    <h4>🧩 Klasterisasi (Clustering) — Siapa yang Karakteristiknya Mirip?</h4>
+                    <p>Mengelompokkan data tanpa label awal (Unsupervised). Komputer sendiri yang mencari polanya.<br>
+                    Contoh: <b>Segmentasi 100.000 pelanggan</b> menjadi 3 tipe: Pelanggan Sultan, Pemburu Diskon, dan Pembeli Musiman.</p>
+                </div>
+            </div>
+            <div class="step" onclick="showModal('tech-assoc')">
+                <div class="step-num">4</div>
+                <div class="step-text">
+                    <h4>🔗 Aturan Asosiasi (Association Rules) — Apa yang Sering Terjadi Bersama?</h4>
+                    <p>Mencari hubungan keterkaitan antara dua hal atau lebih.<br>
+                    Contoh: Di Indomaret, orang yang membeli <b>Roti Tawar</b> hampir selalu membeli <b>Selai Cokelat</b> (85% probabilitas).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="infographic">
+        <div class="infographic-item">
+            <span class="big-icon">🏷️</span>
+            <div class="label">Klasifikasi</div>
+            <div class="value" style="color: var(--blue);">Kategori</div>
+            <div class="desc">Supervised Learning</div>
+        </div>
+        <div class="infographic-item">
+            <span class="big-icon">📈</span>
+            <div class="label">Regresi</div>
+            <div class="value" style="color: var(--green);">Angka</div>
+            <div class="desc">Supervised Learning</div>
+        </div>
+        <div class="infographic-item">
+            <span class="big-icon">🧩</span>
+            <div class="label">Klasterisasi</div>
+            <div class="value" style="color: var(--orange);">Kelompok</div>
+            <div class="desc">Unsupervised Learning</div>
+        </div>
+        <div class="infographic-item">
+            <span class="big-icon">🔗</span>
+            <div class="label">Asosiasi</div>
+            <div class="value" style="color: var(--purple);">Jika ➔ Maka</div>
+            <div class="desc">Market Basket Analysis</div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 8: KARAKTERISTIK BIG DATA 5V -->
+<div class="slide" id="slide-8">
+    <div class="shape sh1"></div>
+    <h2 class="slide-title">Karakteristik Big Data: Memahami Dimensi "5V" 🌊</h2>
+    <p class="subtitle">Data di dunia industri saat ini sangat menantang karena memiliki 5 sifat khas. Klik setiap kartu untuk melihat tantangan nyatanya:</p>
+    
+    <div class="three-col">
+        <div class="info-box blue clickable" onclick="showModal('bv-volume')">
+            <h4><i class="fas fa-boxes"></i> 1. Volume (Ukuran Raksasa)</h4>
+            <p>Data tidak lagi cukup disimpan di spreadsheet Excel. YouTube menerima <b>500 jam video baru tiap menit</b>!</p>
+        </div>
+        <div class="info-box green clickable" onclick="showModal('bv-velocity')">
+            <h4><i class="fas fa-bolt"></i> 2. Velocity (Kecepatan Kilat)</h4>
+            <p>Data mengalir tanpa henti. GoPay memproses <b>ratusan ribu transaksi per detik</b> pada jam sibuk.</p>
+        </div>
+        <div class="info-box orange clickable" onclick="showModal('bv-variety')">
+            <h4><i class="fas fa-layer-group"></i> 3. Variety (Format Sangat Beragam)</h4>
+            <p>Bukan cuma tabel angka, tapi ada foto, rekaman audio, pesan chat, video rekaman CCTV, dan titik koordinat GPS.</p>
+        </div>
+        <div class="info-box purple clickable" onclick="showModal('bv-veracity')">
+            <h4><i class="fas fa-question-circle"></i> 4. Veracity (Banyak Noise & Kotor)</h4>
+            <p>Data sering salah ketik, duplikat, tidak lengkap, atau ada informasi palsu. Kualitas data adalah ujian terberat.</p>
+        </div>
+        <div class="info-box pink clickable" onclick="showModal('bv-value')">
+            <h4><i class="fas fa-gem"></i> 5. Value (Dampak Nyata)</h4>
+            <p>Inilah muara utamanya: data sebesar apa pun tidak ada gunanya jika tidak menghasilkan keputusan yang bernilai.</p>
+        </div>
+        <div class="info-box blue" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+            <div style="font-size: 2rem; color: var(--primary);"><i class="fas fa-award"></i></div>
+            <b style="font-size: 0.88rem; margin-top: 0.3rem;">Tugas Peneliti S2:</b>
+            <span style="font-size: 0.76rem; color: var(--text-light); margin-top: 0.2rem;">
+                Menciptakan model cerdas yang tetap tangguh menghadapi kombinasi 5V ini!
+            </span>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 9: ETIKA RISET & PRIVASI -->
+<div class="slide" id="slide-9">
+    <div class="shape sh2"></div>
+    <h2 class="slide-title">Etika Riset, Privasi, & Tata Kelola Data 🛡️</h2>
+    <p class="subtitle">Memiliki kemampuan memproses data memberi kita kekuatan besar. Namun tanpa etika, data mining bisa menimbulkan bahaya besar bagi orang lain.</p>
+    
+    <div class="two-col">
+        <div>
+            <div class="info-box orange clickable" onclick="showModal('eth-bias')">
+                <h4><i class="fas fa-exclamation-circle"></i> 3 Risiko Nyata yang Wajib Diwaspadai: (Klik untuk Kasus)</h4>
+                <ul>
+                    <li><b>Bias Algoritma:</b> Model AI menolak lamaran kerja pelamar wanita karena data masa lalu perusahaan didominasi pria.</li>
+                    <li><b>Pelanggaran Privasi:</b> Data riwayat penyakit pasien bocor karena disimpan tanpa enkripsi yang layak.</li>
+                    <li><b>Kurangnya Transparansi:</b> Pengajuan pinjaman nasabah ditolak oleh sistem AI tanpa penjelasan kenapa ditolak.</li>
+                </ul>
+            </div>
+            
+            <div class="info-box green clickable" onclick="showModal('eth-pdp')">
+                <h4><i class="fas fa-check-shield"></i> Aturan Regulasi di Indonesia (UU PDP No. 27/2022)</h4>
+                <ul>
+                    <li><b>Wajib Izin Pemilik:</b> Dilarang mengumpulkan data tanpa persetujuan eksplisit.</li>
+                    <li><b>Anonimisasi Data:</b> Nama, NIK, dan nomor HP harus disamarkan sebelum data diolah dalam riset.</li>
+                    <li><b>Batasan Penggunaan:</b> Data riset tidak boleh disalahgunakan untuk keperluan komersial terselubung.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div>
+            <div style="background: #f8fafc; border-radius: 12px; padding: 0.95rem; border: 1px solid #e2e8f0;">
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-light); margin-bottom: 0.6rem;">
+                    📋 CHECKLIST KEPATUHAN ETIKA RISET KITA:
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 0.45rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; padding: 0.45rem; background: #dcfce7; border-radius: 7px; border: 1px solid #86efac;">
+                        <span>✅</span> Sudahkah identitas sensitif (nama, NIK, alamat) disamarkan?
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; padding: 0.45rem; background: #dcfce7; border-radius: 7px; border: 1px solid #86efac;">
+                        <span>✅</span> Apakah sumber dataset legal dan memiliki izin publikasi?
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; padding: 0.45rem; background: #dcfce7; border-radius: 7px; border: 1px solid #86efac;">
+                        <span>✅</span> Apakah data hanya dipakai untuk kepentingan akademik?
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; padding: 0.45rem; background: #fef3c7; border-radius: 7px; border: 1px solid #fde047;">
+                        <span>⚠️</span> Sudahkah kita cek apakah ada ketidakadilan (bias gender/suku) di data?
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; padding: 0.45rem; background: #fef3c7; border-radius: 7px; border: 1px solid #fde047;">
+                        <span>⚠️</span> Apakah keputusan model bisa dijelaskan secara masuk akal (Explainable AI)?
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-box pink" style="margin-top: 0.7rem;">
+                <h4><i class="fas fa-balance-scale"></i> Prinsip Integritas Mahasiswa S2:</h4>
+                <p>Model yang baik bukan hanya model yang persentase akurasinya tinggi, melainkan model yang <b>adil, bertanggung jawab, dan aman bagi kemanusiaan</b>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 10: STUDI KASUS NYATA -->
+<div class="slide" id="slide-10">
+    <div class="shape sh1"></div>
+    <h2 class="slide-title">Studi Kasus Nyata Data Mining di Indonesia 🇮🇩</h2>
+    <p class="subtitle">Data Mining bukan sekadar teori di kelas — sudah diterapkan langsung oleh berbagai perusahaan dan lembaga besar di tanah air. Klik kartu untuk melihat simulasi UI:</p>
+    
+    <div class="three-col">
+        <div class="card clickable" onclick="showModal('dm-bank')">
+            <span class="card-icon">💳</span>
+            <h3 style="color: var(--blue); font-size: 0.95rem;">GoPay, DANA & BCA</h3>
+            <p style="font-size: 0.8rem; margin-top: 0.3rem; line-height: 1.5;">
+                Mencegat transfer uang penipuan dalam <b>45 milidetik</b> dan memprediksi kebutuhan top-up saldo bulanan nasabah.
+            </p>
+            <span class="badge blue">FinTech & Fraud Detection</span>
+        </div>
+        
+        <div class="card clickable" onclick="showModal('dm-market')">
+            <span class="card-icon">🛍️</span>
+            <h3 style="color: var(--orange); font-size: 0.95rem;">Tokopedia & Shopee</h3>
+            <p style="font-size: 0.8rem; margin-top: 0.3rem; line-height: 1.5;">
+                Engine rekomendasi produk personal yang menyumbang <b>30-40% total omset</b> belanja di marketplace.
+            </p>
+            <span class="badge orange">Association & Clustering</span>
+        </div>
+        
+        <div class="card clickable" onclick="showModal('case-fraud')">
+            <span class="card-icon">🏥</span>
+            <h3 style="color: var(--green); font-size: 0.95rem;">BPJS Kesehatan</h3>
+            <p style="font-size: 0.8rem; margin-top: 0.3rem; line-height: 1.5;">
+                Mendeteksi anomali klaim biaya medis fiktif dari rumah sakit nakal dan memprediksi sebaran penyakit menular.
+            </p>
+            <span class="badge green">Anomaly Detection</span>
+        </div>
+        
+        <div class="card clickable" onclick="showModal('bv-velocity')">
+            <span class="card-icon">🚗</span>
+            <h3 style="color: var(--purple); font-size: 0.95rem;">Gojek & Grab</h3>
+            <p style="font-size: 0.8rem; margin-top: 0.3rem; line-height: 1.5;">
+                Heatmap prediksi lonjakan pesanan ojek di stasiun MRT agar driver sudah berkumpul sebelum jam pulang kantor.
+            </p>
+            <span class="badge purple">Geospatial & Time-Series</span>
+        </div>
+        
+        <div class="card clickable" onclick="showModal('kdd-1')">
+            <span class="card-icon">🌾</span>
+            <h3 style="color: var(--primary); font-size: 0.95rem;">BMKG & Pertanian</h3>
+            <p style="font-size: 0.8rem; margin-top: 0.3rem; line-height: 1.5;">
+                Analisis data satelit cuaca untuk memprediksi masa tanam padi terbaik dan mengantisipasi bencana kekeringan.
+            </p>
+            <span class="badge pink">Climate Analytics</span>
+        </div>
+        
+        <div class="card" style="background: var(--gradient); cursor: default;">
+            <span class="card-icon" style="color: white;">🎯</span>
+            <b style="color: white; font-size: 0.92rem; display: block; margin-top: 0.2rem;">Peluang Riset Tesis Kamu:</b>
+            <span style="color: rgba(255,255,255,0.9); font-size: 0.78rem; margin-top: 0.3rem; display: block; line-height: 1.5;">
+                Pilihlah salah satu sektor ini untuk menjadi topik proyek akhir dan publikasi paper ilmiahmu!
+            </span>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 11: INFO PERKULIAHAN & PENILAIAN -->
+<div class="slide" id="slide-11">
+    <div class="shape sh2"></div>
+    <h2 class="slide-title">Peta Kuliah & Sistem Penilaian Semester Ini 📚</h2>
+    <p class="subtitle">Perkuliahan Advanced Data Mining dirancang agar kamu tidak hanya paham konsep teori, tapi juga mampu mempraktikkannya dan menghasilkan luaran ilmiah.</p>
+    
+    <div class="two-col">
+        <div>
+            <div class="info-box blue">
+                <h4><i class="fas fa-bullseye"></i> 4 Capaian Pembelajaran (CLO):</h4>
+                <ul>
+                    <li><b>CLO 1:</b> Menguasai teori dan matematika di balik algoritma data mining lanjutan.</li>
+                    <li><b>CLO 2:</b> Mampu memprogram dan mengoptimalkan model Machine Learning dengan Python.</li>
+                    <li><b>CLO 3:</b> Mahir menangani dataset kotor dan tidak seimbang di dunia nyata.</li>
+                    <li><b>CLO 4:</b> Mampu menyusun artikel ilmiah berstandar publikasi jurnal internasional/nasional.</li>
+                </ul>
+            </div>
+            
+            <div style="background: #1e1e2e; border-radius: 12px; padding: 0.85rem; font-family: monospace; font-size: 0.78rem; color: #cdd6f4; margin-top: 0.6rem;">
+                <div style="color: #6c7086; margin-bottom: 0.3rem;"># Toolset Utama yang Kita Gunakan:</div>
+                <div><span style="color: #cba6f7;">import</span> <span style="color: #a6e3a1;">pandas</span> as pd <span style="color: #6c7086;"># Manipulasi tabel dataset</span></div>
+                <div><span style="color: #cba6f7;">import</span> <span style="color: #a6e3a1;">sklearn</span> <span style="color: #6c7086;"># Machine learning & model evaluation</span></div>
+                <div><span style="color: #cba6f7;">import</span> <span style="color: #a6e3a1;">seaborn</span> as sns <span style="color: #6c7086;"># Visualisasi korelasi data</span></div>
+                <div><span style="color: #cba6f7;">import</span> <span style="color: #a6e3a1;">xgboost</span> <span style="color: #6c7086;"># Algoritma boosting canggih</span></div>
+            </div>
+        </div>
+        
+        <div>
+            <div class="info-box pink">
+                <h4><i class="fas fa-chart-pie"></i> Komposisi Penilaian Perkuliahan:</h4>
+                <div style="display: flex; flex-direction: column; gap: 0.45rem; margin-top: 0.4rem;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.2rem;">
+                            <span>📝 Tugas Mandiri & Praktikum Coding Python</span>
+                            <span style="font-weight: 700; color: var(--primary);">20%</span>
+                        </div>
+                        <div style="background: #f0e6ef; border-radius: 99px; height: 8px;">
+                            <div style="background: var(--gradient); height: 8px; width: 20%; border-radius: 99px;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.2rem;">
+                            <span>💬 Diskusi Kelas & Kuis Mingguan</span>
+                            <span style="font-weight: 700; color: var(--primary);">15%</span>
+                        </div>
+                        <div style="background: #f0e6ef; border-radius: 99px; height: 8px;">
+                            <div style="background: var(--gradient); height: 8px; width: 15%; border-radius: 99px;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.2rem;">
+                            <span>📖 UTS: Critical Review Paper Jurnal Terindeks</span>
+                            <span style="font-weight: 700; color: var(--primary);">25%</span>
+                        </div>
+                        <div style="background: #f0e6ef; border-radius: 99px; height: 8px;">
+                            <div style="background: var(--gradient); height: 8px; width: 25%; border-radius: 99px;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.2rem;">
+                            <span>🏆 UAS: Proyek Eksperimen & Draft Paper Ilmiah</span>
+                            <span style="font-weight: 700; color: var(--primary);">40%</span>
+                        </div>
+                        <div style="background: #f0e6ef; border-radius: 99px; height: 8px;">
+                            <div style="background: var(--gradient); height: 8px; width: 40%; border-radius: 99px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-box green" style="margin-top: 0.7rem;">
+                <h4><i class="fas fa-lightbulb"></i> Tips Sukses:</h4>
+                <p>Mulai tentukan topik risetmu sejak Sesi 2! Jangan menunggu mendekati akhir semester. Kerjakan eksperimenmu secara bertahap dan rutin konsultasikan kemajuannya ke dosen pembimbing.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 12: PROYEK SEMESTER MENUJU PUBLIKASI -->
+<div class="slide" id="slide-12">
+    <div class="shape sh1"></div>
+    <h2 class="slide-title">Roadmap Proyek Akhir: Menuju Publikasi Ilmiah 🚀</h2>
+    <p class="subtitle">Luaran akhir mata kuliah ini bukan sekadar tugas kelompok yang menumpuk di meja dosen, melainkan <b>naskah artikel ilmiah yang siap disubmit ke jurnal terakreditasi SINTA atau Scopus</b>:</p>
+    
+    <div class="two-col">
+        <div class="timeline">
+            <div class="tl-item">
+                <div class="tl-title">Minggu 1–3: Menemukan Masalah & Research Gap</div>
+                <div class="tl-desc">Pilih satu domain nyata (FinTech, Kesehatan, atau E-Commerce). Cari tahu apa kelemahan riset orang lain yang ingin kamu selesaikan.</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-title">Minggu 4–7: Koleksi Data & Baseline Model</div>
+                <div class="tl-desc">Dapatkan dataset nyata, bersihkan data kotor, lalu buat model sederhana sebagai tolok ukur perbandingan awal (baseline).</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-title">Minggu 8–12: Eksperimen Inovasi & Evaluasi</div>
+                <div class="tl-desc">Uji algoritma yang kamu modifikasi, lakukan tuning hyperparameter, dan buktikan keunggulannya lewat uji statistik formal.</div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-title">Minggu 13–14: Penulisan Naskah Paper Format IMRaD</div>
+                <div class="tl-desc">Tulis artikel lengkap: Introduction, Method, Results & Discussion, lalu siap submit bersama bimbingan dosen.</div>
+            </div>
+        </div>
+        
+        <div>
+            <div style="background: #f8fafc; border-radius: 14px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: var(--shadow);">
+                <div style="background: var(--gradient); padding: 0.7rem 1rem; color: white; font-weight: 700; font-size: 0.86rem;">
+                    📄 Susunan Standar Paper Ilmiah (IMRaD):
+                </div>
+                <div style="padding: 0.8rem; display: flex; flex-direction: column; gap: 0.4rem;">
+                    <div style="padding: 0.5rem 0.8rem; background: #e8f4fd; border-radius: 7px; font-size: 0.8rem; border-left: 3px solid var(--blue);">
+                        <b style="color: var(--blue);">Introduction:</b> Mengapa masalah ini genting dan apa kontribusi risetmu?
+                    </div>
+                    <div style="padding: 0.5rem 0.8rem; background: #fdf0e8; border-radius: 7px; font-size: 0.8rem; border-left: 3px solid var(--orange);">
+                        <b style="color: var(--orange);">Related Work:</b> Tinjauan 15–20 paper penelitian terdahulu yang relevan.
+                    </div>
+                    <div style="padding: 0.5rem 0.8rem; background: #fae8f0; border-radius: 7px; font-size: 0.8rem; border-left: 3px solid var(--primary);">
+                        <b style="color: var(--primary);">Method:</b> Alur preprocessing, arsitektur model, dan metrik uji.
+                    </div>
+                    <div style="padding: 0.5rem 0.8rem; background: #e8f8f5; border-radius: 7px; font-size: 0.8rem; border-left: 3px solid var(--green);">
+                        <b style="color: var(--green);">Results & Discussion:</b> Tabel komparasi akurasi, F1-Score, dan grafik interpretasi.
+                    </div>
+                    <div style="padding: 0.5rem 0.8rem; background: #f0eeff; border-radius: 7px; font-size: 0.8rem; border-left: 3px solid var(--purple);">
+                        <b style="color: var(--purple);">Conclusion:</b> Kesimpulan inti, keterbatasan riset, dan saran pengembangan.
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 0.8rem; text-align: center;">
+                <button class="btn-ctrl btn-wide" onclick="showModal('proj-roadmap')" style="background: var(--primary); color: white; display: inline-flex; height: 38px;">
+                    <i class="fas fa-file-contract" style="margin-right: 8px;"></i> Buka Panduan Lengkap & Template Paper
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 13: KUIS MANDIRI -->
+<div class="slide" id="slide-13">
+    <div class="shape sh2"></div>
+    <h2 class="slide-title">Kuis Pemahaman: Studi Kasus Imbalanced Data ✏️</h2>
+    <p class="subtitle">Mari kita uji pemahaman konsepmu dengan skenario yang sering dihadapi data scientist di dunia kerja:</p>
+    
+    <div class="quiz-wrap">
+        <div class="quiz-q">
+            <b>Skenario Kasus:</b> Sebuah bank digital di Indonesia memiliki <b>100.000 data transaksi</b>. Dari seluruh transaksi tersebut, hanya <b>1.000 transaksi (1%) yang merupakan penipuan (fraud)</b>, sedangkan 99.000 lainnya (99%) adalah transaksi normal.<br><br>
+            Seorang junior data scientist membuat model yang berhasil meraih <b>Akurasi 99%</b>. Namun ketika dites di lapangan, banyak nasabah tetap tertipu. Sebagai mahasiswa S2 Data Mining, apa analisis dan langkah terbaikmu?
+        </div>
+        
+        <div class="quiz-opts">
+            <button class="quiz-btn" onclick="checkQ(this, false)">
+                <i class="far fa-circle"></i> A. Model sudah sangat hebat karena akurasinya 99%, tidak perlu diperbaiki lagi.
+            </button>
+            <button class="quiz-btn" onclick="checkQ(this, false)">
+                <i class="far fa-circle"></i> B. Hapus saja 1.000 transaksi penipuan tersebut agar datanya menjadi 100% akurat.
+            </button>
+            <button class="quiz-btn" onclick="checkQ(this, true)">
+                <i class="far fa-circle"></i> C. Terjadi "Accuracy Paradox". Model hanya menebak 'normal' di semua data. Kita wajib gunakan teknik balancing (seperti SMOTE) dan evaluasi dengan metrik F1-Score / Recall!
+            </button>
+            <button class="quiz-btn" onclick="checkQ(this, false)">
+                <i class="far fa-circle"></i> D. Langsung ganti hardware server dengan GPU yang lebih mahal tanpa memeriksa datanya.
+            </button>
+        </div>
+        
+        <div class="quiz-fb" id="qfb"></div>
+    </div>
+</div>
+
+<!-- SLIDE 14: PRAKTIK KASUS KELAS HARI INI -->
+<div class="slide" id="slide-14">
+    <div class="shape sh1"></div>
+    <h2 class="slide-title">Praktik Kelas Hari Ini: Eksplorasi Dataset Riil di Kaggle 💻</h2>
+    <p class="subtitle">Aktivitas hands-on langsung di kelas: Temukan dataset online di Kaggle, lakukan pemahaman data & audit awal, lalu kumpulkan ringkasannya hari ini juga!</p>
+    
+    <div class="two-col">
+        <div>
+            <div class="info-box green">
+                <h4><i class="fab fa-kaggle"></i> Tugas Praktik Mandiri / Kelompok (Selesai Hari Ini)</h4>
+                <p>Cari 1 dataset publik di <b>Kaggle (kaggle.com/datasets)</b> sesuai bidang minat Anda (E-commerce, Kesehatan, Keuangan, Hiburan, dll). Kerjakan analisis awal langsung di kelas dan kumpulkan hasilnya hari ini!</p>
+            </div>
+            
+            <div style="background: #f8fafc; border-radius: 12px; padding: 0.85rem; border: 1px solid #e2e8f0; font-size: 0.79rem; line-height: 1.55;">
+                <b style="color: var(--primary); display: block; margin-bottom: 0.35rem;">🎯 Kriteria Dataset yang Dipilih:</b>
+                <div><b>1. Format Tabular (.CSV):</b> Ukuran ringan (500 sampai 10.000 baris data).</div>
+                <div><b>2. Masalah Jelas:</b> Ada konteks bisnis atau fenomena nyata yang ingin dijawab.</div>
+                <div><b>3. Siap Diproses:</b> Tidak memerlukan komputasi rumit atau GPU mahal.</div>
+            </div>
+            
+            <div style="margin-top: 0.8rem; display: flex; gap: 0.6rem;">
+                <button class="btn-ctrl btn-wide" onclick="showModal('case-kaggle-rec')" style="background: var(--primary); color: white; display: inline-flex; height: 38px; flex: 1;">
+                    <i class="fas fa-list-check" style="margin-right: 8px;"></i> Rekomendasi Dataset Kaggle
+                </button>
+                <button class="btn-ctrl btn-wide" onclick="showModal('case-report-format')" style="background: #0984e3; color: white; display: inline-flex; height: 38px; flex: 1;">
+                    <i class="fas fa-file-alt" style="margin-right: 8px;"></i> Format Pengumpulan Hari Ini
+                </button>
+            </div>
+        </div>
+        
+        <div>
+            <p style="font-weight: 700; margin-bottom: 0.5rem; color: var(--primary); font-size: 0.9rem;">
+                🚀 4 Langkah Cepat Pengerjaan (Klik Tiap Langkah):
+            </p>
+            <div class="steps">
+                <div class="step" onclick="showModal('case-step1')">
+                    <div class="step-num">1</div>
+                    <div class="step-text">
+                        <h4>Cari & Unduh Dataset di Kaggle</h4>
+                        <p>Buka kaggle.com/datasets, ketik kata kunci topik yang menarik, lalu unduh file CSV.</p>
+                    </div>
+                </div>
+                <div class="step" onclick="showModal('case-step2')">
+                    <div class="step-num">2</div>
+                    <div class="step-text">
+                        <h4>Pahami Konteks & Kolom Data</h4>
+                        <p>Kenali arti setiap kolom (fitur) dan tentukan apa yang ingin diprediksi atau dikelompokkan.</p>
+                    </div>
+                </div>
+                <div class="step" onclick="showModal('case-step3')">
+                    <div class="step-num">3</div>
+                    <div class="step-text">
+                        <h4>Audit Kualitas Data Awal</h4>
+                        <p>Buka di Google Colab / Excel: Cek berapa persen data kosong (missing values) dan outlier.</p>
+                    </div>
+                </div>
+                <div class="step" onclick="showModal('case-step4')">
+                    <div class="step-num">4</div>
+                    <div class="step-text">
+                        <h4>Rangkum & Kumpulkan Hari Ini</h4>
+                        <p>Tuliskan usulan teknik data mining yang cocok (Klasifikasi/Regresi/Klastering) dan submit!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 15: RANGKUMAN & PENUTUP -->
+<div class="slide closing" id="slide-15">
+    <div class="shape sh1"></div>
+    <div class="shape sh2"></div>
+    <h1>Rangkuman Sesi 01 & Pengantar Sesi 02 👋</h1>
+    <h2>Perjalanan Menuju Penguasaan Data Mining Dimulai dari Sini!</h2>
+    
+    <div class="glass-box">
+        <p style="font-size: 0.96rem; color: white; line-height: 1.85; text-align: left;">
+            <b>📌 3 Pesan Kunci Sesi Ini:</b><br>
+            1️⃣ <b>Data Mining bukan sekadar hitung rumus:</b> Ini adalah seni menemukan pengetahuan bermanfaat dari data besar yang berantakan.<br>
+            2️⃣ <b>Mindset S2 adalah berpikir kritis:</b> Jangan hanya menjalankan library, tapi pahami prinsip kerja, kelemahan, dan batasannya.<br>
+            3️⃣ <b>Sampah masuk = sampah keluar:</b> Kualitas hasil model sangat ditentukan oleh ketelitian kita dalam membersihkan data di awal.
+        </p>
+    </div>
+    
+    <div style="margin-top: 1.5rem; background: rgba(255,255,255,0.2); padding: 0.8rem 1.6rem; border-radius: 30px; display: inline-block;">
+        <span style="color: white; font-size: 0.92rem; font-weight: 600;">
+            ⏩ Materi Minggu Depan (Sesi 02): <i>Teknik Praproses Data: Mengubah Data Kotor Menjadi Emas Murni</i>
+        </span>
+    </div>
+</div>
+
+    </div>
+    
+    <!-- MODAL POPUP DIALOG -->
+    <div class="modal-bg" id="modal">
+        <div class="modal-box">
+            <div class="modal-x" onclick="closeModal()"><i class="fas fa-times"></i></div>
+            <div class="modal-title">
+                <i class="fas fa-star" id="micon"></i>
+                <span id="mtit">Detail Penjelasan</span>
+            </div>
+            <div class="modal-body" id="mbod"></div>
+        </div>
+    </div>
+    
+    <script>
+
+const modals = {
+    'dm-gold': {
+        icon: 'fa-mountain',
+        title: 'Filosofi Konsep: Mengapa Disebut "Penambangan" (Mining)? ⛏️',
+        body: `
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>ANALOGI VISUAL: TAMBANG EMAS VS DATA MINING</span>
+                <span class="mock-badge info">Konsep Dasar</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
+                <div style="background: #fef3c7; padding: 0.85rem; border-radius: 9px; text-align: center;">
+                    <div style="font-size: 2rem;">⛏️ 🏔️</div>
+                    <b style="color: #92400e; font-size: 0.88rem; display: block; margin: 0.4rem 0;">Tambang Emas Fisik</b>
+                    <div style="font-size: 0.78rem; color: #78350f; text-align: left; line-height: 1.5;">
+                        • Menggali ribuan ton bebatuan & lumpur<br>
+                        • Disaring & dicuci melalui proses kimia<br>
+                        • Menghasilkan segenggam emas berharga murni
+                    </div>
+                </div>
+                <div style="background: #fae8f0; padding: 0.85rem; border-radius: 9px; text-align: center;">
+                    <div style="font-size: 2rem;">💻 📊</div>
+                    <b style="color: var(--primary); font-size: 0.88rem; display: block; margin: 0.4rem 0;">Data Mining Digital</b>
+                    <div style="font-size: 0.78rem; color: var(--primary-dark); text-align: left; line-height: 1.5;">
+                        • Mengumpulkan jutaan baris log & angka mentah<br>
+                        • Dibersihkan & diproses melalui algoritma AI<br>
+                        • Menghasilkan wawasan strategis pengambil keputusan
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="insight">
+            💡 <b>Inti Pelajaran:</b> Data dalam jumlah banyak saja tidak ada gunanya jika kita tidak mampu mengekstrak intisarinya. Di era sekarang, data adalah "minyak mentah baru", dan Data Mining adalah "kilang pengolahannya".
+        </div>
+        `
+    },
+
+    'dm-market': {
+        icon: 'fa-shopping-cart',
+        title: 'Contoh Nyata: Rekomendasi Belanja di Tokopedia / Shopee 🛍️',
+        body: `
+        <p>Setiap kali kamu memasukkan barang ke keranjang belanja, algoritma <b>Market Basket Analysis (Association Rules)</b> langsung bekerja memeriksa miliaran riwayat transaksi pengguna sebelumnya:</p>
+        
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>SIMULASI ANTARMUKA KERANJANG BELANJA E-COMMERCE</span>
+                <span class="mock-badge good">Algoritma Asosiasi (Apriori)</span>
+            </div>
+            
+            <div style="background: white; border-radius: 8px; border: 1px solid #e2e8f0; overflow: hidden; margin-bottom: 0.6rem;">
+                <div style="background: #03AC0E; padding: 7px 12px; color: white; font-size: 0.76rem; font-weight: 700; display: flex; justify-content: space-between;">
+                    <span>🛒 Tokopedia — Keranjang Kamu (1 Barang)</span>
+                    <span>Subtotal: Rp 8.999.000</span>
+                </div>
+                <div style="padding: 10px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #f1f5f9;">
+                    <span style="font-size: 1.8rem;">📱</span>
+                    <div style="flex: 1;">
+                        <b style="font-size: 0.82rem; color: #1e293b;">Samsung Galaxy S24 256GB - Onyx Black</b>
+                        <div style="color: #e11d48; font-weight: 700; font-size: 0.8rem;">Rp 8.999.000</div>
+                    </div>
+                    <span class="mock-badge good">Tersedia</span>
+                </div>
+                
+                <div style="background: #fffbeb; padding: 9px 12px; border-top: 2px dashed #fde68a;">
+                    <div style="font-size: 0.75rem; font-weight: 700; color: #92400e; margin-bottom: 6px;">
+                        ⚡ Pembeli smartphone ini 88% juga langsung membeli barang pelengkap ini:
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;">
+                        <div style="background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px; text-align: center;">
+                            <div style="font-size: 1.2rem;">🛡️</div>
+                            <b style="font-size: 0.72rem; display: block;">Tempered Glass 9H</b>
+                            <span style="color: #e11d48; font-size: 0.7rem; font-weight: 700;">Rp 45.000</span>
+                            <div style="margin-top: 3px;"><span class="mock-badge good" style="font-size: 0.62rem;">+ Tambahkan</span></div>
+                        </div>
+                        <div style="background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px; text-align: center;">
+                            <div style="font-size: 1.2rem;">🔌</div>
+                            <b style="font-size: 0.72rem; display: block;">Fast Charger 45W</b>
+                            <span style="color: #e11d48; font-size: 0.7rem; font-weight: 700;">Rp 299.000</span>
+                            <div style="margin-top: 3px;"><span class="mock-badge good" style="font-size: 0.62rem;">+ Tambahkan</span></div>
+                        </div>
+                        <div style="background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px; text-align: center;">
+                            <div style="font-size: 1.2rem;">📦</div>
+                            <b style="font-size: 0.72rem; display: block;">Casing Silicone Armor</b>
+                            <span style="color: #e11d48; font-size: 0.7rem; font-weight: 700;">Rp 89.000</span>
+                            <div style="margin-top: 3px;"><span class="mock-badge good" style="font-size: 0.62rem;">+ Tambahkan</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <table class="mock-table">
+                <thead>
+                    <tr>
+                        <th>Item Acuan (Antecedent)</th>
+                        <th>Rekomendasi (Consequent)</th>
+                        <th>Tingkat Keyakinan (Confidence)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>📱 Smartphone Flagship</td>
+                        <td>🛡️ Casing + Tempered Glass</td>
+                        <td><span class="mock-badge good">88% Pembelian Bareng</span></td>
+                    </tr>
+                    <tr>
+                        <td>☕ Biji Kopi Arabika</td>
+                        <td>🥛 Susu Cair Fresh Milk</td>
+                        <td><span class="mock-badge good">74% Pembelian Bareng</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="insight">
+            💡 <b>Dampak Bisnis:</b> Fitur rekomendasi seperti ini terbukti menaikkan rata-rata nilai belanja keranjang pembeli sebesar <b>20% hingga 35%</b> tanpa biaya iklan tambahan!
+        </div>
+        `
+    },
+
+    'dm-spotify': {
+        icon: 'fa-headphones-alt',
+        title: 'Contoh Nyata: Rekomendasi Musik di Spotify & YouTube 🎧',
+        body: `
+        <p>Spotify tidak mempekerjakan ribuan kurator manusia untuk memilih lagu bagi 500 juta penggunanya. Mereka memakai teknik <b>Clustering & Collaborative Filtering</b>:</p>
+        
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>SIMULASI ANTARMUKA SPOTIFY — DAILY MIX #1</span>
+                <span class="mock-badge info">Clustering Pengguna Mirip</span>
+            </div>
+            
+            <div style="background: #121212; color: white; border-radius: 8px; padding: 12px; margin-bottom: 0.6rem;">
+                <div style="display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #282828; padding-bottom: 10px;">
+                    <div style="width: 55px; height: 55px; background: linear-gradient(135deg, #1DB954, #191414); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🎵</div>
+                    <div>
+                        <div style="font-size: 0.7rem; color: #b3b3b3; text-transform: uppercase; font-weight: 700;">Playlist Personal</div>
+                        <b style="font-size: 1rem; color: white;">Daily Mix 1 — Santai Akustik & Pop</b>
+                        <div style="font-size: 0.72rem; color: #1DB954;">Dicocokkan berdasarkan 94% kemiripan selera dengan 12.000 pendengar lain</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 8px; display: flex; flex-direction: column; gap: 6px; font-size: 0.76rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; background: #282828; border-radius: 4px;">
+                        <span>1. <b>Tulus</b> — Monokrom</span>
+                        <span class="mock-badge good" style="font-size: 0.65rem;">Sering Kamu Putar</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; background: #1a1a1a; border-radius: 4px;">
+                        <span>2. <b>Nadin Amizah</b> — Rayuan Perempuan Gila</span>
+                        <span class="mock-badge info" style="font-size: 0.65rem;">96% Cocok dengan Kamu</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; background: #1a1a1a; border-radius: 4px;">
+                        <span>3. <b>Sal Priadi</b> — Dari Planet Lain</span>
+                        <span class="mock-badge info" style="font-size: 0.65rem;">91% Cocok dengan Kamu</span>
+                    </div>
+                </div>
+            </div>
+            
+            <p style="font-size: 0.8rem; color: var(--text-dark); line-height: 1.5;">
+                <b>Bagaimana sistem menebaknya?</b> Jika Kamu dan Budi sama-sama suka lagu A, B, dan C, lalu Budi memutar lagu D secara berulang-ulang, sistem akan langsung merekomendasikan lagu D kepadamu!
+            </p>
+        </div>
+        <div class="insight">
+            💡 <b>Konsep Teknis:</b> Memanfaatkan representasi matriks pengguna-item dengan ratusan juta data vektor untuk mencari tetangga terdekat (Nearest Neighbors).
+        </div>
+        `
+    },
+
+    'dm-bank': {
+        icon: 'fa-shield-alt',
+        title: 'Contoh Nyata: Deteksi Penipuan M-Banking Real-Time 🛡️',
+        body: `
+        <p>Setiap detik ada ratusan ribu transaksi digital. Jika kartu atau akun seseorang diretas, sistem keamanan Bank menggunakan algoritma <b>Anomaly Detection (Deteksi Pencilan)</b>:</p>
+        
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>SIMULASI ALERT SISTEM KEAMANAN M-BANKING</span>
+                <span class="mock-badge bad">Anomali Terdeteksi (&lt;45 ms)</span>
+            </div>
+            
+            <div style="background: white; border: 1px solid #fecaca; border-radius: 8px; overflow: hidden; margin-bottom: 0.6rem;">
+                <div style="background: #dc2626; padding: 8px 12px; color: white; font-weight: 700; font-size: 0.8rem; display: flex; justify-content: space-between;">
+                    <span>🚨 PERINGATAN TRANSAKSI MENCURIGAKAN DIBLOKIR OTOMATIS</span>
+                    <span>Waktu: 03.14 WIB</span>
+                </div>
+                <div style="padding: 10px; font-size: 0.8rem;">
+                    <table class="mock-table" style="margin-bottom: 8px;">
+                        <thead>
+                            <tr><th>Parameter</th><th>Pola Normal Nasabah</th><th>Transaksi Saat Ini</th><th>Status Risiko</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>📍 Lokasi IP / GPS</td>
+                                <td>Bandung / Jakarta (Indonesia)</td>
+                                <td>Lagos, Nigeria</td>
+                                <td><span class="mock-badge bad">Anomali Ekstrem</span></td>
+                            </tr>
+                            <tr>
+                                <td>⏰ Waktu Transaksi</td>
+                                <td>Pukul 08.00 – 21.00 WIB</td>
+                                <td>Pukul 03.14 Subuh</td>
+                                <td><span class="mock-badge warn">Mencurigakan</span></td>
+                            </tr>
+                            <tr>
+                                <td>💰 Nominal Transfer</td>
+                                <td>Rata-rata Rp 200rb – Rp 1 Juta</td>
+                                <td>Rp 18.500.000 (Semua Saldo)</td>
+                                <td><span class="mock-badge bad">Risiko Sangat Tinggi</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="background: #fef2f2; border: 1px solid #fca5a5; padding: 8px; border-radius: 6px; color: #991b1b; font-size: 0.76rem;">
+                        <b>🛡️ Tindakan Otomatis Sistem:</b> Transaksi diblokir seketika, kartu dinonaktifkan sementara, dan SMS OTP/WhatsApp verifikasi langsung dikirim ke nomor HP asli pemilik rekening.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="insight">
+            💡 <b>Kecepatan Adalah Kunci:</b> Seluruh kalkulasi probabilitas fraud ini diselesaikan hanya dalam waktu <b>kurang dari 50 milidetik</b> sebelum uang sempat berpindah tangan.
+        </div>
+        `
+    },
+
+    's1-vs-s2': {
+        icon: 'fa-graduation-cap',
+        title: 'Komparasi Nyata: Skripsi S1 vs Tesis S2 🎓',
+        body: `
+        <p>Agar lebih mudah dibayangkan, berikut perbandingan nyata judul topik penelitian antara level Sarjana (S1) dan Magister (S2):</p>
+        
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>CONTOH TOPIK RISET MAHASISWA</span>
+                <span class="mock-badge info">Kedalaman Akademik</span>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.6rem;">
+                <div style="background: #e8f4fd; border: 1px solid #bfdbfe; border-radius: 8px; padding: 10px;">
+                    <span class="mock-badge info">Judul Skripsi S1 (Aplikasi)</span>
+                    <b style="color: var(--blue); font-size: 0.84rem; display: block; margin: 6px 0;">
+                        "Penerapan Algoritma K-Means untuk Segmentasi Pelanggan pada Toko Baju XYZ"
+                    </b>
+                    <ul style="font-size: 0.77rem; color: #1e3a8a; padding-left: 1rem; line-height: 1.5;">
+                        <li>Fokus: Mengambil library K-Means yang sudah ada.</li>
+                        <li>Data: 500 baris transaksi toko baju lokal.</li>
+                        <li>Hasil: Aplikasi web sederhana yang mengelompokkan pembeli.</li>
+                        <li>Kontribusi: Menyelesaikan masalah operasional di toko tersebut.</li>
+                    </ul>
+                </div>
+                
+                <div style="background: #fae8f0; border: 1px solid #fbcfe8; border-radius: 8px; padding: 10px;">
+                    <span class="mock-badge pink">Judul Tesis S2 (Inovasi & Analisis)</span>
+                    <b style="color: var(--primary); font-size: 0.84rem; display: block; margin: 6px 0;">
+                        "Optimasi Inisialisasi Centroid K-Means Berbasis Density-Peak pada Data E-Commerce Multidimensi Tidak Seimbang"
+                    </b>
+                    <ul style="font-size: 0.77rem; color: var(--primary-dark); padding-left: 1rem; line-height: 1.5;">
+                        <li>Fokus: Memperbaiki kelemahan algoritma K-Means yang sensitif terhadap titik awal acak.</li>
+                        <li>Data: 1.000.000+ data transaksi riil berskala nasional.</li>
+                        <li>Hasil: Algoritma varian baru yang lebih cepat konvergen dan stabil.</li>
+                        <li>Kontribusi: Sumbangan ilmiah ke dunia keilmuan (siap publikasi jurnal).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="insight">
+            💡 <b>Kesimpulan:</b> Di S1 kita membuktikan bahwa kita <i>bisa menggunakan teknologi</i>. Di S2 kita membuktikan bahwa kita <i>mampu menyempurnakan teknologi tersebut</i>.
+        </div>
+        `
+    },
+
+    'a-descriptive': {
+        icon: 'fa-chart-bar',
+        title: 'Tangga 1: Analitik Deskriptif — "Apa yang Telah Terjadi?" 📋',
+        body: `
+        <p>Ini adalah tingkat analisis data yang paling dasar, menyajikan ringkasan laporan historis masa lalu:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>MOCKUP DASHBOARD MONITORING PENJUALAN BULANAN</span>
+                <span class="mock-badge info">Historical Reporting</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 8px;">
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px; text-align: center;">
+                    <div style="font-size: 0.7rem; color: #64748b;">Total Penjualan</div>
+                    <b style="font-size: 1.1rem; color: #0f172a;">Rp 450 Juta</b>
+                    <div style="color: #ef4444; font-size: 0.7rem;">▼ Turun 15% dari bulan lalu</div>
+                </div>
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px; text-align: center;">
+                    <div style="font-size: 0.7rem; color: #64748b;">Jumlah Transaksi</div>
+                    <b style="font-size: 1.1rem; color: #0f172a;">3.420 Pesanan</b>
+                    <div style="color: #10b981; font-size: 0.7rem;">▲ Naik 2%</div>
+                </div>
+                <div style="background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px; text-align: center;">
+                    <div style="font-size: 0.7rem; color: #64748b;">Produk Terlaris</div>
+                    <b style="font-size: 1.1rem; color: var(--primary);">Kopi Susu Gula Aren</b>
+                    <div style="color: #64748b; font-size: 0.7rem;">1.200 Cup terjual</div>
+                </div>
+            </div>
+            <div style="font-size: 0.78rem; color: #475569; background: #f8fafc; padding: 8px; border-radius: 6px;">
+                <b>Batasan:</b> Laporan ini hanya memberi tahu <i>apa yang terjadi</i>, tapi belum bisa menjelaskan <i>kenapa penjualannya turun</i> atau <i>apa yang harus diperbuat</i>.
+            </div>
+        </div>
+        `
+    },
+
+    'a-diagnostic': {
+        icon: 'fa-search',
+        title: 'Tangga 2: Analitik Diagnostik — "Kenapa Hal Itu Bisa Terjadi?" 🔍',
+        body: `
+        <p>Mencari akar permasalahan (Root Cause Analysis) dengan membedah hubungan sebab-akibat antar variabel:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>HASIL PENYELIDIKAN AKAR MASALAH (ROOT CAUSE)</span>
+                <span class="mock-badge warn">Korelasi & Drilldown</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.8rem;">
+                <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 8px; border-radius: 4px;">
+                    <b>Faktor 1: Masalah Stok Bahan Baku di Wilayah Sukabumi & Cianjur</b><br>
+                    <span style="font-size: 0.75rem; color: #7f1d1d;">Terjadi kekosongan stok selama 6 hari akibat keterlambatan suplier, menyebabkan 420 pesanan batal.</span>
+                </div>
+                <div style="background: #fffbeb; border-left: 4px solid #f59e0b; padding: 8px; border-radius: 4px;">
+                    <b>Faktor 2: Promo Diskon 30% dari Kompetitor Baru</b><br>
+                    <span style="font-size: 0.75rem; color: #78350f;">Kompetitor membuka cabang berjarak 200 meter dan menyedot 35% pembeli segmen mahasiswa.</span>
+                </div>
+            </div>
+        </div>
+        <div class="insight">
+            💡 <b>Metode yang dipakai:</b> Drill-down data, analisis korelasi Pearson, dan uji signifikansi perbedaan rata-rata (ANOVA/T-Test).
+        </div>
+        `
+    },
+
+    'a-predictive': {
+        icon: 'fa-crystal-ball',
+        title: 'Tangga 3: Analitik Prediktif — "Apa yang Akan Terjadi?" 🔮',
+        body: `
+        <p>Menggunakan Machine Learning untuk membaca tren masa lalu dan memproyeksikan kejadian masa depan:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>SIMULASI OUTPUT MODEL FORECASTING (XGBOOST REGRESSOR)</span>
+                <span class="mock-badge good">Akurasi Prediksi: 93.4%</span>
+            </div>
+            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; font-size: 0.78rem;">
+                <div style="margin-bottom: 6px; font-weight: 700; color: #1e293b;">Proyeksi Permintaan Produk 3 Minggu ke Depan:</div>
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <div style="display: flex; justify-content: space-between; padding: 4px 6px; background: #f8fafc; border-radius: 4px;">
+                        <span>Minggu 1 (Awal Bulan):</span>
+                        <b style="color: var(--blue);">Prediksi 4.800 Cup (▲ +40% efek tanggal gajian)</b>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 4px 6px; background: #f8fafc; border-radius: 4px;">
+                        <span>Minggu 2:</span>
+                        <b style="color: #475569;">Prediksi 3.500 Cup (Normal stabil)</b>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 4px 6px; background: #fef2f2; border-radius: 4px;">
+                        <span>Minggu 3 (Prediksi Hujan Lebat):</span>
+                        <b style="color: #ef4444;">Prediksi 2.100 Cup (▼ -35% pembeli dine-in turun)</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="insight">
+            💡 <b>Keunggulan:</b> Manajer toko bisa menyiapkan bahan baku dan mengatur jadwal shift barista dengan sangat presisi sebelum minggu tersebut tiba!
+        </div>
+        `
+    },
+
+    'a-prescriptive': {
+        icon: 'fa-chess-king',
+        title: 'Tangga 4: Analitik Preskriptif — "Apa Tindakan Terbaik?" 🚀',
+        body: `
+        <p>Sistem tidak hanya meramal masa depan, tetapi langsung mengeksekusi rekomendasi tindakan otomatis secara mandiri:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>SISTEM KEPUTUSAN OTOMATIS (PRESCRIPTIVE AI)</span>
+                <span class="mock-badge info">Eksekusi Mandiri</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.78rem;">
+                <div style="background: #f0fdf4; border: 1px solid #86efac; padding: 8px; border-radius: 6px;">
+                    <b style="color: #166534;">✅ Tindakan 1 (Supply Chain):</b><br>
+                    Sistem otomatis mengirim PO pemesanan tambahan 200 kg biji kopi ke suplier karena diprediksi stok akan menipis dalam 4 hari.
+                </div>
+                <div style="background: #eff6ff; border: 1px solid #93c5fd; padding: 8px; border-radius: 6px;">
+                    <b style="color: #1e40af;">✅ Tindakan 2 (Marketing Otomatis):</b><br>
+                    Karena diprediksi minggu ke-3 sepi akibat hujan lebat, sistem otomatis mengaktifkan promo gratis ongkir di aplikasi pesan-antar makanan untuk memicu pesanan dari rumah.
+                </div>
+            </div>
+        </div>
+        <div class="insight">
+            💡 <b>Puncak Analitik:</b> Inilah wujud kecerdasan buatan tingkat lanjut, di mana sistem membantu manusia mengambil keputusan paling menguntungkan secara otomatis.
+        </div>
+        `
+    },
+
+    'kdd-1': {
+        icon: 'fa-database',
+        title: 'Tahap 1 KDD: Seleksi Data (Data Selection) 📥',
+        body: `
+        <p>Memilih data yang relevan dari berbagai sumber basis data (database transaksi, file log server, API pihak ketiga):</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>SUMBER DATASET KESEHATAN TERPADU</span>
+                <span class="mock-badge info">Koleksi Awal</span>
+            </div>
+            <ul style="font-size: 0.8rem; line-height: 1.6; padding-left: 1rem;">
+                <li><b>Database Rekam Medis:</b> Usia, Tekanan Darah, Riwayat Keluarga.</li>
+                <li><b>Hasil Laboratorium:</b> Kadar Gula Darah Puasa, HbA1c, Kolesterol Total.</li>
+                <li><b>Aplikasi Tracker Pasien:</b> Jumlah Langkah Kaki Harian, Pola Jam Tidur.</li>
+            </ul>
+        </div>
+        <div class="insight">
+            💡 <b>Tantangan S2:</b> Menggabungkan format data yang berbeda-beda (tabel SQL, file JSON, dan CSV) ke dalam satu wadah penyimpanan terpadu.
+        </div>
+        `
+    },
+
+    'kdd-2': {
+        icon: 'fa-broom',
+        title: 'Tahap 2 KDD: Pembersihan Data (Data Cleaning) 🧹',
+        body: `
+        <p>Membuang kotoran data agar model tidak mempelajari kesalahan yang konyol:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>CONTOH NYATA DATA KOTOR VS DATA BERSIH</span>
+                <span class="mock-badge warn">Preprocessing</span>
+            </div>
+            <table class="mock-table">
+                <thead>
+                    <tr><th>Nama Kolom</th><th>Data Mentah Rusak</th><th>Setelah Dibersihkan</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Usia Pasien</td>
+                        <td><span class="mock-badge bad">-5 Tahun / 999 Tahun</span></td>
+                        <td><span class="mock-badge good">Dibuang / Imputasi Median</span></td>
+                    </tr>
+                    <tr>
+                        <td>Kadar Gula Darah</td>
+                        <td><span class="mock-badge bad">Null / Kosong (15%)</span></td>
+                        <td><span class="mock-badge good">Diisi Algoritma KNNImputer</span></td>
+                    </tr>
+                    <tr>
+                        <td>Kota Asal</td>
+                        <td><span class="mock-badge bad">"bdg", "BANDUNG", "Bdg"</span></td>
+                        <td><span class="mock-badge good">Standarisasi ke "Bandung"</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="insight">
+            💡 <b>Ingat Selalu:</b> Model Machine Learning paling canggih sekalipun akan menghasilkan prediksi konyol jika data latihnya kotor.
+        </div>
+        `
+    },
+
+    'kdd-3': {
+        icon: 'fa-sliders-h',
+        title: 'Tahap 3 KDD: Transformasi & Rekayasa Fitur ⚙️',
+        body: `
+        <p>Mengubah data mentah menjadi bentuk angka matematis yang siap dicerna oleh algoritma:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>OPERASI TRANSFORMASI FITUR</span>
+                <span class="mock-badge info">Feature Engineering</span>
+            </div>
+            <ul style="font-size: 0.8rem; line-height: 1.6; padding-left: 1rem;">
+                <li><b>Normalisasi Skala (MinMaxScaler):</b> Mengubah rentang angka usia (0–100) dan gaji (1–50 Juta) ke dalam skala yang sama (0.0 sampai 1.0) agar algoritma tidak timpang.</li>
+                <li><b>One-Hot Encoding:</b> Mengubah kategori teks seperti Jenis Kelamin ("Pria", "Wanita") menjadi angka biner ([1, 0] atau [0, 1]).</li>
+                <li><b>Pembentukan Fitur Baru (Feature Extraction):</b> Menghitung nilai BMI dari kolom Tinggi Badan dan Berat Badan.</li>
+            </ul>
+        </div>
+        `
+    },
+
+    'kdd-4': {
+        icon: 'fa-brain',
+        title: 'Tahap 4 KDD: Pemodelan Data Mining (Modeling) 🤖',
+        body: `
+        <p>Saatnya algoritma bekerja mempelajari pola di dalam data yang sudah bersih dan rapi:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>POTONGAN KODE TRAINING MODEL PYTHON</span>
+                <span class="mock-badge good">Scikit-Learn Ready</span>
+            </div>
+            <div style="background: #1e1e2e; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 0.74rem; color: #a6e3a1;">
+                from sklearn.ensemble import RandomForestClassifier<br>
+                from sklearn.model_selection import train_test_split<br><br>
+                <span style="color: #6c7086;"># Bagi data 80% Latih, 20% Uji</span><br>
+                X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)<br><br>
+                <span style="color: #6c7086;"># Inisialisasi model dan latih</span><br>
+                model = RandomForestClassifier(n_estimators=100, max_depth=8)<br>
+                model.fit(X_train, y_train)<br>
+                print("Model berhasil mempelajari 40.000 data rekam medis!")
+            </div>
+        </div>
+        `
+    },
+
+    'kdd-5': {
+        icon: 'fa-lightbulb',
+        title: 'Tahap 5 KDD: Evaluasi Pola & Interpretasi Pengetahuan 💡',
+        body: `
+        <p>Menguji apakah pola yang ditemukan benar-benar akurat dan masuk akal secara medis:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>EVALUASI METRIK PERFORMA MODEL</span>
+                <span class="mock-badge good">Validasi Riset</span>
+            </div>
+            <table class="mock-table">
+                <thead>
+                    <tr><th>Metrik Evaluasi</th><th>Skor Hasil</th><th>Arti Praktis bagi Dokter</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Akurasi Umum</td>
+                        <td><span class="mock-badge good">92.4%</span></td>
+                        <td>9 dari 10 pasien tertebak dengan benar secara umum.</td>
+                    </tr>
+                    <tr>
+                        <td>Recall (Sensitivitas)</td>
+                        <td><span class="mock-badge good">94.8%</span></td>
+                        <td>Hanya 5% pasien positif diabetes yang lolos tanpa terdeteksi.</td>
+                    </tr>
+                    <tr>
+                        <td>Explainability (SHAP)</td>
+                        <td>Kadar Gula Darah & BMI</td>
+                        <td>Faktor terkuat pemicu risiko diabetes yang dipelajari mesin.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        `
+    },
+
+    'tech-class': {
+        icon: 'fa-tags',
+        title: 'Pilar 1: Klasifikasi (Classification) 🏷️',
+        body: `
+        <p><b>Inti Konsep:</b> Memprediksi kategori diskret. Kita melatih komputer dengan contoh data yang sudah diberi label sebelumnya.</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>CONTOH KASUS PENERAPAN SEHARI-HARI</span>
+                <span class="mock-badge info">Supervised Learning</span>
+            </div>
+            <ul style="font-size: 0.8rem; line-height: 1.6; padding-left: 1rem;">
+                <li><b>Filter Email:</b> Membedakan email masuk apakah [Spam] atau [Utama].</li>
+                <li><b>Analisis Sentimen:</b> Mengklasifikasikan tweet publik tentang pemilu apakah [Positif], [Netral], atau [Negatif].</li>
+                <li><b>Kredit Finansial:</b> Menilai nasabah apakah [Lancar] atau [Macet].</li>
+            </ul>
+        </div>
+        <div class="insight">
+            💡 <b>Algoritma Populer:</b> Decision Tree, Random Forest, Support Vector Machine (SVM), XGBoost, Naive Bayes.
+        </div>
+        `
+    },
+
+    'tech-reg': {
+        icon: 'fa-chart-line',
+        title: 'Pilar 2: Regresi (Regression) 📈',
+        body: `
+        <p><b>Inti Konsep:</b> Memprediksi angka numerik yang kontinu (tidak terputus). Hubungan matematis antar variabel dicari garis persamaannya.</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>CONTOH PREDIKSI ANGKA</span>
+                <span class="mock-badge good">Continuous Target</span>
+            </div>
+            <ul style="font-size: 0.8rem; line-height: 1.6; padding-left: 1rem;">
+                <li><b>Prediksi Harga Properti:</b> Berapa harga rumah jika luas tanahnya 150m², 3 kamar tidur, dan 500m dari stasiun KRL?</li>
+                <li><b>Estimasi Waktu Tempuh (ETA Ojol):</b> Berapa menit driver Gojek sampai ke tujuan berdasarkan jarak dan kepadatan macet?</li>
+                <li><b>Forecasting Saham & Valuta Asing:</b> Memprediksi nilai tukar Rupiah terhadap Dollar minggu depan.</li>
+            </ul>
+        </div>
+        <div class="insight">
+            💡 <b>Algoritma Populer:</b> Linear Regression, Ridge & Lasso, Support Vector Regression (SVR), Random Forest Regressor.
+        </div>
+        `
+    },
+
+    'tech-clus': {
+        icon: 'fa-object-group',
+        title: 'Pilar 3: Klasterisasi (Clustering) 🧩',
+        body: `
+        <p><b>Inti Konsep:</b> Mengelompokkan data tanpa bimbingan label awal (Unsupervised Learning). Komputer sendiri yang mencari kesamaan fitur data.</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>SEGMENTASI PELANGGAN OTOMATIS</span>
+                <span class="mock-badge warn">Unsupervised</span>
+            </div>
+            <div style="font-size: 0.8rem; line-height: 1.6;">
+                Misalkan ada 50.000 pengguna aplikasi belanja:
+                <div style="margin-top: 4px; display: flex; flex-direction: column; gap: 4px;">
+                    <span class="mock-badge info">Klaster 1 (Pelanggan Loyal): Belanja rutin tiap minggu, tidak sensitif diskon.</span>
+                    <span class="mock-badge warn">Klaster 2 (Pemburu Promo): Hanya aktif saat tanggal kembar (11.11, 12.12).</span>
+                    <span class="mock-badge bad">Klaster 3 (Pengguna Pasif): Sudah 60 hari tidak membuka aplikasi belanja.</span>
+                </div>
+            </div>
+        </div>
+        <div class="insight">
+            💡 <b>Algoritma Populer:</b> K-Means, DBSCAN, Hierarchical Clustering, Gaussian Mixture Models.
+        </div>
+        `
+    },
+
+    'tech-assoc': {
+        icon: 'fa-link',
+        title: 'Pilar 4: Aturan Asosiasi (Association Rules) 🔗',
+        body: `
+        <p><b>Inti Konsep:</b> Menemukan aturan implikasi jika kejadian A muncul, maka kemungkinan besar kejadian B juga akan muncul (Pola Keranjang Belanja).</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>CONTOH ANALISIS POLA KERANJANG INDOMARET</span>
+                <span class="mock-badge good">Market Basket</span>
+            </div>
+            <table class="mock-table">
+                <thead>
+                    <tr><th>Barang yang Dibeli (IF)</th><th>Barang Ikutan (THEN)</th><th>Support</th><th>Confidence</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>🍞 Roti Gandum Tawar</td>
+                        <td>🧈 Selai Cokelat</td>
+                        <td>12%</td>
+                        <td><span class="mock-badge good">82%</span></td>
+                    </tr>
+                    <tr>
+                        <td>🍺 Popok Bayi (Pampers)</td>
+                        <td>🍺 Minuman Kaleng</td>
+                        <td>8%</td>
+                        <td><span class="mock-badge good">71%</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="insight">
+            💡 <b>Algoritma Populer:</b> Apriori, FP-Growth, ECLAT.
+        </div>
+        `
+    },
+
+    'bv-volume': {
+        icon: 'fa-boxes',
+        title: 'Big Data 5V: 1. Volume (Ukuran Skala Raksasa) 📦',
+        body: `
+        <p>Volume mengacu pada besaran ukuran data yang menembus batas kemampuan hardware komputer standar:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>SKALA DATA DI PERUSAHAAN GLOBAL</span>
+                <span class="mock-badge info">Infrastruktur Server</span>
+            </div>
+            <ul style="font-size: 0.8rem; line-height: 1.6; padding-left: 1rem;">
+                <li><b>Facebook / Meta:</b> Menyimpan lebih dari 4 Petabyte data baru setiap hari (foto, like, video, komentar).</li>
+                <li><b>Pesawat Boeing 787:</b> Menghasilkan 500 Gigabyte data sensor dari mesin jet dalam sekali terbang.</li>
+            </ul>
+        </div>
+        <div class="insight">
+            💡 <b>Solusi Teknologi:</b> Framework komputasi terdistribusi seperti Apache Hadoop, Apache Spark, dan Cloud Data Lakehouse (Google BigQuery, AWS Redshift).
+        </div>
+        `
+    },
+
+    'bv-velocity': {
+        icon: 'fa-bolt',
+        title: 'Big Data 5V: 2. Velocity (Kecepatan Aliran Kilat) ⚡',
+        body: `
+        <p>Data tidak lagi datang dalam batch tahunan, melainkan mengalir secara realtime detik demi detik:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>ALIRAN DATA REAL-TIME (STREAMING)</span>
+                <span class="mock-badge warn">Kecepatan Tinggi</span>
+            </div>
+            <ul style="font-size: 0.8rem; line-height: 1.6; padding-left: 1rem;">
+                <li><b>Bursa Efek Indonesia (BEI):</b> Jutaan order penawaran saham per milidetik.</li>
+                <li><b>Gojek / Grab:</b> Pembaruan koordinat GPS dari 2+ juta driver aktif tiap 3 detik sekali.</li>
+            </ul>
+        </div>
+        <div class="insight">
+            💡 <b>Solusi Teknologi:</b> Stream processing engine seperti Apache Kafka dan Apache Flink.
+        </div>
+        `
+    },
+
+    'bv-variety': {
+        icon: 'fa-layer-group',
+        title: 'Big Data 5V: 3. Variety (Keberagaman Format Data) 🎨',
+        body: `
+        <p>Lebih dari 80% data dunia saat ini berformat <b>tidak terstruktur (Unstructured Data)</b>:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>TIPE-TIPE FORMAT DATA</span>
+                <span class="mock-badge info">Multi-Modal</span>
+            </div>
+            <table class="mock-table">
+                <thead>
+                    <tr><th>Kategori</th><th>Contoh Format</th><th>Tantangan Analisis</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Terstruktur</td>
+                        <td>Tabel SQL, CSV, Database Relasional</td>
+                        <td>Mudah dianalisis rumus matematika</td>
+                    </tr>
+                    <tr>
+                        <td>Semi-Terstruktur</td>
+                        <td>JSON, XML, Log Server Apache</td>
+                        <td>Perlu parsing hierarki dokumen</td>
+                    </tr>
+                    <tr>
+                        <td>Tidak Terstruktur</td>
+                        <td>Foto CCTV, Audio Call Center, Rekaman Medis Tulisan Tangan</td>
+                        <td>Wajib menggunakan Deep Learning (CNN/RNN/Transformer)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        `
+    },
+
+    'bv-veracity': {
+        icon: 'fa-question-circle',
+        title: 'Big Data 5V: 4. Veracity (Tingkat Kebersihan & Kualitas Data) ❓',
+        body: `
+        <p>Tidak semua data yang masuk bisa dipercaya. Data di internet penuh dengan ketidakpastian, bias, dan noise:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>SUMBER KETIDAKPASTIAN DATA (VERACITY ISSUES)</span>
+                <span class="mock-badge bad">Kualitas Rendah</span>
+            </div>
+            <ul style="font-size: 0.8rem; line-height: 1.6; padding-left: 1rem;">
+                <li>Ulasan produk palsu yang dibuat oleh akun bot untuk menjatuhkan toko kompetitor.</li>
+                <li>Sensor suhu cuaca yang rusak mengirim angka 999°C secara berkala.</li>
+                <li>Data formulir pendaftaran yang diisi asal-asalan oleh pengguna internet.</li>
+            </ul>
+        </div>
+        <div class="insight">
+            💡 <b>Keahlian S2:</b> Menerapkan teknik penyaringan statistik dan deteksi pencilan untuk membersihkan data dari kepalsuan.
+        </div>
+        `
+    },
+
+    'bv-value': {
+        icon: 'fa-gem',
+        title: 'Big Data 5V: 5. Value (Nilai Manfaat Strategis) 💎',
+        body: `
+        <p>Value adalah V yang paling penting. Menyimpan data ribuan Terabyte adalah pemborosan biaya server jika tidak ada nilai tambah yang dihasilkan:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>DARI BIAYA PENYIMPANAN MENJADI KEUNTUNGAN BISNIS</span>
+                <span class="mock-badge good">Dampak Positif</span>
+            </div>
+            <div style="font-size: 0.8rem; line-height: 1.6;">
+                Contoh: PT KAI menganalisis data riwayat tiket kereta api selama 5 tahun. Hasilnya: mereka bisa menerapkan <b>Dynamic Pricing</b> (harga tiket otomatis menyesuaikan permintaan pasar), yang berhasil menaikkan pendapatan sebesar 18% dan tingkat keterisian kursi mencapai 98%.
+            </div>
+        </div>
+        `
+    },
+
+    'eth-bias': {
+        icon: 'fa-balance-scale',
+        title: 'Studi Kasus: Bahaya Nyata Bias Algoritma AI ⚖️',
+        body: `
+        <p>Kasus nyata dari perusahaan teknologi terkemuka di dunia yang menghentikan proyek AI rekrutmennya:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>KASUS SISTEM REKRUTMEN OTOMATIS AMZ (2018)</span>
+                <span class="mock-badge bad">Diskriminasi Gender</span>
+            </div>
+            <div style="font-size: 0.8rem; line-height: 1.6;">
+                Sebuah perusahaan membuat AI untuk menyaring ribuan CV pelamar software engineer. Data latih yang digunakan adalah CV karyawan yang diterima selama 10 tahun terakhir.<br><br>
+                <b>Apa yang terjadi?</b> Karena selama 10 tahun lalu industri IT didominasi oleh pria, sistem AI secara otomatis "menyimpulkan" bahwa pelamar wanita kurang berkualitas. Jika di CV pelamar terdapat kata "Women's College" atau kegiatan organisasi perempuan, skor pelamar langsung diturunkan otomatis oleh mesin!<br><br>
+                <b>Akhir Kasus:</b> Proyek AI tersebut langsung dimatikan total karena melanggar etika dan keadilan sosial.
+            </div>
+        </div>
+        <div class="insight">
+            💡 <b>Pelajaran Penting:</b> Algoritma AI hanya mencerminkan bias manusia di masa lalu yang tercatat di dalam data. Kita wajib memeriksa keadilan model sebelum menerapkannya di dunia nyata!
+        </div>
+        `
+    },
+
+    'eth-pdp': {
+        icon: 'fa-user-shield',
+        title: 'Kepatuhan Regulasi UU Perlindungan Data Pribadi (UU PDP) 🇮🇩',
+        body: `
+        <p>Undang-Undang Republik Indonesia Nomor 27 Tahun 2022 mengatur sanksi tegas bagi pelanggaran privasi data:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>KEWAJIBAN PENELITI DATA DI INDONESIA</span>
+                <span class="mock-badge good">Regulasi Hukum</span>
+            </div>
+            <ul style="font-size: 0.8rem; line-height: 1.6; padding-left: 1rem;">
+                <li><b>Prinsip Pseudonimisasi:</b> Data identitas diri (Nama Lengkap, NIK KTP, Tanggal Lahir, Nomor HP) wajib dienkripsi atau diganti dengan kode acak sebelum diserahkan kepada tim analisis data.</li>
+                <li><b>Hak untuk Dihapus (Right to Erasure):</b> Jika subjek penelitian menarik persetujuannya, datanya harus dimusnahkan secara aman dari server riset.</li>
+                <li><b>Sanksi Pidana:</b> Membocorkan atau memperjualbelikan data pribadi terancam denda hingga Rp 60 Miliar dan pidana penjara hingga 6 tahun.</li>
+            </ul>
+        </div>
+        `
+    },
+
+    'case-fraud': {
+        icon: 'fa-user-md',
+        title: 'Studi Kasus: Audit Anomali Klaim BPJS Kesehatan 🏥',
+        body: `
+        <p>BPJS Kesehatan menaungi lebih dari 260 juta peserta di Indonesia. Deteksi anomali digunakan untuk mencegah kebocoran anggaran negara:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>SIMULASI DETEKSI PHANTOM BILLING (KLAIM FIKTIF)</span>
+                <span class="mock-badge bad">Anomali Terdeteksi</span>
+            </div>
+            <div style="font-size: 0.8rem; line-height: 1.6;">
+                Sebuah klinik di daerah X mengajukan klaim operasi katarak sebanyak <b>150 tindakan dalam satu hari</b> oleh 1 orang dokter spesialis mata.<br><br>
+                <b>Pendeteksian Algoritma:</b> Sistem Data Mining langsung membunyikan alarm karena secara medis operasi katarak membutuhkan waktu minimal 20 menit per pasien. Sangat mustahil 1 dokter bekerja 50 jam tanpa henti dalam 1 hari kalender.<br><br>
+                <b>Hasil Investigasi:</b> Terbukti merupakan klaim fiktif (phantom billing). Dana klaim berhasil diselamatkan sebelum dicairkan.
+            </div>
+        </div>
+        `
+    },
+
+    'proj-roadmap': {
+        icon: 'fa-file-signature',
+        title: 'Checklist Sukses Penulisan Paper Ilmiah S2 🏆',
+        body: `
+        <p>Gunakan panduan checklist ini agar draf artikel ilmiahmu siap submit ke jurnal terindeks SINTA 2 atau Scopus:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>CHECKLIST STANDAR PUBLIKASI ILMIAH</span>
+                <span class="mock-badge info">Syarat Kelulusan</span>
+            </div>
+            <div style="font-size: 0.8rem; line-height: 1.6;">
+                ✅ <b>State-of-the-Art (SOTA):</b> Apakah kamu sudah membandingkan modelmu dengan minimal 2 algoritma pembanding terkini?<br>
+                ✅ <b>Dataset Representatif:</b> Apakah dataset yang digunakan memiliki minimal 5.000 baris data dengan sumber yang jelas?<br>
+                ✅ <b>Uji Statistik:</b> Apakah keunggulan akurasi modelmu sudah diuji dengan <i>Paired T-Test</i> atau <i>Wilcoxon Signed-Rank Test</i> untuk membuktikan bukan kebetulan belaka?<br>
+                ✅ <b>Visualisasi Berkualitas Tinggi:</b> Apakah grafik Confusion Matrix dan kurva ROC digambar dengan resolusi tajam minimal 300 DPI?<br>
+                ✅ <b>Bebas Plagiasi:</b> Skor kemiripan Turnitin wajib di bawah 20%!
+            </div>
+        </div>
+        `
+    },
+
+    'case-kaggle-rec': {
+        icon: 'fa-list-check',
+        title: 'Rekomendasi Dataset Kaggle Ramah Pemula & Seru 💡',
+        body: `
+        <p>Jika bingung mencari topik, berikut 4 dataset populer di <b>Kaggle</b> yang sangat cocok untuk latihan hari ini:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>PILIHAN DATASET KAGGLE POPULER (FORMAT .CSV)</span>
+                <span class="mock-badge info">Tinggal Unduh</span>
+            </div>
+            <table class="mock-table">
+                <thead>
+                    <tr><th>Topik & Judul Dataset</th><th>Target Masalah</th><th>Teknik Mining Cocok</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>🛒 Telco Customer Churn</b><br><span style="font-size:0.7rem; color:#64748b;">Keyword: "telco customer churn"</span></td>
+                        <td>Memprediksi apakah pelanggan akan berhenti langganan (Churn: Ya/Tidak)</td>
+                        <td><span class="mock-badge good">Klasifikasi</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>🛍️ Mall Customer Segmentation</b><br><span style="font-size:0.7rem; color:#64748b;">Keyword: "mall customer segmentation"</span></td>
+                        <td>Mengelompokkan tipe pelanggan berdasarkan pendapatan dan skor belanja</td>
+                        <td><span class="mock-badge warn">Klastering (K-Means)</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>🏠 House Sales in King County</b><br><span style="font-size:0.7rem; color:#64748b;">Keyword: "housesalesprediction"</span></td>
+                        <td>Memprediksi harga jual rumah berdasarkan luas, kamar, dan lokasi</td>
+                        <td><span class="mock-badge info">Regresi</span></td>
+                    </tr>
+                    <tr>
+                        <td><b>❤️ Heart Attack Analysis</b><br><span style="font-size:0.7rem; color:#64748b;">Keyword: "heart attack analysis"</span></td>
+                        <td>Mendeteksi peluang risiko serangan jantung dari rekam medis pasien</td>
+                        <td><span class="mock-badge good">Klasifikasi</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="insight">
+            💡 <b>Cara Cepat:</b> Buka <a href="https://www.kaggle.com/datasets" target="_blank" style="color: var(--primary); font-weight: 700;">kaggle.com/datasets</a>, ketik salah satu kata kunci di atas, klik tab <i>Data Card</i>, lalu klik tombol <b>Download</b> (format .csv).
+        </div>
+        `
+    },
+
+    'case-report-format': {
+        icon: 'fa-file-alt',
+        title: 'Format Pengumpulan Ringkas (1 Halaman / Slide) 📝',
+        body: `
+        <p>Hasil pengerjaan dikumpulkan hari ini dalam bentuk ringkasan singkat 1 halaman (PDF/Word/Notebook):</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>STRUKTUR LAPORAN MINI (SUBMIT HARI INI)</span>
+                <span class="mock-badge good">Mudah & Terstruktur</span>
+            </div>
+            <div style="font-size: 0.82rem; line-height: 1.6;">
+                <b>1. Informasi Dataset:</b>
+                <ul>
+                    <li>Nama Dataset & Tautan Link Kaggle</li>
+                    <li>Jumlah Baris (Baris Data) dan Jumlah Kolom (Fitur)</li>
+                </ul>
+                <b>2. Pemahaman Bisnis (Problem Formulation):</b>
+                <ul>
+                    <li>Apa pertanyaan utama yang ingin dijawab dari data ini?</li>
+                    <li>Apa kolom yang menjadi target prediksi (jika ada)?</li>
+                </ul>
+                <b>3. Hasil Audit Kualitas Data (EDA Awal):</b>
+                <ul>
+                    <li>Apakah ada nilai kosong (missing values)? Di kolom mana saja?</li>
+                    <li>Apakah ada nilai aneh/outlier yang Anda temukan?</li>
+                </ul>
+                <b>4. Usulan Teknik Data Mining:</b>
+                <ul>
+                    <li>Pilih teknik: Klasifikasi, Regresi, Asosiasi, atau Klastering? Berikan alasan singkatnya!</li>
+                </ul>
+            </div>
+        </div>
+        <div class="insight">
+            💡 <b>Waktu Pengerjaan:</b> Cukup 30-45 menit di kelas. Fokus utama sesi 1 adalah <i>Data Understanding</i> dan <i>Problem Framing</i>, belum sampai ke pembuatan model yang berat!
+        </div>
+        `
+    },
+
+    'case-step1': {
+        icon: 'fa-search',
+        title: 'Langkah 1: Mencari & Mengunduh Dataset di Kaggle 🔍',
+        body: `
+        <p>Panduan praktis mencari dataset yang tepat di Kaggle:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>TIPS MEMILIH DATASET BAGUS</span>
+                <span class="mock-badge info">Kaggle Guide</span>
+            </div>
+            <ol style="font-size: 0.8rem; line-height: 1.6; padding-left: 1.2rem;">
+                <li>Buka situs <a href="https://www.kaggle.com/datasets" target="_blank"><b>kaggle.com/datasets</b></a>. (Jika belum ada akun, login gratis pakai akun Google).</li>
+                <li>Gunakan kolom pencarian dengan topik yang kamu minati (misal: <i>sales, students, bank, hospital, streaming</i>).</li>
+                <li><b>Pilih format CSV:</b> Di filter file type, pilih <code>.csv</code> agar mudah dibuka langsung di Excel atau Google Colab.</li>
+                <li><b>Cek Usability Score:</b> Pilih dataset dengan skor usability tinggi (di atas 7.0) karena deskripsi kolomnya lebih rapi dan jelas.</li>
+            </ol>
+        </div>
+        `
+    },
+
+    'case-step2': {
+        icon: 'fa-brain',
+        title: 'Langkah 2: Memahami Konteks & Arti Kolom Data 🧠',
+        body: `
+        <p>Sebelum mengolah data, seorang calon Magister wajib memahami <b>arti bisnis dari setiap kolom</b>:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>DATA UNDERSTANDING CHECKLIST</span>
+                <span class="mock-badge warn">KDD Phase 1</span>
+            </div>
+            <ul style="font-size: 0.8rem; line-height: 1.6; padding-left: 1.2rem;">
+                <li><b>Identifikasi Variabel Bebas (Fitur Input):</b> Kolom apa saja yang menjadi karakteristik objek (contoh: usia, jenis kelamin, lama langganan)?</li>
+                <li><b>Identifikasi Target (Variabel Terikat):</b> Kolom apa yang ingin kita tebak nilainya di masa depan?</li>
+                <li><b>Tentukan Tipe Data:</b> Mana kolom numerik (angka), mana kolom kategorikal (teks/kategori), dan mana tanggal (datetime)?</li>
+            </ul>
+        </div>
+        `
+    },
+
+    'case-step3': {
+        icon: 'fa-microscope',
+        title: 'Langkah 3: Audit Kualitas Data Ringkas (Data Quality Audit) 🔬',
+        body: `
+        <p>Buka dataset Anda di <b>Google Colab</b> atau <b>Microsoft Excel</b> untuk melakukan inspeksi cepat:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>KODE PRAKTIS AUDIT DI GOOGLE COLAB / PYTHON</span>
+                <span class="mock-badge good">3 Baris Penting</span>
+            </div>
+            <pre style="background: #1e293b; color: #f8fafc; padding: 10px; border-radius: 6px; font-size: 0.78rem; font-family: monospace; overflow-x: auto;">
+import pandas as pd
+df = pd.read_csv('nama_dataset.csv')
+
+print("1. Dimensi Data:", df.shape)
+print("2. Cek Missing Values:
+", df.isnull().sum())
+print("3. Statistik Ringkas:
+", df.describe())
+            </pre>
+            <div style="font-size: 0.78rem; line-height: 1.5; margin-top: 8px;">
+                <b>Yang dicatat dalam laporan:</b><br>
+                • Berapa total baris dan kolom?<br>
+                • Apakah ada kolom yang datanya bolong/kosong?<br>
+                • Apakah ada nilai janggal (misal harga negatif atau usia 999)?
+            </div>
+        </div>
+        `
+    },
+
+    'case-step4': {
+        icon: 'fa-check-circle',
+        title: 'Langkah 4: Tentukan Teknik Mining & Kumpulkan Hari Ini 🚀',
+        body: `
+        <p>Langkah penutup: Tentukan strategi algoritma yang paling cocok berdasarkan tujuan bisnis yang dirumuskan:</p>
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>PANDUAN PEMILIHAN TEKNIK DATA MINING</span>
+                <span class="mock-badge info">Decision Matrix</span>
+            </div>
+            <ul style="font-size: 0.8rem; line-height: 1.6; padding-left: 1.2rem;">
+                <li>Jika kolom targetnya adalah <b>kategori/label</b> (contoh: Churn / Tidak Churn) &rarr; Gunakan <b>Klasifikasi</b> (Decision Tree, Random Forest).</li>
+                <li>Jika kolom targetnya adalah <b>angka kontinu</b> (contoh: Estimasi Harga, Keuntungan) &rarr; Gunakan <b>Regresi</b> (Linear Regression).</li>
+                <li>Jika tidak ada target dan ingin <b>mengelompokkan profil</b> &rarr; Gunakan <b>Klastering</b> (K-Means).</li>
+            </ul>
+        </div>
+        <div class="insight">
+            💡 <b>Pengumpulan:</b> Ekspor ringkasan 1 halaman atau link Colab Anda, lalu submit ke tautan penugasan kelas hari ini sebelum perkuliahan berakhir!
+        </div>
+        `
+    },
+
+    'sec-health': {
+        icon: 'fa-hospital-user',
+        title: 'Simulasi AI Rekam Medis: Deteksi Komplikasi Jantung 🏥',
+        body: `
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>SIMULASI DASHBOARD DOKTER — SISTEM PREDIKSI RISIKO KARDIOVASKULAR</span>
+                <span class="mock-badge info">Model: Ensemble LightGBM</span>
+            </div>
+            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px; margin-bottom: 8px;">
+                    <div><b>Pasien #RM-4819</b> (Budi Santoso, 52 Th)</div>
+                    <span class="mock-badge bad">Risiko Tinggi (89.2%)</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.78rem;">
+                    <div><b>Biomarker Kritis:</b><br>• Gula Darah Puasa: 168 mg/dL (Tinggi)<br>• Tekanan Darah: 155/95 mmHg<br>• Kolesterol LDL: 190 mg/dL</div>
+                    <div><b>Faktor Gaya Hidup:</b><br>• Riwayat Perokok Aktif: Ya<br>• Durasi Duduk Rata-rata: 9 Jam/hari<br>• Riwayat Keluarga: Serangan Jantung</div>
+                </div>
+            </div>
+            <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 8px; border-radius: 4px; font-size: 0.78rem; color: #991b1b;">
+                <b>🚨 Rekomendasi Klinis AI:</b> Pasien diprediksi berisiko mengalami komplikasi serangan jantung dalam 3 tahun ke depan jika pola pengobatan tidak diubah sekarang. Disarankan intervensi statin dan jadwal kontrol rutin 1 bulan sekali.
+            </div>
+        </div>
+        `
+    },
+
+    'sec-bank': {
+        icon: 'fa-credit-card',
+        title: 'Simulasi Scoring Kredit Digital: Keputusan Instan 3 Detik 💳',
+        body: `
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>MESIN SCORING KREDIT ALTERNATIF FINTECH</span>
+                <span class="mock-badge good">Status: Disetujui (Approved)</span>
+            </div>
+            <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <div><b>Pengajuan Pinjaman Modal Usaha:</b> Rp 15.000.000</div>
+                    <div style="font-size: 0.72rem; color: #166534; font-weight: 700;">Waktu Proses: 2.8 Detik</div>
+                </div>
+                <table class="mock-table">
+                    <thead><tr><th>Sumber Data Alternatif</th><th>Analisis Algoritma</th><th>Skor Bobot</th></tr></thead>
+                    <tbody>
+                        <tr><td>📱 Konsistensi Pulsa & Paket Data</td><td>Pengisian rutin Rp 150rb/bln selama 2 tahun</td><td><span class="mock-badge good">92 / 100</span></td></tr>
+                        <tr><td>⚡ Tagihan Listrik PLN Pascabayar</td><td>Tidak pernah telat bayar dalam 12 bulan</td><td><span class="mock-badge good">95 / 100</span></td></tr>
+                        <tr><td>🛍️ Arus Transaksi Marketplace</td><td>Rata-rata 18 pesanan belanja per bulan</td><td><span class="mock-badge good">88 / 100</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="insight">
+                💡 <b>Inovasi FinTech:</b> Tanpa memerlukan jaminan sertifikat tanah atau BPKB, data mining jejak digital alternatif mampu menilai karakter nasabah secara objektif dan instan.
+            </div>
+        </div>
+        `
+    },
+
+    'sec-ecom': {
+        icon: 'fa-boxes',
+        title: 'Simulasi Predictive Stocking & Pre-Shipping E-Commerce 🛍️',
+        body: `
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>LOGISTIK PREDIKTIF: ALOKASI GUDANG SEBELUM PROMO</span>
+                <span class="mock-badge info">Anticipatory Shipping</span>
+            </div>
+            <div style="font-size: 0.78rem; line-height: 1.6;">
+                Berdasarkan riwayat pencarian dan keranjang belanja 1.500.000 pengguna, sistem memprediksi lonjakan pembelian sebelum tanggal kembar (11.11):
+                <table class="mock-table" style="margin: 8px 0;">
+                    <thead><tr><th>Wilayah Tujuan</th><th>Prediksi Lonjakan Barang</th><th>Aksi Otomatis Gudang</th></tr></thead>
+                    <tbody>
+                        <tr><td>Jawa Barat (Bandung & Sekitarnya)</td><td>Pakaian Rajut & Jaket Musim Hujan (+140%)</td><td><span class="mock-badge good">Kirim 10.000 unit ke Gudang Cimahi</span></td></tr>
+                        <tr><td>Jawa Timur (Surabaya & Malang)</td><td>Kipas Angin Portable & Tumbler Dingin (+85%)</td><td><span class="mock-badge good">Kirim 6.500 unit ke Gudang Sidoarjo</span></td></tr>
+                    </tbody>
+                </table>
+                <b>Dampak Operasional:</b> Waktu pengiriman barang ke rumah pembeli terpangkas drastis dari 3 hari menjadi <b>hanya 6 jam (Same-Day Delivery)</b>!
+            </div>
+        </div>
+        `
+    },
+
+    'sec-smartcity': {
+        icon: 'fa-traffic-light',
+        title: 'Simulasi Smart City: Adaptive Traffic Signal Control 🚦',
+        body: `
+        <div class="mock-box">
+            <div class="mock-header">
+                <span>OPTIMASI LAMPU LALU LINTAS PERSIMPANGAN ADAPTIF</span>
+                <span class="mock-badge warn">Real-Time Sensor & CCTV</span>
+            </div>
+            <div style="font-size: 0.78rem; line-height: 1.6;">
+                Sistem smart city memproses data rekaman kamera CCTV dan koordinat GPS angkutan umum secara real-time:
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0;">
+                    <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; padding: 8px;">
+                        <b>🚦 Jalur A (Antrean Padat):</b><br>
+                        • 140 kendaraan menumpuk sejauh 350 meter<br>
+                        • <b>Aksi AI:</b> Tambah durasi lampu hijau jadi <b>75 detik</b>
+                    </div>
+                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; padding: 8px;">
+                        <b>🚦 Jalur B (Jalur Lengang):</b><br>
+                        • Hanya 12 kendaraan melintas santai<br>
+                        • <b>Aksi AI:</b> Kurangi durasi lampu hijau jadi <b>20 detik</b>
+                    </div>
+                </div>
+                <b>Hasil Pengukuran:</b> Emisi karbon berkurang 18% dan waktu tunggu antrean pengendara terpangkas 40%!
+            </div>
+        </div>
+        `
+    },
+};
+
+// Logika Navigasi dan Interaktivitas
+let cur = 1;
+const totalSlides = 15;
+
+function showSlide(n) {
+    if (n < 1) n = 1;
+    if (n > totalSlides) n = totalSlides;
+    cur = n;
+    
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('slide-' + n);
+    if (target) {
+        target.classList.add('active');
+        target.scrollTop = 0;
+    }
+    
+    const sn = document.getElementById('snum');
+    if (sn) sn.textContent = n + ' / ' + totalSlides;
+    
+    const pb = document.getElementById('pbar');
+    if (pb) pb.style.width = ((n / totalSlides) * 100) + '%';
+}
+
+function nextSlide() {
+    showSlide(cur + 1);
+}
+
+function prevSlide() {
+    showSlide(cur - 1);
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+        nextSlide();
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        prevSlide();
+    }
+    if (e.key === 'Escape') {
+        closeModal();
+    }
+});
+
+// Toast notification helper
+function showFSToast(msg, iconClass) {
+    let t = document.getElementById('fs-toast');
+    if (!t) {
+        t = document.createElement('div');
+        t.id = 'fs-toast';
+        document.body.appendChild(t);
+    }
+    const iconHtml = iconClass ? `<i class="${iconClass}"></i> ` : '';
+    t.innerHTML = `${iconHtml}<span>${msg}</span>`;
+    t.style.opacity = '1';
+    t.style.transform = 'translateX(-50%) translateY(0)';
+    clearTimeout(t.timer);
+    t.timer = setTimeout(() => {
+        t.style.opacity = '0';
+        t.style.transform = 'translateX(-50%) translateY(-10px)';
+    }, 2500);
+}
+
+function isFullscreenActive() {
+    const doc = document;
+    const isNative = !!(doc.fullscreenElement || doc.webkitFullscreenElement || doc.mozFullScreenElement || doc.msFullscreenElement);
+    const isPseudo = doc.body.classList.contains('pseudo-fs');
+    return isNative || isPseudo;
+}
+
+function updateFSIcon(isActive) {
+    const icon = document.getElementById('fsi');
+    const btn = icon ? icon.closest('.btn-ctrl') : null;
+    if (icon) {
+        icon.className = isActive ? 'fas fa-compress' : 'fas fa-expand';
+    }
+    if (btn) {
+        if (isActive) {
+            btn.classList.add('fs-active');
+            btn.setAttribute('title', 'Keluar Layar Penuh (Esc)');
+        } else {
+            btn.classList.remove('fs-active');
+            btn.setAttribute('title', 'Mode Layar Penuh');
+        }
+    }
+}
+
+function toggleFS() {
+    const doc = document;
+    const body = doc.body;
+    const active = isFullscreenActive();
+    
+    if (!active) {
+        // 1. Terapkan Pseudo-Fullscreen (CSS Theater Mode) secara instan
+        body.classList.add('pseudo-fs');
+        updateFSIcon(true);
+        showFSToast('Mode Layar Penuh Aktif (Tekan Esc atau klik untuk keluar)', 'fas fa-expand');
+        
+        // 2. Coba juga Fullscreen Native browser
+        try {
+            const el = doc.documentElement;
+            const rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+            if (rfs) {
+                const p = rfs.call(el);
+                if (p && p.catch) {
+                    p.catch(err => {
+                        console.warn('Native requestFullscreen denied / unsupported in this environment. CSS Theater mode active.', err);
+                    });
+                }
+            }
+        } catch (e) {
+            console.warn('Fullscreen invocation error:', e);
+        }
+    } else {
+        // Keluar dari Fullscreen
+        body.classList.remove('pseudo-fs');
+        updateFSIcon(false);
+        showFSToast('Layar Normal', 'fas fa-compress');
+        
+        try {
+            const isNative = !!(doc.fullscreenElement || doc.webkitFullscreenElement || doc.mozFullScreenElement || doc.msFullscreenElement);
+            if (isNative) {
+                const efs = doc.exitFullscreen || doc.webkitExitFullscreen || doc.mozCancelFullScreen || doc.msExitFullscreen;
+                if (efs) {
+                    const p = efs.call(doc);
+                    if (p && p.catch) {
+                        p.catch(() => {});
+                    }
+                }
+            }
+        } catch (e) {
+            console.warn('Exit fullscreen error:', e);
+        }
+    }
+}
+
+// Global Event Listeners
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        const body = document.body;
+        if (body.classList.contains('pseudo-fs')) {
+            body.classList.remove('pseudo-fs');
+            updateFSIcon(false);
+            showFSToast('Layar Normal', 'fas fa-compress');
+        }
+    }
+    if (e.key === 'f' || e.key === 'F') {
+        toggleFS();
+    }
+});
+
+['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange'].forEach(evt => {
+    document.addEventListener(evt, () => {
+        const isNative = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
+        if (isNative) {
+            document.body.classList.add('pseudo-fs');
+            updateFSIcon(true);
+        } else {
+            document.body.classList.remove('pseudo-fs');
+            updateFSIcon(false);
+        }
+    });
+});
+
+
+function toggleAcc(el) {
+    const item = el.closest('.acc-item') || el.parentElement;
+    if (!item) return;
+    
+    const isOpen = item.classList.contains('open');
+    
+    // Close other accordion items for clean presentation view
+    document.querySelectorAll('.acc-item').forEach(i => {
+        if (i !== item) i.classList.remove('open');
+    });
+    
+    // Toggle current item
+    if (isOpen) {
+        item.classList.remove('open');
+    } else {
+        item.classList.add('open');
+    }
+}
+
+function checkQ(btn, isCorrect) {
+    const btns = btn.closest('.quiz-opts').querySelectorAll('.quiz-btn');
+    btns.forEach(b => {
+        b.disabled = true;
+        b.style.pointerEvents = 'none';
+    });
+    
+    const fb = document.getElementById('qfb');
+    if (isCorrect) {
+        btn.classList.add('correct');
+        fb.style.display = 'block';
+        fb.style.background = '#e8f5e9';
+        fb.style.border = '1px solid #4caf50';
+        fb.innerHTML = '🎉 <b>Jawaban Tepat Sekali! Analisis Level S2 yang Sangat Tajam.</b><br><br>Fenomena ini dikenal sebagai <i>Accuracy Paradox</i>. Jika ada 99.000 transaksi normal dan 1.000 fraud, model bodoh yang hanya selalu menebak "Normal" untuk semua transaksi pun akan meraih akurasi 99%! Padahal sistem tersebut tidak menangkap 1 pun penipuan. Itulah kenapa mahasiswa S2 wajib menguasai metrik <b>Recall, Precision, dan F1-Score</b> serta teknik penyeimbangan data seperti SMOTE.';
+    } else {
+        btn.classList.add('wrong');
+        fb.style.display = 'block';
+        fb.style.background = '#ffebee';
+        fb.style.border = '1px solid #f44336';
+        fb.innerHTML = '❌ <b>Belum tepat!</b> Ingat konsep data tidak seimbang (Imbalanced Data). Jangan terkecoh oleh angka akurasi yang tinggi jika kelas minoritas yang krusial justru gagal terdeteksi!';
+    }
+}
+
+function showModal(key) {
+    const data = modals[key];
+    if (!data) return;
+    
+    document.getElementById('micon').className = 'fas ' + data.icon;
+    document.getElementById('mtit').textContent = data.title;
+    document.getElementById('mbod').innerHTML = data.body;
+    document.getElementById('modal').classList.add('on');
+}
+
+function closeModal() {
+    document.getElementById('modal').classList.remove('on');
+}
+
+document.getElementById('modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal')) {
+        closeModal();
+    }
+});
+
+// Mulai di slide 1
+showSlide(1);
+
+    </script>
+</body>
+</html>

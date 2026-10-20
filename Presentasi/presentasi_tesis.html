@@ -1,0 +1,3510 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Deep Learning Architecture for Cryptocurrency Price Forecasting Utilizing Business Intelligence</title>
+    <meta name="description" content="Presentasi Prosiding Konferensi Internasional: A Deep Learning Architecture for Cryptocurrency Price Forecasting Utilizing Business Intelligence oleh Asep Surahman Sulaeman dkk.">
+    
+    <!-- Google Fonts -->
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- KaTeX for crisp LaTeX formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    
+    <!-- Chart.js for interactive visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <style>
+
+:root {
+    /* === Brand Colors (Universitas Nusa Putra) === */
+    --primary: #961d5a;             /* Deep Maroon */
+    --primary-light: #c82677;       /* Magenta-Rose Pink */
+    --primary-dark: #63123a;        /* Darkest Maroon */
+    --primary-deeper: #4a0c2a;      /* Ultra Maroon */
+    --secondary: #f4f4f9;           /* Soft Light Grey/Lavender */
+    --text-dark: #2d3436;           /* Main Heading/Body Text */
+    --text-light: #636e72;          /* Secondary Muted Text */
+    --white: #ffffff;
+    --bg-color: #f0f2f5;            /* Presentation Page Background */
+    --gradient: linear-gradient(135deg, #961d5a 0%, #63123a 100%);
+    --shadow: 0 8px 25px rgba(150, 29, 90, 0.10);
+    --shadow-hover: 0 14px 35px rgba(150, 29, 90, 0.20);
+    --glass: rgba(255, 255, 255, 0.95);
+    --trans: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    /* === Accent Palette === */
+    --blue: #0984e3;
+    --green: #00b894;
+    --orange: #e17055;
+    --teal: #00b4d8;
+    --purple: #6c5ce7;
+    --gold: #f39c12;
+
+    /* === Theme Compatibility Aliases === */
+    --bg-main: #f0f2f5;
+    --bg-card: #ffffff;
+    --bg-card-hover: #ffffff;
+    --bg-glass: rgba(255, 255, 255, 0.95);
+    --border-glass: rgba(150, 29, 90, 0.12);
+    --border-accent: rgba(150, 29, 90, 0.28);
+
+    --text-primary: #2d3436;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+
+    --primary-glow: rgba(150, 29, 90, 0.22);
+    --secondary-glow: rgba(225, 112, 85, 0.22);
+
+    --accent-violet: #6c5ce7;
+    --accent-purple: #6c5ce7;
+    --accent-teal: #00b4d8;
+    --accent-blue: #0984e3;
+    --accent-rose: #c82677;
+    --accent-gold: #d97706;
+    --accent-amber: #d97706;
+
+    --gradient-cover: linear-gradient(135deg, #961d5a 0%, #63123a 100%);
+    --gradient-primary: linear-gradient(135deg, #961d5a 0%, #c82677 100%);
+    --gradient-gold: linear-gradient(135deg, #e17055 0%, #f39c12 100%);
+    --gradient-violet: linear-gradient(135deg, #6c5ce7 0%, #8e44ad 100%);
+    --gradient-dark: linear-gradient(180deg, #ffffff 0%, #f4f4f9 100%);
+    --gradient-header: linear-gradient(135deg, #961d5a 0%, #c82677 100%);
+    --gradient-side: linear-gradient(180deg, #961d5a 0%, #63123a 100%);
+
+    /* === Typography === */
+    --font-sans: 'Poppins', sans-serif;
+    --font-heading: 'Poppins', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* === Shadows & Transitions === */
+    --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 12px 30px rgba(150, 29, 90, 0.14);
+    --shadow-glow: 0 0 20px rgba(150, 29, 90, 0.22);
+    --shadow-gold: 0 0 18px rgba(245, 166, 35, 0.22);
+    --transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-dark);
+    font-family: var(--font-sans);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+    color: var(--primary);
+    font-family: var(--font-heading);
+}
+
+/* ===========================
+   AMBIENT BACKGROUND DECORATION
+   =========================== */
+.ambient-glow-1 {
+    position: fixed;
+    top: -120px;
+    right: -120px;
+    width: 480px;
+    height: 480px;
+    background: radial-gradient(circle, rgba(150, 29, 90, 0.08) 0%, transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.ambient-glow-2 {
+    position: fixed;
+    bottom: -130px;
+    left: -100px;
+    width: 520px;
+    height: 520px;
+    background: radial-gradient(circle, rgba(200, 38, 119, 0.06) 0%, transparent 70%);
+    filter: blur(70px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ===========================
+   PRESENTATION CONTAINER
+   =========================== */
+.presentation {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 2;
+}
+
+/* ===========================
+   SLIDE BASE
+   =========================== */
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 4.8rem 5.2rem 5.6rem 5.2rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform: scale(0.98);
+    background: var(--white);
+    color: var(--text-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 5;
+}
+
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    z-index: 10;
+}
+
+.slide::-webkit-scrollbar { width: 6px; }
+.slide::-webkit-scrollbar-track { background: #f1f5f9; }
+.slide::-webkit-scrollbar-thumb {
+    background: rgba(150, 29, 90, 0.25);
+    border-radius: 4px;
+}
+.slide::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+/* ===========================
+   PROGRESS BAR (top strip)
+   =========================== */
+.progress-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: rgba(0,0,0,0.07);
+    z-index: 200;
+}
+.progress-bar::after {
+    content: '';
+    display: block;
+    height: 100%;
+    background: var(--gradient);
+    width: var(--prog, 0%);
+    transition: width 0.35s ease;
+}
+
+/* ===========================
+   LOGO (top-left)
+   =========================== */
+.logo {
+    position: fixed;
+    top: 1.1rem;
+    left: 1.6rem;
+    height: 44px;
+    object-fit: contain;
+    z-index: 150;
+    filter: drop-shadow(0 2px 8px rgba(150,29,90,0.18));
+}
+
+/* ===========================
+   NAV PILLS (top-right)
+   =========================== */
+.nav-pills {
+    position: fixed;
+    top: 1rem;
+    right: 1.4rem;
+    display: flex;
+    gap: 0.55rem;
+    z-index: 150;
+}
+.nav-pill {
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.42rem 1.05rem;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+    letter-spacing: 0.02em;
+    transition: var(--trans);
+}
+.nav-pill.on {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(150,29,90,0.30);
+}
+.nav-pill.off {
+    background: rgba(255,255,255,0.80);
+    color: var(--primary);
+    border: 1px solid rgba(150,29,90,0.22);
+    backdrop-filter: blur(6px);
+}
+.nav-pill.off:hover {
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(150,29,90,0.14);
+    transform: translateY(-1px);
+}
+
+/* ===========================
+   SLIDE NUMBER (bottom-left)
+   =========================== */
+.slide-num {
+    position: fixed;
+    bottom: 1.2rem;
+    left: 1.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--primary);
+    background: rgba(250,232,240,0.90);
+    border: 1px solid rgba(150,29,90,0.22);
+    padding: 0.38rem 0.95rem;
+    border-radius: 20px;
+    backdrop-filter: blur(6px);
+    z-index: 150;
+    box-shadow: 0 2px 10px rgba(150,29,90,0.08);
+}
+
+/* ===========================
+   CONTROLS (bottom-right)
+   =========================== */
+.controls {
+    position: fixed;
+    bottom: 1.1rem;
+    right: 1.5rem;
+    display: flex;
+    gap: 0.55rem;
+    z-index: 150;
+}
+.btn-ctrl {
+    background: rgba(255,255,255,0.88);
+    border: 1px solid rgba(150,29,90,0.20);
+    color: var(--primary);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: var(--trans);
+    box-shadow: 0 3px 12px rgba(150,29,90,0.10);
+}
+.btn-ctrl:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+    box-shadow: 0 6px 20px rgba(150,29,90,0.28);
+    transform: translateY(-2px);
+}
+.btn-ctrl.btn-wide {
+    width: 54px;
+    border-radius: 21px;
+    font-size: 0.82rem;
+    gap: 0.3rem;
+}
+
+/* ===========================
+   TOAST NOTIFICATION
+   =========================== */
+#fs-toast {
+    position: fixed;
+    bottom: 4.5rem;
+    right: 1.5rem;
+    background: var(--primary);
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.5rem 1.1rem;
+    border-radius: 20px;
+    z-index: 300;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+    box-shadow: 0 4px 16px rgba(150,29,90,0.25);
+}
+#fs-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===========================
+   SLIDE HEADER TYPOGRAPHY
+   =========================== */
+.slide-header {
+    margin-bottom: 1.3rem;
+    position: relative;
+}
+
+.slide-category {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--primary);
+    margin-bottom: 0.35rem;
+    background: #fae8f0;
+    padding: 0.25rem 0.8rem;
+    border-radius: 20px;
+    border: 1px solid rgba(150, 29, 90, 0.2);
+}
+
+.slide-title {
+    font-family: var(--font-heading);
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    position: relative;
+    display: inline-block;
+}
+
+.slide-title span {
+    color: var(--primary-light);
+    background: none;
+    -webkit-text-fill-color: initial;
+}
+
+.slide-subtitle {
+    color: var(--text-light);
+    font-size: 0.92rem;
+    margin-top: 0.35rem;
+    font-weight: 400;
+    max-width: 92%;
+    line-height: 1.55;
+}
+
+/* Title Accent Underline Bar */
+.slide-header::after {
+    content: '';
+    display: block;
+    margin-top: 0.65rem;
+    height: 4px;
+    width: 65px;
+    background: var(--gradient);
+    border-radius: 2px;
+}
+
+/* ===========================
+   GRID LAYOUTS
+   =========================== */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.15rem;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.05rem;
+}
+
+.grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.95rem;
+}
+
+.grid-2-1 {
+    display: grid;
+    grid-template-columns: 1.6fr 1.1fr;
+    gap: 1.15rem;
+}
+
+.grid-1-2 {
+    display: grid;
+    grid-template-columns: 1.1fr 1.6fr;
+    gap: 1.15rem;
+}
+
+/* ===========================
+   CARDS & CONTAINERS
+   =========================== */
+.card {
+    background: var(--white);
+    border: 1px solid rgba(150, 29, 90, 0.12);
+    border-radius: 14px;
+    padding: 1.2rem;
+    box-shadow: var(--shadow);
+    transition: var(--trans);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--gradient);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: var(--trans);
+}
+
+.card:hover::before {
+    transform: scaleX(1);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-3px);
+}
+
+/* Card Accent Left Variants */
+.card-highlight {
+    background: #ffffff;
+    border-left: 4px solid var(--primary);
+}
+.card-highlight::before {
+    background: var(--gradient);
+}
+
+.card-gold {
+    background: #ffffff;
+    border-left: 4px solid var(--orange);
+}
+.card-gold::before {
+    background: linear-gradient(135deg, #e17055 0%, #f39c12 100%);
+}
+
+.card-violet, .card-purple {
+    background: #ffffff;
+    border-left: 4px solid var(--purple);
+}
+.card-violet::before, .card-purple::before {
+    background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+}
+
+.card-teal, .card-cyan {
+    background: #ffffff;
+    border-left: 4px solid var(--teal);
+}
+.card-teal::before, .card-cyan::before {
+    background: linear-gradient(135deg, #00b4d8 0%, #00b894 100%);
+}
+
+.card-title {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 0.55rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.card-title i { font-size: 0.95rem; }
+
+.card-p {
+    font-size: 0.86rem;
+    color: var(--text-dark);
+    line-height: 1.58;
+}
+
+/* ===========================
+   METRIC BOXES
+   =========================== */
+.metric-box {
+    display: flex;
+    flex-direction: column;
+    padding: 0.95rem 1.05rem;
+    background: var(--secondary);
+    border-radius: 12px;
+    border: 1px solid rgba(150, 29, 90, 0.1);
+    border-top: 4px solid var(--primary);
+    box-shadow: var(--shadow);
+    transition: var(--trans);
+}
+
+.metric-box:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.metric-value {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1.1;
+}
+
+.metric-label {
+    font-size: 0.76rem;
+    color: var(--text-light);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-top: 0.35rem;
+}
+
+/* ===========================
+   ACADEMIC TABLES
+   =========================== */
+.table-container {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(150, 29, 90, 0.15);
+    box-shadow: var(--shadow);
+    background: #ffffff;
+}
+
+table.academic-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+    text-align: left;
+}
+
+table.academic-table th {
+    background: var(--gradient);
+    color: var(--white);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    border: none;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+table.academic-table td {
+    padding: 0.72rem 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    color: var(--text-dark);
+}
+
+table.academic-table tr:nth-child(even) td {
+    background: #fafafc;
+}
+
+table.academic-table tr:hover td {
+    background: rgba(150, 29, 90, 0.04);
+}
+
+table.academic-table tr.best-row td {
+    background: #fae8f0;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* ===========================
+   FORMULA BOXES
+   =========================== */
+.formula-box {
+    background: #fdfafc;
+    border: 1px solid rgba(150, 29, 90, 0.18);
+    border-left: 4px solid var(--primary);
+    border-radius: 10px;
+    padding: 0.85rem 1.2rem;
+    margin: 0.75rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.formula-tag {
+    font-size: 0.72rem;
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+/* ===========================
+   FEATURE LISTS
+   =========================== */
+.feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.feature-list li {
+    font-size: 0.86rem;
+    color: var(--text-dark);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    line-height: 1.55;
+}
+
+.feature-list li i {
+    color: var(--primary);
+    margin-top: 0.25rem;
+    font-size: 0.82rem;
+    flex-shrink: 0;
+}
+
+.feature-list li strong {
+    color: var(--primary-dark);
+}
+
+/* ===========================
+   COVER SLIDE
+   =========================== */
+#slide-1 {
+    background: var(--gradient) !important;
+    color: var(--white) !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4.5rem 5rem !important;
+}
+
+#slide-1 .slide-cover {
+    width: 100%;
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#slide-1 .cover-event {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: var(--white);
+    backdrop-filter: blur(10px);
+    padding: 0.4rem 1.1rem;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.85rem;
+}
+
+#slide-1 .cover-title {
+    font-family: var(--font-heading);
+    color: var(--white);
+    font-size: 2.35rem;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    text-shadow: 2px 4px 15px rgba(0, 0, 0, 0.25);
+    margin: 0.4rem 0 0.65rem;
+    max-width: 96%;
+}
+
+#slide-1 .cover-title span {
+    color: #ffd166;
+    background: none;
+    -webkit-text-fill-color: #ffd166;
+}
+
+#slide-1 .cover-subtitle {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.98rem;
+    line-height: 1.6;
+    max-width: 88%;
+    margin-bottom: 1.4rem;
+    font-weight: 400;
+}
+
+#slide-1 .authors-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    width: 100%;
+    margin-bottom: 1.4rem;
+}
+
+#slide-1 .author-pill {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(12px);
+    border-radius: 12px;
+    padding: 0.85rem 1.1rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transition: var(--trans);
+}
+
+#slide-1 .author-pill:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: translateY(-2px);
+}
+
+#slide-1 .author-role {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #ffd166;
+    letter-spacing: 0.05em;
+}
+
+#slide-1 .author-name {
+    font-family: var(--font-heading);
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--white);
+    margin: 0.2rem 0;
+}
+
+#slide-1 .author-inst {
+    font-size: 0.76rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+#slide-1 .author-inst[style*="font-mono"] {
+    color: #ffd166 !important;
+}
+
+#slide-1 .brand-badge {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.35) !important;
+    backdrop-filter: blur(8px);
+    padding: 0.35rem 0.85rem;
+    font-size: 0.74rem;
+}
+
+/* Cover visual block */
+.cover-visual-block {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 38%;
+    background: linear-gradient(135deg, rgba(150, 29, 90, 0.08) 0%, rgba(245, 166, 35, 0.05) 100%);
+    border-left: 1px solid rgba(150, 29, 90, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    padding: 2rem;
+}
+
+/* ===========================
+   DRAWERS & MODALS
+   =========================== */
+.drawer-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+    z-index: 200;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+.drawer-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.drawer-content {
+    position: fixed;
+    top: 0;
+    right: -450px;
+    width: 440px;
+    height: 100%;
+    background: #ffffff;
+    border-left: 1px solid rgba(150, 29, 90, 0.2);
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.18);
+    z-index: 201;
+    transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    color: var(--text-dark);
+}
+
+.drawer-content.active { right: 0 !important; }
+
+.drawer-header {
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid rgba(150, 29, 90, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fdf5f9;
+}
+
+.drawer-title {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.drawer-body {
+    padding: 1.4rem;
+    overflow-y: auto;
+    flex: 1;
+    font-size: 0.88rem;
+    color: var(--text-dark);
+    line-height: 1.65;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: var(--trans);
+    padding: 0.2rem;
+}
+
+.close-btn:hover { color: var(--primary); }
+
+/* ===========================
+   SLIDE GRID OVERVIEW MODAL
+   =========================== */
+.modal-grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.95rem;
+    padding: 1.4rem;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.thumb-card {
+    background: #ffffff;
+    border: 1px solid rgba(150, 29, 90, 0.15);
+    border-radius: 10px;
+    padding: 0.85rem;
+    cursor: pointer;
+    transition: var(--trans);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.thumb-card:hover, .thumb-card.active-thumb {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    background: #fae8f0;
+}
+
+.thumb-num {
+    font-family: var(--font-mono);
+    font-size: 0.73rem;
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.thumb-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-top: 0.25rem;
+    line-height: 1.35;
+}
+
+/* ===========================
+   INTERACTIVE SIMULATION BOX
+   =========================== */
+.sim-box {
+    background: #ffffff;
+    border: 1px solid rgba(150, 29, 90, 0.18);
+    border-radius: 14px;
+    padding: 1.2rem;
+    box-shadow: var(--shadow);
+}
+
+.sim-buttons {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+}
+
+.btn-sim {
+    flex: 1;
+    padding: 0.65rem;
+    background: var(--secondary);
+    border: 1px solid rgba(150, 29, 90, 0.15);
+    color: var(--text-dark);
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--trans);
+}
+
+.btn-sim:hover {
+    background: #fae8f0;
+    color: var(--primary);
+}
+
+.btn-sim.active-sim {
+    background: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(150, 29, 90, 0.25);
+}
+
+.sim-results {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 0.85rem;
+}
+
+.sim-metric-val {
+    font-family: var(--font-heading);
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.sim-rec-box {
+    padding: 0.85rem 1.05rem;
+    background: #fae8f0;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--text-dark);
+    border-left: 4px solid var(--primary);
+    line-height: 1.58;
+}
+
+/* ===========================
+   FAQ ACCORDION
+   =========================== */
+.faq-item {
+    background: #ffffff;
+    border: 1px solid rgba(150, 29, 90, 0.15);
+    border-radius: 10px;
+    margin-bottom: 0.7rem;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.faq-q {
+    padding: 0.9rem 1.2rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-dark);
+    transition: var(--trans);
+}
+
+.faq-q:hover {
+    color: var(--primary);
+    background: #fdf5f9;
+}
+
+.faq-item.open .faq-q {
+    color: var(--primary);
+    background: #fae8f0;
+    border-bottom: 1px solid rgba(150, 29, 90, 0.1);
+}
+
+.faq-a {
+    padding: 0.95rem 1.2rem;
+    font-size: 0.85rem;
+    color: var(--text-dark);
+    line-height: 1.65;
+    background: #ffffff;
+}
+
+.faq-item.open .faq-a { display: block; }
+.faq-item.open .faq-q i { transform: rotate(180deg); }
+
+/* ===========================
+   CHART CANVAS WRAPPER
+   =========================== */
+.chart-box {
+    position: relative;
+    width: 100%;
+    height: 260px;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 0.5rem;
+}
+
+/* ===========================
+   DECORATIVE STRIPS
+   =========================== */
+.cover-strip {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.strip-item {
+    height: 5px;
+    border-radius: 3px;
+    flex: 1;
+}
+
+.strip-1 { background: var(--primary-dark); flex: 2; }
+.strip-2 { background: var(--primary); flex: 1.5; }
+.strip-3 { background: var(--orange); flex: 1; }
+.strip-4 { background: var(--purple); flex: 0.7; }
+
+/* ===========================
+   BADGE UTILITIES
+   =========================== */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.22rem 0.68rem;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.badge-primary {
+    background: #fae8f0;
+    color: var(--primary);
+    border: 1px solid rgba(150, 29, 90, 0.25);
+}
+
+.badge-gold {
+    background: #fdf0e8;
+    color: #c0392b;
+    border: 1px solid rgba(225, 112, 85, 0.25);
+}
+
+.badge-teal {
+    background: #e8f8f5;
+    color: #00b894;
+    border: 1px solid rgba(0, 184, 148, 0.25);
+}
+
+.badge-violet {
+    background: #f0eeff;
+    color: #6c5ce7;
+    border: 1px solid rgba(108, 92, 231, 0.25);
+}
+
+/* ===========================
+   STEP / PIPELINE INDICATORS
+   =========================== */
+.pipeline-steps {
+    display: flex;
+    align-items: stretch;
+    gap: 0.6rem;
+}
+
+.pipeline-step {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid rgba(150, 29, 90, 0.15);
+    border-radius: 12px;
+    padding: 0.95rem 0.8rem;
+    text-align: center;
+    position: relative;
+    transition: var(--trans);
+    box-shadow: var(--shadow);
+}
+
+.pipeline-step:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+}
+
+.step-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #fae8f0;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.55rem;
+    font-size: 1.1rem;
+}
+
+.step-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    font-family: var(--font-heading);
+}
+
+.step-sub {
+    font-size: 0.72rem;
+    color: var(--text-light);
+    margin-top: 0.2rem;
+}
+
+/* ===========================
+   CONCLUSION / HIGHLIGHT BOXES
+   =========================== */
+.highlight-box {
+    background: #fae8f0;
+    border: 1px solid rgba(150, 29, 90, 0.2);
+    border-left: 4px solid var(--primary);
+    border-radius: 12px;
+    padding: 1.1rem 1.4rem;
+    position: relative;
+    overflow: hidden;
+    color: var(--text-dark);
+}
+
+/* ===========================
+   NUMBERED LIST
+   =========================== */
+.numbered-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.numbered-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.86rem;
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+
+.numbered-list li .num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--gradient);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+/* ===========================
+   INFO ROWS
+   =========================== */
+.info-row {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: 0.84rem;
+    color: var(--text-dark);
+}
+
+.info-row:last-child { border-bottom: none; }
+
+.info-row i {
+    color: var(--primary);
+    width: 16px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.info-row strong { color: var(--primary-dark); }
+
+/* ===========================
+   PRINT / PDF EXPORT OPTIMIZATION
+   =========================== */
+@media print {
+    @page {
+        size: 16in 9in;
+        margin: 0;
+    }
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    .top-nav, .bottom-nav, .progress-track, .drawer-overlay, .drawer-content, .ambient-glow-1, .ambient-glow-2 {
+        display: none !important;
+    }
+    body, .presentation {
+        width: 100% !important;
+        height: auto !important;
+        position: static !important;
+        overflow: visible !important;
+        background: white !important;
+    }
+    .slide {
+        position: relative !important;
+        width: 16in !important;
+        height: 9in !important;
+        page-break-after: always !important;
+        page-break-inside: avoid !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: flex !important;
+        transform: none !important;
+        overflow: hidden !important;
+        padding: 3.5rem 4.5rem !important;
+    }
+}
+
+    /* ===========================
+   INTERACTIVE INTUITIVE COMPONENTS (From Materi 1)
+   =========================== */
+.info-box {
+    background: var(--secondary);
+    border-radius: 12px;
+    padding: 0.95rem 1.15rem;
+    margin-bottom: 0.85rem;
+    border-left: 4px solid var(--primary);
+    transition: var(--trans);
+}
+.info-box h4 {
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+.info-box p {
+    font-size: 0.82rem;
+    color: var(--text-dark);
+    line-height: 1.55;
+    margin: 0;
+}
+.info-box.blue   { background: #e8f4fd; border-left-color: #0984e3; }
+.info-box.blue h4   { color: #0984e3; }
+.info-box.green  { background: #e8f8f5; border-left-color: #00b894; }
+.info-box.green h4  { color: #00b894; }
+.info-box.orange { background: #fdf0e8; border-left-color: #e17055; }
+.info-box.orange h4 { color: #e17055; }
+.info-box.pink   { background: #fae8f0; border-left-color: var(--primary); }
+.info-box.pink h4   { color: var(--primary); }
+.info-box.purple { background: #f0eeff; border-left-color: #6c5ce7; }
+.info-box.purple h4 { color: #6c5ce7; }
+
+.info-box.clickable, .card.clickable {
+    cursor: pointer;
+}
+.info-box.clickable:hover, .card.clickable:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(150, 29, 90, 0.12);
+}
+
+/* Infographic Cards */
+.infographic {
+    display: flex;
+    gap: 0.75rem;
+    margin: 0.8rem 0;
+}
+.infographic-item {
+    flex: 1;
+    background: linear-gradient(135deg, #ffffff 0%, #fcf7fa 100%);
+    border-radius: 14px;
+    padding: 0.85rem 0.65rem;
+    text-align: center;
+    border: 1px solid rgba(150, 29, 90, 0.12);
+    transition: var(--trans);
+    cursor: pointer;
+}
+.infographic-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: var(--primary-light);
+}
+.infographic-item .big-icon {
+    font-size: 1.8rem;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+.infographic-item .label {
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+.infographic-item .value {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 0.1rem 0;
+}
+.infographic-item .desc {
+    font-size: 0.7rem;
+    color: var(--text-light);
+    line-height: 1.35;
+}
+
+/* Steps */
+.steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+.step {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    background: var(--secondary);
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: var(--trans);
+    border: 1px solid transparent;
+}
+.step:hover {
+    background: #fdf6fa;
+    border-color: rgba(150, 29, 90, 0.2);
+    transform: translateX(4px);
+    box-shadow: var(--shadow);
+}
+.step-num {
+    background: var(--gradient);
+    color: white;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    box-shadow: 0 3px 8px rgba(150, 29, 90, 0.25);
+}
+.step-text h4 {
+    font-size: 0.86rem;
+    margin-bottom: 0.15rem;
+    color: var(--primary-dark);
+}
+.step-text p {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    line-height: 1.45;
+    margin: 0;
+}
+
+/* Flow Row (Pipeline 4-Layer) */
+.flow-row {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0.7rem 0;
+    flex-wrap: wrap;
+}
+.flow-item {
+    text-align: center;
+    cursor: pointer;
+    transition: var(--trans);
+    flex: 1;
+    min-width: 100px;
+    background: #fff;
+    padding: 0.75rem 0.5rem;
+    border-radius: 13px;
+    border: 1px solid rgba(150, 29, 90, 0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.flow-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: var(--primary);
+}
+.flow-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    margin: 0 auto 0.35rem;
+    border: 2px solid;
+}
+.flow-arrow {
+    color: var(--primary-light);
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+.flow-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    line-height: 1.25;
+}
+.flow-sub {
+    font-size: 0.68rem;
+    color: var(--text-light);
+    margin-top: 0.15rem;
+}
+
+/* VS Head-to-Head Comparison Box */
+.vs-box {
+    display: grid;
+    grid-template-columns: 1fr 48px 1fr;
+    gap: 0.75rem;
+    align-items: center;
+    margin: 0.65rem 0;
+}
+.vs-side {
+    border-radius: 12px;
+    padding: 0.85rem;
+}
+.vs-side.left { background: #ffebee; border: 2px solid #e74c3c; }
+.vs-side.right { background: #e8f8f5; border: 2px solid #00b894; }
+.vs-side.purple { background: #f0eeff; border: 2px solid #6c5ce7; }
+.vs-side.pink { background: #fae8f0; border: 2px solid var(--primary); }
+.vs-label {
+    font-weight: 700;
+    font-size: 0.84rem;
+    margin-bottom: 0.35rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.vs-middle {
+    text-align: center;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--text-light);
+}
+.vs-item {
+    font-size: 0.78rem;
+    padding: 0.25rem 0;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+    color: var(--text-dark);
+    line-height: 1.4;
+}
+.vs-item:last-child { border: none; }
+
+/* Interactive Quiz Box */
+.quiz-wrap {
+    background: var(--white);
+    padding: 1.4rem;
+    border-radius: 16px;
+    border: 1px solid rgba(150, 29, 90, 0.18);
+    box-shadow: var(--shadow);
+}
+.quiz-q {
+    font-size: 0.92rem;
+    color: var(--text-dark);
+    line-height: 1.6;
+    margin-bottom: 0.9rem;
+    padding: 0.85rem 1.05rem;
+    background: var(--secondary);
+    border-radius: 10px;
+    border-left: 4px solid var(--primary);
+    font-weight: 500;
+}
+.quiz-opts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+.quiz-btn {
+    background: var(--secondary);
+    border: 2px solid transparent;
+    padding: 0.75rem 1rem;
+    font-size: 0.84rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: var(--trans);
+    text-align: left;
+    font-weight: 500;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+.quiz-btn:hover:not(:disabled) {
+    border-color: var(--primary);
+    background: var(--white);
+    transform: translateX(4px);
+}
+.quiz-btn.correct {
+    background: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+    font-weight: 600;
+}
+.quiz-btn.wrong {
+    background: #ffebee;
+    border-color: #f44336;
+    color: #c62828;
+}
+.quiz-fb {
+    display: none;
+    margin-top: 0.85rem;
+    padding: 0.85rem 1.05rem;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    line-height: 1.6;
+}
+
+/* Modal Styling */
+.modal-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--trans);
+}
+.modal-bg.on {
+    opacity: 1;
+    visibility: visible;
+}
+.modal-box {
+    background: var(--white);
+    width: 92%;
+    max-width: 780px;
+    border-radius: 20px;
+    padding: 1.8rem 2.2rem;
+    position: relative;
+    transform: translateY(25px) scale(0.96);
+    transition: var(--trans);
+    box-shadow: 0 25px 55px rgba(0, 0, 0, 0.35);
+    border-top: 6px solid var(--primary);
+    max-height: 88vh;
+    overflow-y: auto;
+}
+.modal-bg.on .modal-box {
+    transform: translateY(0) scale(1);
+}
+.modal-x {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    cursor: pointer;
+    background: var(--secondary);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--trans);
+    color: var(--text-light);
+}
+.modal-x:hover {
+    background: var(--primary);
+    color: var(--white);
+}
+
+    </style>
+</head>
+<body>
+    <!-- Ambient glow backgrounds -->
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+
+    <!-- Progress Bar (top strip) -->
+    <div class="progress-bar" id="pbar"></div>
+
+    <!-- Logo (top-left) -->
+    <img src="logo_nusaputra.png" alt="Logo Universitas Nusa Putra" class="logo" onerror="this.style.display='none'">
+
+    <!-- Nav Pills (top-right) -->
+    <div class="nav-pills">
+        <button class="nav-pill off" onclick="toggleNotes()" title="Catatan Presenter (Tombol N)"><i class="fas fa-sticky-note"></i> Notes</button>
+        <button class="nav-pill off" onclick="toggleOverview()" title="Daftar Slide (Tombol G)"><i class="fas fa-th"></i> Overview</button>
+        <a href="presentasi_tesis.html" class="nav-pill on">
+            <i class="fas fa-file-contract"></i> Prosiding Tesis
+        </a>
+        <a href="presentasi_materi_sesi_1.html" class="nav-pill off">
+            <i class="fas fa-chalkboard-teacher"></i> Sesi 01
+        </a>
+    </div>
+
+    <!-- Slide Number (bottom-left) -->
+    <div class="slide-num" id="snum">1 / 24</div>
+
+    <!-- Controls (bottom-right) -->
+    <div class="controls">
+        <button class="btn-ctrl" onclick="prevSlide()" title="Slide Sebelumnya (← Kiri)">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="btn-ctrl btn-wide" id="btnFS" onclick="toggleFS()" title="Layar Penuh (F) | Overview (G) | Notes (N)">
+            <i class="fas fa-expand" id="fsi"></i>
+        </button>
+        <button class="btn-ctrl" onclick="nextSlide()" title="Slide Berikutnya (→ Kanan / Spasi)">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <!-- Toast -->
+    <div id="fs-toast"></div>
+
+    <!-- Presentation Main Frame -->
+    <main class="presentation" id="presentation">
+
+        <!-- SLIDE 1: A Deep Learning Architecture for Cryptocurrency Price Forecasting Utilizing Business Intelligence -->
+        <section class="slide active" id="slide-1">
+
+        <div class="slide-cover">
+            <div class="cover-event">
+                <i class="fas fa-certificate"></i> International Conference Proceeding • Scopus / IEEE Format
+            </div>
+            <h1 class="cover-title">
+                A Deep Learning Architecture for <span>Cryptocurrency Price Forecasting</span> Utilizing Business Intelligence
+            </h1>
+            <p class="cover-subtitle">
+                Arsitektur Deep Learning Terintegrasi Business Intelligence untuk Peramalan Harga Cryptocurrency dan Sistem Pendukung Keputusan Finansial
+            </p>
+            
+            <div class="authors-bar">
+                <div class="author-pill">
+                    <div class="author-role"><i class="fas fa-user-tie"></i> 1st Author & Presenter</div>
+                    <div class="author-name">Asep Surahman Sulaeman</div>
+                    <div class="author-inst">Master of Informatics, Nusa Putra University</div>
+                    <div class="author-inst" style="color: var(--primary-light); font-family: var(--font-mono); font-size: 0.72rem; margin-top: 2px;">asep.surahman@nusaputra.ac.id</div>
+                </div>
+                <div class="author-pill">
+                    <div class="author-role"><i class="fas fa-chalkboard-teacher"></i> 2nd Author / Advisor</div>
+                    <div class="author-name">Dr. Deden Witarsyah</div>
+                    <div class="author-inst">Master of Informatics, Nusa Putra University</div>
+                    <div class="author-inst" style="color: var(--primary-light); font-family: var(--font-mono); font-size: 0.72rem; margin-top: 2px;">deden.witarsyah@nusaputra.ac.id</div>
+                </div>
+                <div class="author-pill">
+                    <div class="author-role"><i class="fas fa-university"></i> 3rd Author / Co-Advisor</div>
+                    <div class="author-name">Dr. Aswan Supriyadi Sunge</div>
+                    <div class="author-inst">Dept. of Informatics, Pelita Bangsa University</div>
+                    <div class="author-inst" style="color: var(--primary-light); font-family: var(--font-mono); font-size: 0.72rem; margin-top: 2px;">aswan.sunge@pelitabangsa.ac.id</div>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <span class="brand-badge"><i class="fas fa-database"></i> 43,786 Jam Data Binance</span>
+                <span class="brand-badge" style="background: rgba(26, 188, 156, 0.15); color: #1ABC9C; border-color: rgba(26, 188, 156, 0.35);"><i class="fas fa-sync-alt"></i> 24-Fold Chronological Walk-Forward</span>
+                <span class="brand-badge" style="background: rgba(155, 89, 182, 0.15); color: #B39DDB; border-color: rgba(155, 89, 182, 0.35);"><i class="fas fa-shield-alt"></i> Zero Temporal Leakage</span>
+                <span class="brand-badge" style="background: rgba(245, 166, 35, 0.15); color: #F5A623; border-color: rgba(245, 166, 35, 0.35);"><i class="fas fa-chart-line"></i> Power BI DirectQuery (1.2s Latency)</span>
+            </div>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 2: Profil Peneliti & Konteks Publikasi Prosiding -->
+        <section class="slide" id="slide-2">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-users"></i> Tim Peneliti & Afiliasi Riset</div>
+            <h2 class="slide-title">Kolaborasi Akademik & <span>Standar Publikasi</span></h2>
+            <p class="slide-subtitle">Sinergi keilmuan Informatika Finansial (Financial Informatics) dan Sistem Pendukung Keputusan Korporasi</p>
+        </div>
+        
+        <div class="grid-3" style="margin-bottom: 1.25rem;">
+            <div class="card card-highlight">
+                <div class="card-title"><i class="fas fa-user-graduate" style="color: var(--primary);"></i> Asep Surahman Sulaeman</div>
+                <div style="font-size: 0.8rem; color: var(--primary); font-weight: 700; margin-bottom: 0.5rem;">Peneliti Utama (Magister Informatika)</div>
+                <p class="card-p">Fokus pada eksplorasi arsitektur deep learning sekuensial, integrasi ETL data streaming bursa kripto frekuensi tinggi, dan rekayasa sinyal kuantitatif bebas kebocoran masa depan.</p>
+                <div style="margin-top: 0.8rem; font-size: 0.75rem; color: var(--text-muted);"><i class="fas fa-map-marker-alt"></i> Universitas Nusa Putra, Sukabumi</div>
+            </div>
+            
+            <div class="card card-cyan">
+                <div class="card-title"><i class="fas fa-user-tie" style="color: var(--secondary);"></i> Dr. Deden Witarsyah</div>
+                <div style="font-size: 0.8rem; color: var(--secondary); font-weight: 700; margin-bottom: 0.5rem;">Dosen Pembimbing Utama</div>
+                <p class="card-p">Kepakaran dalam Decision Support Systems (DSS), pemodelan Business Intelligence korporasi, serta validasi adopsi teknologi analitik berbasis System Usability Scale (SUS).</p>
+                <div style="margin-top: 0.8rem; font-size: 0.75rem; color: var(--text-muted);"><i class="fas fa-map-marker-alt"></i> Universitas Nusa Putra, Sukabumi</div>
+            </div>
+            
+            <div class="card card-purple">
+                <div class="card-title"><i class="fas fa-chalkboard-teacher" style="color: var(--accent-purple);"></i> Dr. Aswan Supriyadi Sunge</div>
+                <div style="font-size: 0.8rem; color: var(--accent-purple); font-weight: 700; margin-bottom: 0.5rem;">Co-Advisor / Kolaborator</div>
+                <p class="card-p">Kepakaran dalam algoritma optimasi Machine Learning, rekayasa deret waktu finansial non-linear, dan evaluasi statistika komparatif (Diebold-Mariano & Kruskal-Wallis).</p>
+                <div style="margin-top: 0.8rem; font-size: 0.75rem; color: var(--text-muted);"><i class="fas fa-map-marker-alt"></i> Universitas Pelita Bangsa, Bekasi</div>
+            </div>
+        </div>
+        
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-file-alt" style="color: var(--primary);"></i> Metadata Manuskrip Prosiding</div>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check-circle"></i> <strong>Format Standar Konferensi:</strong> 6 Halaman Kamera Siap (Camera-Ready 2-Column Standard).</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Fondasi Literatur:</strong> 49 Sitasi Bereputasi (IEEE, ScienceDirect, Springer, MDPI, J. Econ. Dyn. Control).</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Reproduksibilitas Penuh:</strong> Bebas GPU mewah; divalidasi pada CPU Intel Core i7-1260P dengan waktu latih singkat (&lt;200 detik).</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <div class="card-title"><i class="fas fa-bullseye" style="color: var(--secondary);"></i> Sasaran Kontribusi Ilmiah</div>
+                <ul class="feature-list">
+                    <li><i class="fas fa-arrow-right"></i> Menyelesaikan <em>gap</em> implementasi antara model Deep Learning teoritis dengan <em>operational dashboard</em> industri.</li>
+                    <li><i class="fas fa-arrow-right"></i> Membedah fenomena <strong>Divergence Paradox</strong>: mengapa model ber-RMSE terendah tidak otomatis memberikan profit terbaik.</li>
+                    <li><i class="fas fa-arrow-right"></i> Memberikan blueprint sistem DSS yang siap diadopsi oleh manajer portofolio dan analis kuantitatif.</li>
+                </ul>
+            </div>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 3: Executive Summary: Intisari Kontribusi Ilmiah -->
+        <section class="slide" id="slide-3">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-compass"></i> Ringkasan Eksekutif</div>
+            <h2 class="slide-title">4 Pilar Kontribusi <span>Penelitian</span></h2>
+            <p class="slide-subtitle">Solusi end-to-end yang menjembatani riset machine learning sekuensial dengan pengambilan keputusan finansial nyata</p>
+        </div>
+        
+        <!-- Interactive Infographic Bar -->
+        <div class="infographic" style="margin-bottom: 1.15rem;">
+            <div class="infographic-item" onclick="showModal('dm-dataset')" title="Klik untuk penjelasan dataset">
+                <span class="big-icon">📦</span>
+                <div class="label">Volume Data Binance</div>
+                <div class="value">43,786 Lilin</div>
+                <div class="desc">5 Tahun Data 1-Jam • 38 Tick Filtered Checksum SHA-256 <span style="color:var(--primary);font-weight:700;">(Klik Detail)</span></div>
+            </div>
+            <div class="infographic-item" onclick="showModal('dm-walkforward')" title="Klik untuk penjelasan 24-Fold">
+                <span class="big-icon">🔄</span>
+                <div class="label">Validasi Ketat</div>
+                <div class="value">24-Fold WFV</div>
+                <div class="desc">4,032 Jam Out-of-Sample • Bebas Kebocoran Temporal <span style="color:var(--primary);font-weight:700;">(Klik Detail)</span></div>
+            </div>
+            <div class="infographic-item" onclick="showModal('dm-paradoks')" title="Klik untuk penjelasan paradoks">
+                <span class="big-icon">⚖️</span>
+                <div class="label">Arah & Sharpe Terbaik</div>
+                <div class="value">57.8% & 0.87</div>
+                <div class="desc">LSTM Menang Finansial vs GRU Menang Presisi Titik <span style="color:var(--primary);font-weight:700;">(Klik Detail)</span></div>
+            </div>
+            <div class="infographic-item" onclick="showModal('dm-sus')" title="Klik untuk penjelasan evaluasi SUS">
+                <span class="big-icon">📊</span>
+                <div class="label">Evaluasi Usability</div>
+                <div class="value">SUS 86.4</div>
+                <div class="desc">Grade A+ (Excellent) • 15 Evaluator Domain S2 & Senior <span style="color:var(--primary);font-weight:700;">(Klik Detail)</span></div>
+            </div>
+        </div>
+        
+        <div class="grid-2">
+            <div class="card card-highlight">
+                <div class="card-title"><i class="fas fa-layer-group" style="color: var(--primary);"></i> Arsitektur Pipeline 4-Layer Terintegrasi</div>
+                <p class="card-p">Menggabungkan <strong>Layer 1 (Ingesti Data Binance & ADF Test)</strong>, <strong>Layer 2 (15 Fitur Teknis & Fold-Local Scaling)</strong>, <strong>Layer 3 (Model Topologies: XGBoost, LSTM, GRU, Informer)</strong>, dan <strong>Layer 4 (Enterprise BI Data Mart & DirectQuery Power BI)</strong> menjadi satu ekosistem terpadu.</p>
+            </div>
+            
+            <div class="card card-cyan">
+                <div class="card-title"><i class="fas fa-balance-scale" style="color: var(--secondary);"></i> Penemuan Paradoks Divergensi (Core Finding)</div>
+                <p class="card-p">Menunjukkan secara empiris bahwa model dengan <strong>RMSE titik terendah (GRU = 0.1058)</strong> justru bukan penghasil keuntungan terbaik. Model <strong>LSTM</strong> unggul signifikan pada <strong>Directional Accuracy (57.8%)</strong> dan <strong>Sharpe Ratio (0.87)</strong>, membuktikan pentingnya metrik berbasis utilitas trading.</p>
+            </div>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 4: Latar Belakang & Urgensi Masalah Pasar Cryptocurrency -->
+        <section class="slide" id="slide-4">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-exclamation-triangle"></i> Latar Belakang Masalah</div>
+            <h2 class="slide-title">Volatilitas 24/7 & <span>Paradoks Non-Stasioneritas</span></h2>
+            <p class="slide-subtitle">Mengapa peramalan harga aset kripto membutuhkan pendekatan informatika finansial baru?</p>
+        </div>
+        
+        <div class="grid-3" style="margin-bottom: 1.25rem;">
+            <div class="card">
+                <div class="card-title"><i class="fas fa-clock" style="color: var(--accent-amber);"></i> Dinamika Pasar 24/7 Tanpa Jeda</div>
+                <p class="card-p">Berbeda dengan bursa saham konvensional (NYSE, IDX) yang memiliki jam buka-tutup dan akhir pekan, pasar kripto beroperasi tanpa henti 8,760 jam setahun, memicu akumulasi anomali dan kelelahan monitoring manual.</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-title"><i class="fas fa-bolt" style="color: var(--accent-rose);"></i> Non-Stasioneritas & Tail-Risk Parah</div>
+                <p class="card-p">Distribusi return kripto memiliki ekor tebal (fat-tailed) dan variansi yang berubah cepat (heteroskedastisitas). Pergeseran rezim (regime shifts) akibat likuidasi leverage membuat model statis cepat usang.</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-title"><i class="fas fa-brain" style="color: var(--secondary);"></i> Cognitive Bias Pembuat Keputusan</div>
+                <p class="card-p">Keputusan investasi manual rentan terhadap kepanikan (Panic Selling) dan FOMO (Fear of Missing Out). Industri finansial mendesak kehadiran Decision Support System berbasis AI yang objektif dan terukur secara risiko.</p>
+            </div>
+        </div>
+        
+        <!-- Analogy Box (Mudah Dimengerti) -->
+        <div class="info-box orange clickable" onclick="showModal('dm-analogi')" style="margin-bottom: 1rem;">
+            <h4><i class="fas fa-lightbulb"></i> Analogi Sederhana: Mengapa Memprediksi Kripto Begitu Sulit? 🎯 <span style="font-size: 0.78rem; font-weight: normal; color: #e17055;">(Klik untuk lihat penjelasan visual)</span></h4>
+            <p>Memprediksi kripto bukan seperti memprediksi orbit bulan yang hukum fisikanya statis. Memprediksi kripto seperti <b>menembak target di tengah badai pasir</b>: targetnya bergerak liar, arah angin berubah setiap detik (non-stasioner), dan jika model hanya menghafal masa lalu, ia pasti meleset saat badai tiba!</p>
+        </div>
+
+        <!-- VS Box Head-to-Head Comparison -->
+        <div class="vs-box">
+            <div class="vs-side left">
+                <span class="vs-label" style="color: #c0392b;"><i class="fas fa-times-circle"></i> Riset Terdahulu / Model Konvensional</span>
+                <div class="vs-item">❌ Asumsi linier statis (ARIMA) gagal tangkap shock fat-tailed.</div>
+                <div class="vs-item">❌ Model pohon (XGBoost) abaikan urutan sekuensial deret waktu.</div>
+                <div class="vs-item">❌ Terjebak evaluasi error titik tanpa menguji arah dan Sharpe finansial.</div>
+            </div>
+            <div class="vs-middle">VS</div>
+            <div class="vs-side right">
+                <span class="vs-label" style="color: #00b894;"><i class="fas fa-check-circle"></i> Solusi Arsitektur Tesis Ini</span>
+                <div class="vs-item">✅ Deep Learning sekuensial (LSTM, GRU, Informer) tangkap memori non-linier.</div>
+                <div class="vs-item">✅ Fold-Local Min-Max Scaling jamin 100% bebas kebocoran masa depan.</div>
+                <div class="vs-item">✅ Integrasi Power BI DirectQuery konversi sinyal ke matriks keputusan korporasi.</div>
+            </div>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 5: Identifikasi Research Gap & 3 Persyaratan Evaluasi Kredibel -->
+        <section class="slide" id="slide-5">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-search"></i> Research Gap Analysis</div>
+            <h2 class="slide-title">Kritik Literatur & <span>3 Persyaratan Kredibel</span></h2>
+            <p class="slide-subtitle">Mengoreksi kelemahan metodologis yang kerap terjadi pada publikasi machine learning finansial</p>
+        </div>
+        
+        <div class="grid-3" style="margin-bottom: 1.25rem;">
+            <div class="card card-highlight clickable" onclick="showModal('dm-walkforward')" title="Klik untuk penjelasan detail Syarat 1">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
+                    <div style="color: var(--primary); font-weight: 700; font-size: 0.8rem; text-transform: uppercase;">Syarat Wajib #1</div>
+                    <span style="font-size: 0.68rem; color: var(--primary); font-weight: 600;"><i class="fas fa-search-plus"></i> Klik Detail</span>
+                </div>
+                <div class="card-title" style="font-size: 1rem;"><i class="fas fa-history" style="color: var(--primary);"></i> Chronological Walk-Forward</div>
+                <p class="card-p">Melarang keras penggunaan <em>Random K-Fold</em> atau <em>Global Scaling</em> yang membocorkan harga masa depan. Model diuji strictly secara berurutan waktu (24 fold).</p>
+            </div>
+            
+            <div class="card card-cyan clickable" onclick="showModal('dm-paradoks')" title="Klik untuk penjelasan detail Syarat 2">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
+                    <div style="color: var(--secondary); font-weight: 700; font-size: 0.8rem; text-transform: uppercase;">Syarat Wajib #2</div>
+                    <span style="font-size: 0.68rem; color: var(--secondary); font-weight: 600;"><i class="fas fa-search-plus"></i> Klik Detail</span>
+                </div>
+                <div class="card-title" style="font-size: 1rem;"><i class="fas fa-coins" style="color: var(--secondary);"></i> Trading-Based Utility</div>
+                <p class="card-p">Evaluasi tidak boleh berhenti pada loss nominal (RMSE). Model wajib dinilai berdasarkan <strong>Directional Accuracy (DA%)</strong>, <strong>Sharpe Ratio</strong>, dan <strong>VaR 95%</strong>.</p>
+            </div>
+            
+            <div class="card card-purple clickable" onclick="showModal('dm-bi-dss')" title="Klik untuk penjelasan detail Syarat 3">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
+                    <div style="color: var(--accent-purple); font-weight: 700; font-size: 0.8rem; text-transform: uppercase;">Syarat Wajib #3</div>
+                    <span style="font-size: 0.68rem; color: var(--accent-purple); font-weight: 600;"><i class="fas fa-search-plus"></i> Klik Detail</span>
+                </div>
+                <div class="card-title" style="font-size: 1rem;"><i class="fas fa-desktop" style="color: var(--accent-purple);"></i> Enterprise DSS Integration</div>
+                <p class="card-p">Hasil prediksi tidak boleh terhenti di file CSV atau notebook. Harus dihubungkan ke PostgreSQL Data Mart dan visualisasi real-time Microsoft Power BI.</p>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <table class="academic-table">
+                <thead>
+                    <tr>
+                        <th>Aspek Evaluasi</th>
+                        <th>Mayoritas Studi Terdahulu</th>
+                        <th>Pendekatan Riset Kami (Revisi 20)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Skema Validasi</strong></td>
+                        <td>Random Train/Test Split (70:30) / Standar K-Fold (Kebocoran Masa Depan)</td>
+                        <td style="color: var(--primary-light); font-weight: 600;"><i class="fas fa-check"></i> 24-Fold Chronological Walk-Forward (Zero Temporal Leakage)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Normalisasi Fitur</strong></td>
+                        <td>Global Min-Max seluruh dataset (Rentang global $16k - $126k bocor)</td>
+                        <td style="color: var(--primary-light); font-weight: 600;"><i class="fas fa-check"></i> Strictly Fold-Local Min-Max Scaling (Hanya data train lokal)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Metrik Kunci</strong></td>
+                        <td>Hanya RMSE / MAPE (MAPE invalid pada data ternormalisasi)</td>
+                        <td style="color: var(--primary-light); font-weight: 600;"><i class="fas fa-check"></i> RMSE, MAE, Uji Diebold-Mariano, DA%, Sharpe Ratio, VaR 95%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Penyajian Hasil</strong></td>
+                        <td>Plot statis di paper akademik; tidak siap produksi</td>
+                        <td style="color: var(--primary-light); font-weight: 600;"><i class="fas fa-check"></i> Prototipe Microsoft Power BI (Latensi 1.2s, Uji SUS 86.4)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 6: Arsitektur Sistem 4-Layer Terintegrasi (End-to-End Pipeline) -->
+        <section class="slide" id="slide-6">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-sitemap"></i> Metodologi & Arsitektur</div>
+            <h2 class="slide-title">Arsitektur Pipeline <span>4-Layer Terintegrasi</span></h2>
+            <p class="slide-subtitle">Desain modular yang menggabungkan rekayasa data kuantitatif dengan platform Business Intelligence korporasi</p>
+        </div>
+        
+        <div class="grid-4" style="margin-bottom: 1.25rem;">
+            <div class="card card-highlight clickable" onclick="showModal('dm-l1')" title="Klik untuk penjelasan detail Layer 1">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-size: 0.72rem; font-weight: 700; color: var(--primary); text-transform: uppercase;">Layer 1</div>
+                    <span style="font-size: 0.68rem; color: var(--primary); font-weight: 600;"><i class="fas fa-search-plus"></i> Klik Detail</span>
+                </div>
+                <div class="card-title" style="font-size: 0.95rem; margin: 0.3rem 0;"><i class="fas fa-database"></i> Ingesti & Stasioneritas</div>
+                <p class="card-p" style="font-size: 0.8rem;">Konsumsi 43,786 record klines Binance Spot API, screening integritas (eliminasi 38 zero-volume candles), dan verifikasi Augmented Dickey-Fuller (ADF).</p>
+                <div style="margin-top: 0.6rem; font-size: 0.72rem; color: var(--text-muted);"><i class="fas fa-microchip"></i> Output: ADF Stationarity Passed (p &lt; 0.05)</div>
+            </div>
+            
+            <div class="card card-cyan clickable" onclick="showModal('dm-leakage')" title="Klik untuk penjelasan detail Layer 2 & Pencegahan Kebocoran">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-size: 0.72rem; font-weight: 700; color: var(--secondary); text-transform: uppercase;">Layer 2</div>
+                    <span style="font-size: 0.68rem; color: var(--secondary); font-weight: 600;"><i class="fas fa-search-plus"></i> Klik Detail</span>
+                </div>
+                <div class="card-title" style="font-size: 0.95rem; margin: 0.3rem 0;"><i class="fas fa-cogs"></i> Feature Engineering</div>
+                <p class="card-p" style="font-size: 0.8rem;">Pengekstrakan 15 indikator teknis multiskala (trend, momentum, volatilitas, volume) dan penerapan fold-local min-max scaling bebas kebocoran.</p>
+                <div style="margin-top: 0.6rem; font-size: 0.72rem; color: var(--text-muted);"><i class="fas fa-microchip"></i> Output: 15 Fitur Ternormalisasi (24 × 15 Tensor)</div>
+            </div>
+            
+            <div class="card card-purple clickable" onclick="showModal('dm-models')" title="Klik untuk penjelasan detail Layer 3 & 4 Arsitektur Model">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-size: 0.72rem; font-weight: 700; color: var(--accent-purple); text-transform: uppercase;">Layer 3</div>
+                    <span style="font-size: 0.68rem; color: var(--accent-purple); font-weight: 600;"><i class="fas fa-search-plus"></i> Klik Detail</span>
+                </div>
+                <div class="card-title" style="font-size: 0.95rem; margin: 0.3rem 0;"><i class="fas fa-brain"></i> Model Topologies</div>
+                <p class="card-p" style="font-size: 0.8rem;">Pelatihan paralel 4 keluarga model: XGBoost, LSTM, GRU, dan Informer Transformer di bawah protokol 24-fold walk-forward validation.</p>
+                <div style="margin-top: 0.6rem; font-size: 0.72rem; color: var(--text-muted);"><i class="fas fa-microchip"></i> Output: Vektor Prediksi 168 Jam Out-of-Sample</div>
+            </div>
+            
+            <div class="card clickable" onclick="showModal('dm-bi-dss')" style="border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.05);" title="Klik untuk penjelasan detail Layer 4 & Power BI">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-size: 0.72rem; font-weight: 700; color: var(--accent-amber); text-transform: uppercase;">Layer 4</div>
+                    <span style="font-size: 0.68rem; color: var(--accent-amber); font-weight: 600;"><i class="fas fa-search-plus"></i> Klik Detail</span>
+                </div>
+                <div class="card-title" style="font-size: 0.95rem; margin: 0.3rem 0;"><i class="fas fa-chart-pie"></i> Enterprise BI DSS</div>
+                <p class="card-p" style="font-size: 0.8rem;">Konversi sinyal stale-forecast menjadi Directional Accuracy, Sharpe Ratio 24/7, dan VaR 95%, disimpan di PostgreSQL dan disajikan di Power BI.</p>
+                <div style="margin-top: 0.6rem; font-size: 0.72rem; color: var(--text-muted);"><i class="fas fa-microchip"></i> Output: DirectQuery Dashboard (Latensi 1.2s)</div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title"><i class="fas fa-code-branch" style="color: var(--primary);"></i> Algoritma 1: Pipeline Implementasi BI-ML (Pseudocode Inti)</div>
+            <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border-glass); border-radius: 8px; padding: 0.8rem 1.2rem; font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.5; color: #E2E8F0; overflow-x: auto;">
+                <span style="color: #64748B;">// Layer 1 & 2: Ingesti Data, Pengecekan Stasioneritas & Ekstraksi Fitur</span><br>
+                1: raw_data ← BinanceAPI.get_historical_klines(symbol='BTCUSDT', interval='1h')<br>
+                2: StationarityCheck ← AugmentedDickeyFullerTest(raw_data) <span style="color: var(--primary-light);">// Verifikasi p &lt; 0.05</span><br>
+                3: Folds ← ChronologicalWalkForwardSplit(GenerateIndicators(raw_data), train=720h, test=168h)<br>
+                <span style="color: #64748B;">// Layer 3: Optimasi Model & Zero-Lookahead Scaling</span><br>
+                4: <span style="color: #F59E0B;">for each</span> fold ∈ Folds: scale_params ← FitTrain(fold.train); predict_tensor ← TrainModels(scale_params.apply(fold))<br>
+                <span style="color: #64748B;">// Layer 4: Konversi Sinyal Finansial & Enterprise Data Mart</span><br>
+                5: signals ← Sign(predict_tensor - actual_{t-1}); returns ← signals × LogReturns(actual_prices)<br>
+                6: PostgreSQL_DataMart.BulkInsert(); PowerBI.Render(Sharpe(returns), VaR95%(returns), DirAcc(signals))
+            </div>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 7: Layer 1 — Ingesti Data Spot Binance & Uji Stasioneritas (ADF Test) -->
+        <section class="slide" id="slide-7">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-filter"></i> Layer 1: Ingesti & Verifikasi Data</div>
+            <h2 class="slide-title">Dataset 5 Tahun & <span>Protokol ADF Test</span></h2>
+            <p class="slide-subtitle">Pembersihan data frekuensi tinggi dan penjaminan properti statistik deret waktu</p>
+        </div>
+        
+        <div class="grid-2-1" style="margin-bottom: 1.25rem;">
+            <div class="card card-highlight">
+                <div class="card-title"><i class="fas fa-database" style="color: var(--primary);"></i> Profil Dataset Binance Spot BTC/USDT</div>
+                <div class="grid-2" style="margin-bottom: 0.8rem;">
+                    <div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">PERIODE REKAM HISTORIS</div>
+                        <div style="font-size: 0.92rem; color: var(--text-primary); font-weight: 700;">1 Maret 2021 – 28 Februari 2026</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">TOTAL OBSERVASI BERURUTAN</div>
+                        <div style="font-size: 0.92rem; color: var(--primary); font-weight: 700;">43,786 Lilin Per Jam (Hourly Candles)</div>
+                    </div>
+                </div>
+                <ul class="feature-list" style="font-size: 0.82rem;">
+                    <li><i class="fas fa-check-circle"></i> <strong>Audit Integritas Checksum SHA-256:</strong> 38 candle zero-volume (High=Low=Open=Close dan Volume=0) dieksklusi (< 0.01% dataset) tanpa manipulasi interpolasi data palsu.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Non-Stasioneritas Harga Mentah:</strong> Uji ADF pada harga penutupan mentah (raw close) menghasilkan p-value &gt; 0.05 (menerima hipotesis nol akar unit/unit-root). Oleh karena itu, harga mentah <em>dilarang</em> dijadikan fitur langsung.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Diferensiasi Tingkat Pertama:</strong> Fitur yang dipengaruhi level harga (EMA, ATR, OBV, Rolling Volatilitas) dikenakan first-differencing sehingga p-value ADF &lt; 0.05 pada seluruh 24 fold.</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <div class="card-title"><i class="fas fa-balance-scale" style="color: var(--secondary);"></i> 3 Model Baseline Pembanding</div>
+                <div style="display: flex; flex-direction: column; gap: 0.7rem; margin-top: 0.5rem;">
+                    <div style="padding: 0.6rem; background: var(--secondary); border: 1px solid rgba(150, 29, 90, 0.1); border-radius: 6px; border-left: 3px solid #64748B;">
+                        <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-primary);">1. Naïve Flat (Persistence)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">Mengulang harga penutupan terakhir flat sepanjang 168 jam: <strong>RMSE = 0.2341</strong>.</div>
+                    </div>
+                    <div style="padding: 0.6rem; background: var(--secondary); border: 1px solid rgba(150, 29, 90, 0.1); border-radius: 6px; border-left: 3px solid var(--accent-amber);">
+                        <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-primary);">2. Buy-and-Hold Pasif</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">Posisi long statis sepanjang 4,032 jam out-of-sample: <strong>Sharpe Ratio = 0.58</strong> (0.63 pada full sample).</div>
+                    </div>
+                    <div style="padding: 0.6rem; background: var(--secondary); border: 1px solid rgba(150, 29, 90, 0.1); border-radius: 6px; border-left: 3px solid var(--secondary);">
+                        <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-primary);">3. Model Klasik ARIMA(1,1,1)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">Maximum Likelihood estimation per fold: <strong>RMSE = 0.1987</strong>, DA = 51.8%, Sharpe = 0.41.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="padding: 0.9rem 1.2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;">
+                <span style="color: var(--primary); font-weight: 700;"><i class="fas fa-shield-alt"></i> Kesimpulan Layer 1:</span>
+                <span style="color: var(--text-secondary);">Seluruh 4 model Machine Learning yang diajukan berhasil melampaui ketiga model baseline di atas baik pada error titik maupun metrik Sharpe Ratio.</span>
+            </div>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 8: Layer 2 — Feature Engineering (15 Indikator Teknis) & Fold-Local Scaling -->
+        <section class="slide" id="slide-8">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-sliders-h"></i> Layer 2: Rekayasa Fitur</div>
+            <h2 class="slide-title">15 Indikator Teknis & <span>Pencegahan Kebocoran Temporal</span></h2>
+            <p class="slide-subtitle">Menghilangkan Look-Ahead Bias dengan Fold-Local Min-Max Normalization</p>
+        </div>
+        
+        <!-- Analogy Box (Mudah Dimengerti) -->
+        <div class="info-box blue clickable" onclick="showModal('dm-leakage')" style="margin-bottom: 0.9rem;">
+            <h4><i class="fas fa-shield-alt"></i> Mengapa Normalisasi Fold-Local Begitu Sakral? 🛡️ <span style="font-size: 0.76rem; font-weight: normal; color: #0984e3;">(Klik untuk penjelasan formula & analogi)</span></h4>
+            <p>Banyak paper AI finansial tampak memiliki akurasi 99% karena melakukan <b>normalisasi global</b> yang membocorkan harga masa depan ke masa lalu. Riset ini strictly menerapkan <b>Fold-Local Scaling (Persamaan 1)</b> sehingga model 100% buta terhadap data masa depan!</p>
+        </div>
+        
+        <div class="grid-2" style="margin-bottom: 1.25rem;">
+            <div class="card card-cyan">
+                <div class="card-title"><i class="fas fa-chart-line" style="color: var(--secondary);"></i> Taksonomi 15 Indikator Teknis Multiskala</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; font-size: 0.8rem; margin-top: 0.5rem;">
+                    <div style="background: var(--secondary); border: 1px solid rgba(150, 29, 90, 0.1); padding: 0.5rem; border-radius: 6px;">
+                        <strong style="color: var(--secondary);">Trend Following:</strong><br>
+                        • EMA-12 (Tren Pendek)<br>
+                        • EMA-26 (Tren Menengah)
+                    </div>
+                    <div style="background: var(--secondary); border: 1px solid rgba(150, 29, 90, 0.1); padding: 0.5rem; border-radius: 6px;">
+                        <strong style="color: var(--primary);">Momentum:</strong><br>
+                        • RSI-14 (Kekuatan Relatif)<br>
+                        • Stoch %K & %D (Osilator)<br>
+                        • Rate of Change (ROC-10)
+                    </div>
+                    <div style="background: var(--secondary); border: 1px solid rgba(150, 29, 90, 0.1); padding: 0.5rem; border-radius: 6px;">
+                        <strong style="color: var(--accent-amber);">Volatilitas Pasar:</strong><br>
+                        • Bollinger Upper & Lower<br>
+                        • Bollinger Band Width<br>
+                        • ATR-14 & Rolling σ_{t-24}
+                    </div>
+                    <div style="background: var(--secondary); border: 1px solid rgba(150, 29, 90, 0.1); padding: 0.5rem; border-radius: 6px;">
+                        <strong style="color: var(--accent-purple);">Konvergensi & Volume:</strong><br>
+                        • MACD Line, Signal, Hist<br>
+                        • On-Balance Volume (OBV)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card card-highlight">
+                <div class="card-title"><i class="fas fa-lock" style="color: var(--primary);"></i> Fold-Local Min-Max Scaling (Persamaan 1)</div>
+                <div class="formula-box">
+                    <span>X_{norm} = \frac{X - X_{min}^{train}}{X_{max}^{train} - X_{min}^{train}}</span>
+                    <span class="formula-tag">(Pers. 1)</span>
+                </div>
+                <ul class="feature-list" style="font-size: 0.82rem; margin-top: 0.5rem;">
+                    <li><i class="fas fa-shield-alt"></i> <strong>Zero Look-Ahead Bias:</strong> Parameter X_{min} dan X_{max} dihitung <em>secara eksklusif</em> dari jendela pelatihan 720 jam lokal dan dibekukan saat menormalisasi jendela uji 168 jam.</li>
+                    <li><i class="fas fa-info-circle"></i> <strong>Alasan Peniadaan MAPE:</strong> Karena harga di-scaling pada rentang lokal [0, 1] yang berbeda di tiap fold ($16k di 2022 vs $126k di 2025), metrik MAPE tidak memiliki makna persentase harga nyata dan dihilangkan secara metodologis valid.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title"><i class="fas fa-square-root-alt" style="color: var(--secondary);"></i> Formulasi Indikator Kunci (MACD & Rolling Volatility)</div>
+            <div class="grid-2">
+                <div class="formula-box">
+                    <span>MACD_t = EMA_{12}(P_t) - EMA_{26}(P_t)</span>
+                    <span class="formula-tag">(Pers. 2)</span>
+                </div>
+                <div class="formula-box">
+                    <span>\sigma_t = \sqrt{\frac{1}{n} \sum_{i=0}^{n-1} (P_{t-i} - \bar{P})^2}</span>
+                    <span class="formula-tag">(Pers. 3)</span>
+                </div>
+            </div>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 9: Layer 2 (Lanjutan) — Analisis Explainable AI dengan Nilai SHAP -->
+        <section class="slide" id="slide-9">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-eye"></i> Explainable AI (XAI)</div>
+            <h2 class="slide-title">Atribusi Fitur Berbasis <span>Nilai SHAP</span></h2>
+            <p class="slide-subtitle">Membongkar 'Black Box' Deep Learning dengan Teori Permainan Kooperatif (Lundberg & Lee)</p>
+        </div>
+        
+        <div class="grid-2-1" style="margin-bottom: 1.25rem;">
+            <div class="card card-purple">
+                <div class="card-title"><i class="fas fa-chart-bar" style="color: var(--accent-purple);"></i> Peringkat Atribusi Nilai Rata-rata Absolut SHAP (|SHAP|)</div>
+                <div class="chart-box" style="height: 250px;">
+                    <canvas id="shapChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="card card-highlight">
+                <div class="card-title"><i class="fas fa-lightbulb" style="color: var(--primary);"></i> Temuan Atribusi Kunci</div>
+                <div class="metric-box" style="margin-bottom: 0.8rem; background: rgba(150, 29, 90, 0.08);">
+                    <div class="metric-value">23.2%</div>
+                    <div class="metric-label">Kontribusi Rolling Volatilitas (σ_{t-24})</div>
+                </div>
+                <ul class="feature-list" style="font-size: 0.82rem;">
+                    <li><i class="fas fa-chevron-right"></i> <strong>Volatilitas Mendominasi:</strong> Regim volatilitas jangka pendek (σ_{t-24}) menjadi penentu utama pergeseran bobot gate pada GRU dan LSTM.</li>
+                    <li><i class="fas fa-chevron-right"></i> <strong>Momentum Menopang Arah:</strong> RSI-14 dan MACD Histogram menempati peringkat ke-2 dan ke-3 dalam menentukan probabilitas reversal.</li>
+                    <li><i class="fas fa-chevron-right"></i> <strong>Volume Sebagai Konfirmasi:</strong> OBV (On-Balance Volume) memberikan bobot tinggi saat terjadi breakout harga.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card" style="padding: 0.85rem 1.2rem;">
+            <div style="font-size: 0.82rem; color: var(--text-secondary); display: flex; align-items: center; gap: 0.8rem;">
+                <span class="brand-badge" style="background: rgba(139, 92, 246, 0.2); color: #C084FC; border-color: var(--accent-purple);">Implikasi Finansial</span>
+                <span>Analisis SHAP membuktikan bahwa model tidak menghafal harga acak, melainkan merespons kompresi volatilitas dan kelelahan momentum secara rasional sesuai kaidah analisis teknikal modern.</span>
+            </div>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 10: Desain Validasi: 24-Fold Chronological Walk-Forward Protocol -->
+        <section class="slide" id="slide-10">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-calendar-alt"></i> Skema Evaluasi Realistis</div>
+            <h2 class="slide-title">24-Fold Chronological <span>Walk-Forward Validation</span></h2>
+            <p class="slide-subtitle">Mensimulasikan deployment operasional nyata tanpa kebocoran waktu masa depan (Zero Look-Ahead)</p>
+        </div>
+        
+        <!-- Analogy Box (Mudah Dimengerti) -->
+        <div class="info-box green clickable" onclick="showModal('dm-walkforward')" style="margin-bottom: 0.9rem;">
+            <h4><i class="fas fa-plane"></i> Analogi Uji Terbang: Mengapa 24 Fold Walk-Forward Begitu Kredibel? 🔄 <span style="font-size: 0.76rem; font-weight: normal; color: #00b894;">(Klik untuk detail komparasi K-Fold)</span></h4>
+            <p>Bukan sekadar <i>split 80:20</i> yang hanya menguji 1 musim pasar. Model kami diuji terbang di <b>24 jendela waktu out-of-sample sepanjang 5 tahun</b>: melewati badai musim dingin kripto 2022, masa bull run 2021, hingga era halving 2024/2025!</p>
+        </div>
+        
+        <div class="grid-4" style="margin-bottom: 1.25rem;">
+            <div class="metric-box">
+                <div class="metric-value">24 Fold</div>
+                <div class="metric-label">Jendela Uji Independen</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem;">Non-overlapping out-of-sample</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-value" style="color: var(--secondary);">720 Jam</div>
+                <div class="metric-label">Fixed Training Window</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem;">30 Hari Data Pelatihan Lokal</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-value" style="color: var(--accent-purple);">168 Jam</div>
+                <div class="metric-label">Testing Window (7 Hari)</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem;">Horizon 1 Minggu Penuh</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-value" style="color: var(--accent-amber);">4,032 Jam</div>
+                <div class="metric-label">Total Out-of-Sample</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.3rem;">9.2% dari Total Dataset 5 Tahun</div>
+            </div>
+        </div>
+        
+        <div class="grid-2">
+            <div class="card card-highlight">
+                <div class="card-title"><i class="fas fa-clock" style="color: var(--primary);"></i> Karakteristik Uniform Stride (1,865 Lilin)</div>
+                <p class="card-p">Jendela pengujian ditempatkan secara teratur dengan stride seragam <strong>1,865 candle (≈ 77.7 hari)</strong>. Desain ini memastikan evaluasi mencakup seluruh siklus pasar Bitcoin: masa Bull Market 2021, Bear Market 2022, Akumulasi 2023, Halving 2024, hingga rekor All-Time High 2025/2026.</p>
+            </div>
+            
+            <div class="card card-cyan">
+                <div class="card-title"><i class="fas fa-ban" style="color: var(--secondary);"></i> Mengapa Mengabaikan Random K-Fold?</div>
+                <p class="card-p">Pada data sekuensial finansial, <em>Random K-Fold Cross Validation</em> adalah kesalahan fatal karena melatih model menggunakan data masa depan (t+1) untuk memprediksi masa lalu (t-1). Skema Walk-Forward menjamin hukum kausalitas temporal ditaati secara mutlak.</p>
+            </div>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 11: Layer 3 — Perbandingan Topologi 4 Model Prediksi -->
+        <section class="slide" id="slide-11">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-network-wired"></i> Layer 3: Model Topologies</div>
+            <h2 class="slide-title">Spesifikasi Arsitektur & <span>Kompleksitas Model</span></h2>
+            <p class="slide-subtitle">Benchmarking komputasi antara Recurrent Neural Networks, Transformer, dan Gradient Boosted Trees</p>
+        </div>
+        
+        <div class="table-container" style="margin-bottom: 1.25rem;">
+            <table class="academic-table">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Topologi & Hyperparameter Optimal</th>
+                        <th>Input Tensor</th>
+                        <th>Jumlah Parameter Latih</th>
+                        <th>Waktu Latih CPU (24 Fold)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>XGBoost</strong></td>
+                        <td>300 Trees, Max Depth 5, LR 0.05, Subsample 0.85, L1/L2 penalties</td>
+                        <td>2D Vector (N × 360)</td>
+                        <td>Non-Parametric Trees</td>
+                        <td>~42.5 s</td>
+                    </tr>
+                    <tr class="best-row">
+                        <td><strong>LSTM</strong></td>
+                        <td>2 Stacked LSTM Layers (128 units) → Dropout(0.2) → Dense(1)</td>
+                        <td>3D Tensor (24 × 15)</td>
+                        <td>206,465 weights</td>
+                        <td>106.6 s</td>
+                    </tr>
+                    <tr class="best-row">
+                        <td><strong>GRU</strong></td>
+                        <td>2 Stacked GRU Layers (128 units) → Dropout(0.2) → Dense(1)</td>
+                        <td>3D Tensor (24 × 15)</td>
+                        <td>154,881 weights</td>
+                        <td>192.2 s</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Informer</strong></td>
+                        <td>d_model 64, 4 Heads, 2 Enc / 1 Dec, ProbSparse Factor 5</td>
+                        <td>3D Tensor (24 × 15)</td>
+                        <td>223,617 weights</td>
+                        <td>315.4 s</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-title" style="font-size: 0.95rem;"><i class="fas fa-microchip" style="color: var(--primary);"></i> Hardware Replicability</div>
+                <p class="card-p" style="font-size: 0.8rem;">Evaluasi dijalankan pada CPU standar <strong>Intel Core i7-1260P</strong> tanpa ketergantungan GPU khusus. Ini membuktikan model sangat ringan dan efisien untuk di-deploy di cloud server enterprise.</p>
+            </div>
+            <div class="card">
+                <div class="card-title" style="font-size: 0.95rem;"><i class="fas fa-sliders-h" style="color: var(--secondary);"></i> Lookback Window (T = 24)</div>
+                <p class="card-p" style="font-size: 0.8rem;">Jendela observasi masa lalu dipatok tetap <strong>T = 24 jam</strong> (1 hari siklus transaksi harian) dengan 15 fitur teknis, membentuk matriks masukan input berukuran 24 × 15 per waktu.</p>
+            </div>
+            <div class="card">
+                <div class="card-title" style="font-size: 0.95rem;"><i class="fas fa-stopwatch" style="color: var(--accent-purple);"></i> Optimasi & Regularisasi</div>
+                <p class="card-p" style="font-size: 0.8rem;">Seluruh model deep learning menggunakan <strong>Adam Optimizer</strong> (lr=0.001, Informer lr=0.0001), batch size 64, dan Early Stopping (patience=10) terhadap validation loss.</p>
+            </div>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 12: Layer 3 (Lanjutan) — Formulasi Matematis Arsitektur Model -->
+        <section class="slide" id="slide-12">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-square-root-alt"></i> Formulasi Matematis</div>
+            <h2 class="slide-title">Mekanisme Gating & <span>ProbSparse Self-Attention</span></h2>
+            <p class="slide-subtitle">Persamaan diferensial dan probabilistik yang mendasari proses pembelajaran temporal</p>
+        </div>
+        
+        <div class="grid-3" style="margin-bottom: 1.25rem;">
+            <div class="card card-purple">
+                <div class="card-title"><i class="fas fa-archive" style="color: var(--accent-purple);"></i> Forget Gate LSTM</div>
+                <div class="formula-box">
+                    <span>f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f)</span>
+                    <span class="formula-tag">(Pers. 4)</span>
+                </div>
+                <p class="card-p" style="font-size: 0.8rem;">Mengontrol proporsi informasi dari <em>cell state</em> masa lalu yang harus dibuang atau dipertahankan. Memungkinkan retensi memori tren makro jangka panjang.</p>
+            </div>
+            
+            <div class="card card-highlight">
+                <div class="card-title"><i class="fas fa-sync" style="color: var(--primary);"></i> Update Gate GRU</div>
+                <div class="formula-box">
+                    <span>z_t = \sigma(W_z \cdot [h_{t-1}, x_t] + b_z)</span>
+                    <span class="formula-tag">(Pers. 5)</span>
+                </div>
+                <p class="card-p" style="font-size: 0.8rem;">Menggabungkan gerbang lupa (forget) dan masukan (input) menjadi satu gerbang pembaruan tunggal. Mengurangi parameter hingga 25% dibanding LSTM dan mempercepat konvergensi.</p>
+            </div>
+            
+            <div class="card card-cyan">
+                <div class="card-title"><i class="fas fa-bolt" style="color: var(--secondary);"></i> ProbSparse Attention</div>
+                <div class="formula-box" style="font-size: 0.82rem;">
+                    <span>\text{Attn}(Q,K,V) = \text{Softmax}\left(\frac{\bar{Q} K^T}{\sqrt{d_k}}\right) V</span>
+                    <span class="formula-tag">(Pers. 6)</span>
+                </div>
+                <p class="card-p" style="font-size: 0.8rem;">Memilih kuari dominan (\bar{Q}) berbasis divergensi Kullback-Leibler probabilistik, mereduksi kompleksitas dari \(\mathcal{O}(L^2)\) menjadi \(\mathcal{O}(L \log L)\).</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title"><i class="fas fa-balance-scale" style="color: var(--accent-amber);"></i> Mengapa GRU Memiliki Parameter Lebih Sedikit dari LSTM?</div>
+            <p class="card-p">GRU meniadakan <em>cell state</em> terpisah dan hanya memiliki 2 gerbang (Reset & Update Gate) dibanding LSTM yang memiliki 3 gerbang (Forget, Input, Output Gate). Pada pengujian kami, efisiensi ini menghasilkan <strong>154,881 parameter</strong> pada GRU vs <strong>206,465 parameter</strong> pada LSTM, memberikan inductive bias yang lebih tahan terhadap over-parameterisasi derau frekuensi tinggi.</p>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 13: Layer 4 — Enterprise BI Decision Support & Formula Risiko Finansial -->
+        <section class="slide" id="slide-13">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-hand-holding-usd"></i> Layer 4: Enterprise BI DSS</div>
+            <h2 class="slide-title">Transformasi Prediksi Menjadi <span>Matriks Finansial & Risiko</span></h2>
+            <p class="slide-subtitle">Mengubah output model matematis menjadi sinyal portofolio dan kontrol risiko terukur</p>
+        </div>
+        
+        <div class="grid-2" style="margin-bottom: 1.25rem;">
+            <div class="card card-highlight">
+                <div class="card-title"><i class="fas fa-exchange-alt" style="color: var(--primary);"></i> Sinyal Trading Stale-Forecast (Komitmen 168 Jam)</div>
+                <div class="formula-box">
+                    <span>s_t = \text{sign}(\hat{y}_t - y_{t-1}) \in \{+1, -1\}</span>
+                    <span class="formula-tag">Signal Direction</span>
+                </div>
+                <p class="card-p" style="font-size: 0.82rem;">Sinyal komitmen arah posisi ditetapkan di awal jendela uji 168 jam secara rekursif. Posisi +1 berarti alokasi Long (beli), sedangkan -1 berarti posisi Short / Protektif.</p>
+                <div class="formula-box" style="margin-top: 0.6rem;">
+                    <span>R_t^{strategy} = s_t \cdot r_t, \quad r_t = \ln(P_t / P_{t-1})</span>
+                    <span class="formula-tag">Strategy Return</span>
+                </div>
+            </div>
+            
+            <div class="card card-cyan">
+                <div class="card-title"><i class="fas fa-shield-alt" style="color: var(--secondary);"></i> Annualized Sharpe Ratio 24/7 (Persamaan 7)</div>
+                <div class="formula-box">
+                    <span>SR = \sqrt{8760} \times \frac{\bar{R}^{strategy} - r_f / 8760}{\sigma_{R^{strategy}}}</span>
+                    <span class="formula-tag">(Pers. 7)</span>
+                </div>
+                <ul class="feature-list" style="font-size: 0.82rem; margin-top: 0.4rem;">
+                    <li><i class="fas fa-check"></i> <strong>Faktor Penahunan \(\sqrt{8760}\):</strong> Dihitung dari 365 hari × 24 jam per tahun karena bursa kripto tidak pernah libur.</li>
+                    <li><i class="fas fa-check"></i> <strong>Tingkat Bebas Risiko (\(r_f\)):</strong> Ditetapkan 2.0% per tahun (US Treasury benchmark).</li>
+                    <li><i class="fas fa-check"></i> <strong>Value at Risk (VaR 95%):</strong> Persentil ke-5 dari distribusi return empiris (Historical Simulation).</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card card-purple">
+            <div class="card-title"><i class="fas fa-database" style="color: var(--accent-purple);"></i> Alur Data Mart PostgreSQL Menuju Microsoft Power BI DirectQuery</div>
+            <p class="card-p" style="font-size: 0.85rem;">Seluruh inferensi 168 jam, sinyal trading, serta return strategi di-bulk-insert ke dalam <strong>PostgreSQL Data Mart</strong>. Dashboard Microsoft Power BI terhubung via mode <strong>DirectQuery</strong> dengan latensi refresh rata-rata hanya <strong>1.2 detik</strong>, memungkinkan pemantauan KPI interaktif tanpa perlu re-import data secara lambat.</p>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 14: Hasil Eksperimen 1 — Evaluasi Error Prediksi Titik (Tabel I Makalah) -->
+        <section class="slide" id="slide-14">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-poll"></i> Hasil Eksperimen 1</div>
+            <h2 class="slide-title">Evaluasi Error Prediksi Titik <span>(Tabel I)</span></h2>
+            <p class="slide-subtitle">Rata-rata RMSE dan MAE out-of-sample di seluruh 24 Fold Chronological Walk-Forward</p>
+        </div>
+        
+        <div class="grid-2-1" style="margin-bottom: 1.25rem;">
+            <div class="table-container">
+                <table class="academic-table">
+                    <thead>
+                        <tr>
+                            <th>Model Arsitektur</th>
+                            <th>Mean RMSE (± SD)</th>
+                            <th>Absolute MAE (± SD)</th>
+                            <th>Status Peringkat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="best-row">
+                            <td><strong>GRU (Proposed)</strong></td>
+                            <td><strong>0.1058 ± 0.0034</strong></td>
+                            <td><strong>0.0948 ± 0.0028</strong></td>
+                            <td><span class="brand-badge"><i class="fas fa-trophy"></i> Juara 1 (Terbaik)</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>LSTM</strong></td>
+                            <td>0.1145 ± 0.0051</td>
+                            <td>0.1008 ± 0.0042</td>
+                            <td><span style="color: var(--secondary); font-weight: 600;">Peringkat 2</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Informer</strong></td>
+                            <td>0.1321 ± 0.0081</td>
+                            <td>0.1119 ± 0.0072</td>
+                            <td><span style="color: var(--accent-purple); font-weight: 600;">Peringkat 3</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>XGBoost</strong></td>
+                            <td>0.1524 ± 0.0068</td>
+                            <td>0.1260 ± 0.0055</td>
+                            <td><span style="color: var(--accent-rose); font-weight: 600;">Peringkat 4</span></td>
+                        </tr>
+                        <tr style="border-top: 2px dashed rgba(150, 29, 90, 0.2);">
+                            <td><em>ARIMA(1,1,1) Baseline</em></td>
+                            <td><em>0.1987 ± 0.0112</em></td>
+                            <td><em>0.1654 ± 0.0094</em></td>
+                            <td><span style="color: var(--text-muted);">Baseline Klasik</span></td>
+                        </tr>
+                        <tr>
+                            <td><em>Persistence (Naïve Flat)</em></td>
+                            <td><em>0.2341 ± 0.0145</em></td>
+                            <td><em>0.1912 ± 0.0120</em></td>
+                            <td><span style="color: var(--text-muted);">Baseline Acuan</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="card card-highlight">
+                <div class="card-title"><i class="fas fa-medal" style="color: var(--primary);"></i> Keunggulan Stabilitas GRU</div>
+                <div class="metric-box" style="margin-bottom: 0.8rem; background: rgba(150, 29, 90, 0.08);">
+                    <div class="metric-value">0.1058</div>
+                    <div class="metric-label">RMSE Terendah di Antara Semua Model</div>
+                </div>
+                <ul class="feature-list" style="font-size: 0.82rem;">
+                    <li><i class="fas fa-check"></i> <strong>Dispersi Terkecil (±0.0034):</strong> GRU menunjukkan variansi performa paling konsisten di 24 pasar yang berbeda.</li>
+                    <li><i class="fas fa-exclamation-triangle" style="color: var(--accent-rose);"></i> <strong>Kelemahan Pohon Statis:</strong> XGBoost mengalami degradasi error (RMSE 0.1524) akibat batasan representasi tabular 2D dalam menangkap multi-step recursive forecasting.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card" style="padding: 0.85rem 1.2rem;">
+            <div style="font-size: 0.82rem; color: var(--text-secondary); display: flex; align-items: center; justify-content: space-between;">
+                <span><i class="fas fa-info-circle" style="color: var(--secondary);"></i> Catatan Skala:</span>
+                <span>Nilai RMSE dan MAE berada pada skala normalisasi fold-lokal [0, 1] guna menjamin kebebasan dari kebocoran temporal lintas jendela waktu.</span>
+            </div>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 15: Uji Signifikansi Statistik — Kruskal-Wallis & Diebold-Mariano Tests -->
+        <section class="slide" id="slide-15">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-calculator"></i> Uji Hipotesis Formal</div>
+            <h2 class="slide-title">Validasi Signifikansi <span>Diebold-Mariano & Kruskal-Wallis</span></h2>
+            <p class="slide-subtitle">Membuktikan secara matematis bahwa keunggulan model bukan akibat faktor kebetulan (Random Noise)</p>
+        </div>
+        
+        <div class="grid-2" style="margin-bottom: 1.25rem;">
+            <div class="card card-purple">
+                <div class="card-title"><i class="fas fa-wave-square" style="color: var(--accent-purple);"></i> Uji Non-Parametrik Kruskal-Wallis</div>
+                <div style="display: flex; gap: 1rem; margin: 0.8rem 0;">
+                    <div class="metric-box" style="flex: 1; padding: 0.8rem;">
+                        <div class="metric-value" style="font-size: 1.5rem; color: var(--accent-purple);">H = 18.4</div>
+                        <div class="metric-label">Statistik Uji Kruskal-Wallis</div>
+                    </div>
+                    <div class="metric-box" style="flex: 1; padding: 0.8rem;">
+                        <div class="metric-value" style="font-size: 1.5rem; color: var(--primary);">p &lt; 0.001</div>
+                        <div class="metric-label">Taraf Signifikansi</div>
+                    </div>
+                </div>
+                <p class="card-p" style="font-size: 0.82rem;">Menolak hipotesis nol (\(H_0\)) bahwa seluruh arsitektur memiliki distribusi performa yang setara. Terdapat perbedaan performa yang sangat signifikan secara statistik antar keempat topologi model.</p>
+            </div>
+            
+            <div class="card card-highlight">
+                <div class="card-title"><i class="fas fa-balance-scale" style="color: var(--primary);"></i> Uji Berpasangan Diebold-Mariano (DM Test)</div>
+                <p class="card-p" style="font-size: 0.82rem; margin-bottom: 0.6rem;">Menggunakan koreksi sampel kecil Harvey et al. (1997) dengan \(T-1 = 23\) derajat kebebasan untuk 24 fold pengujian:</p>
+                <div class="table-container">
+                    <table class="academic-table" style="font-size: 0.78rem;">
+                        <thead>
+                            <tr>
+                                <th>Pasangan Komparasi</th>
+                                <th>Statistik DM</th>
+                                <th>p-value</th>
+                                <th>Koreksi Bonferroni (α = 0.0167)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="best-row">
+                                <td><strong>GRU vs. XGBoost</strong></td>
+                                <td>DM = 4.21</td>
+                                <td>p = 0.0003</td>
+                                <td><span class="brand-badge">Sangat Signifikan (p &lt; α)</span></td>
+                            </tr>
+                            <tr class="best-row">
+                                <td><strong>GRU vs. Informer</strong></td>
+                                <td>DM = 2.87</td>
+                                <td>p = 0.0090</td>
+                                <td><span class="brand-badge">Signifikan (p &lt; α)</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>GRU vs. LSTM</strong></td>
+                                <td>DM = 2.14</td>
+                                <td>p = 0.0430</td>
+                                <td><span style="color: var(--text-muted);">Arah Sama (p &gt; α_{adj})</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title"><i class="fas fa-check-double" style="color: var(--secondary);"></i> Kesimpulan Rigorous Testing</div>
+            <p class="card-p">Keunggulan GRU atas XGBoost dan Informer terkonfirmasi kokoh secara statistik bahkan setelah penyesuaian multi-komparasi Bonferroni (\(\alpha_{adj} = 0.05 / 3 = 0.0167\)). Sementara keunggulan GRU atas LSTM berada pada arah yang sama namun tidak berbeda secara signifikan secara ketat.</p>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 16: Hasil Eksperimen 2 — Metrik Keputusan Finansial & Risiko (Tabel II) -->
+        <section class="slide" id="slide-16">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-chart-pie"></i> Hasil Eksperimen 2</div>
+            <h2 class="slide-title">Metrik Keputusan Finansial <span>& Risiko (Tabel II)</span></h2>
+            <p class="slide-subtitle">Evaluasi utilitas keputusan portofolio: Directional Accuracy, Annualized Sharpe Ratio, dan Batas VaR 95%</p>
+        </div>
+        
+        <div class="table-container" style="margin-bottom: 1.25rem;">
+            <table class="academic-table">
+                <thead>
+                    <tr>
+                        <th>Output Sistem / Model</th>
+                        <th>XGBoost</th>
+                        <th>Informer</th>
+                        <th>GRU (Best Point Loss)</th>
+                        <th>LSTM (Proposed DSS Champion)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="best-row">
+                        <td><strong>Directional Accuracy (DA%)</strong></td>
+                        <td>51.4% ± 3.1%</td>
+                        <td>53.6% ± 2.8%</td>
+                        <td>55.3% ± 2.4%</td>
+                        <td style="color: var(--primary-light); font-size: 0.95rem; font-weight: 800;"><i class="fas fa-crown"></i> 57.8% ± 2.1% (TERBAIK)</td>
+                    </tr>
+                    <tr class="best-row">
+                        <td><strong>Annualized Sharpe Ratio (SR)</strong></td>
+                        <td>0.31 ± 0.21</td>
+                        <td>0.54 ± 0.18</td>
+                        <td>0.72 ± 0.14</td>
+                        <td style="color: var(--primary-light); font-size: 0.95rem; font-weight: 800;"><i class="fas fa-crown"></i> 0.87 ± 0.12 (TERBAIK)</td>
+                    </tr>
+                    <tr class="best-row">
+                        <td><strong>VaR (95%) Limit (Per Jam)</strong></td>
+                        <td>-2.15% ± 0.41%</td>
+                        <td>-1.74% ± 0.31%</td>
+                        <td>-1.32% ± 0.22%</td>
+                        <td style="color: var(--primary-light); font-size: 0.95rem; font-weight: 800;"><i class="fas fa-shield-alt"></i> -1.18% ± 0.15% (RISIKO TERKECIL)</td>
+                    </tr>
+                    <tr style="border-top: 2px dashed rgba(150, 29, 90, 0.2); font-size: 0.78rem;">
+                        <td><em>Buy-and-Hold BTC Baseline</em></td>
+                        <td colspan="4" style="text-align: center; color: var(--accent-amber);"><em>Sharpe Ratio = 0.58 (4,032 jam uji) | Buy-and-Hold dilampaui oleh LSTM (0.87) dan GRU (0.72)</em></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="grid-3">
+            <div class="card card-purple">
+                <div class="card-title" style="font-size: 0.95rem;"><i class="fas fa-compass" style="color: var(--accent-purple);"></i> Directional Superiority</div>
+                <p class="card-p" style="font-size: 0.8rem;">LSTM mencapai <strong>57.8% akurasi arah</strong>. Dalam perdagangan frekuensi 1 jam, keunggulan arah &gt; 55% merupakan batas ambang profitabilitas yang sangat signifikan bagi hedge fund kuantitatif.</p>
+            </div>
+            
+            <div class="card card-highlight">
+                <div class="card-title" style="font-size: 0.95rem;"><i class="fas fa-trophy" style="color: var(--primary);"></i> Risk-Adjusted Return Prima</div>
+                <p class="card-p" style="font-size: 0.8rem;">Sharpe Ratio LSTM sebesar <strong>0.87</strong> melampaui strategi pasif Buy-and-Hold (0.58), ARIMA (0.41), Informer (0.54), dan XGBoost (0.31), menghasilkan kompensasi return per unit risiko terbaik.</p>
+            </div>
+            
+            <div class="card card-cyan">
+                <div class="card-title" style="font-size: 0.95rem;"><i class="fas fa-umbrella" style="color: var(--secondary);"></i> Kontrol Downside Risk (VaR)</div>
+                <p class="card-p" style="font-size: 0.8rem;">Batas kerugian terburuk 95% LSTM hanya <strong>-1.18% per jam</strong>, jauh lebih terlindungi dibanding XGBoost (-2.15%) yang menderita drawdown parah saat false signals.</p>
+            </div>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 17: Analisis Temuan Inti: Paradoks Divergensi Statistik vs. Finansial -->
+        <section class="slide" id="slide-17">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-lightbulb"></i> Kontribusi Teoretis Utama</div>
+            <h2 class="slide-title">The Divergence Paradox: <span>Statistik vs. Keputusan Finansial</span></h2>
+            <p class="slide-subtitle">Mengapa model dengan RMSE terendah tidak otomatis menghasilkan profitabilitas atau sinyal terbaik?</p>
+        </div>
+        
+        <!-- Analogy Box (Mudah Dimengerti Penguji) -->
+        <div class="info-box pink clickable" onclick="showModal('dm-paradoks')" style="margin-bottom: 1rem;">
+            <h4><i class="fas fa-lightbulb"></i> Analogi Mudah: Mengapa Juara Matematika (RMSE) Bukan Juara Finansial? ⚖️ <span style="font-size: 0.78rem; font-weight: normal; color: var(--primary);">(Klik untuk penjelasan detail)</span></h4>
+            <p>GRU seperti <b>termometer super presisi</b> (selisih nol koma derajat paling kecil). Tetapi LSTM seperti <b>navigator handal</b>: ia tahu pasti kapan kapal harus belok kanan atau kiri (arah tren naik/turun). Dalam bisnis trading kripto, <b>tahu arah tren makro</b> jauh lebih menghasilkan laba (Sharpe Ratio 0.87) dibanding selisih koma titik!</p>
+        </div>
+
+        <div class="grid-2" style="margin-bottom: 1.25rem;">
+            <div class="card card-highlight">
+                <div class="card-title"><i class="fas fa-microchip" style="color: var(--primary);"></i> Karakteristik GRU (Pemenang Point Loss)</div>
+                <div class="metric-box" style="margin-bottom: 0.8rem; background: rgba(150, 29, 90, 0.08);">
+                    <div class="metric-value">RMSE = 0.1058</div>
+                    <div class="metric-label">Akurasi Titik Terbaik • Inductive Bias Kuat</div>
+                </div>
+                <ul class="feature-list" style="font-size: 0.82rem;">
+                    <li><i class="fas fa-check-circle"></i> <strong>Struktur 2-Gate Ringkas:</strong> Penggabungan reset dan update gate mereduksi parameter, mencegah over-fitting terhadap noise mikro berfrekuensi tinggi.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Optimal untuk Nilai Nominal:</strong> Sangat presisi dalam menghitung besaran magnitudo perubahan harga jangka sangat pendek.</li>
+                    <li><i class="fas fa-info-circle"></i> <strong>Kelemahan:</strong> Rentan mengalami pembalikan sinyal arah (directional whipsaw) ketika tren makro terus berlanjut.</li>
+                </ul>
+            </div>
+            
+            <div class="card card-purple">
+                <div class="card-title"><i class="fas fa-brain" style="color: var(--accent-purple);"></i> Karakteristik LSTM (Pemenang Decision Utility)</div>
+                <div class="metric-box" style="margin-bottom: 0.8rem; background: rgba(139, 92, 246, 0.08);">
+                    <div class="metric-value" style="color: var(--accent-purple);">DA = 57.8% | SR = 0.87</div>
+                    <div class="metric-label">Akurasi Arah Tertinggi • Sharpe Ratio Maksimal</div>
+                </div>
+                <ul class="feature-list" style="font-size: 0.82rem;">
+                    <li><i class="fas fa-check-circle"></i> <strong>Pemisahan Cell State & Hidden State:</strong> Jalur transmisi memori linier \(c_t\) menjaga persistensi arah tren makro tanpa terdegradasi cepat oleh fluktuasi lokal.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Menangkap Trend Persistence:</strong> Lebih jarang menghasilkan sinyal berlawanan arah, menghasilkan strategi trading yang lebih konsisten dan stabil.</li>
+                    <li><i class="fas fa-info-circle"></i> <strong>Kelemahan:</strong> Nilai residual titik (RMSE 0.1145) sedikit lebih lebar dari GRU akibat beban parameter 3 gate.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="sim-box" style="margin-top: 0.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.7rem;">
+                <div style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-sliders-h" style="color: var(--primary);"></i>
+                    <span>Widget Interaktif: Simulasi Keputusan DSS Berdasarkan Model</span>
+                </div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Klik model untuk melihat dampak finansial real-time:</div>
+            </div>
+            
+            <div class="sim-buttons">
+                <button type="button" class="btn-sim active-sim" onclick="runSim('GRU')"><i class="fas fa-microchip"></i> Model GRU (Best Point Loss)</button>
+                <button type="button" class="btn-sim" onclick="runSim('LSTM')"><i class="fas fa-trophy"></i> Model LSTM (Best Decision Utility)</button>
+                <button type="button" class="btn-sim" onclick="runSim('Informer')"><i class="fas fa-bolt"></i> Informer Transformer</button>
+                <button type="button" class="btn-sim" onclick="runSim('XGBoost')"><i class="fas fa-tree"></i> XGBoost (Pohon Statis)</button>
+            </div>
+            
+            <div class="sim-results">
+                <div class="metric-box" style="padding: 0.55rem 0.8rem;">
+                    <div class="sim-metric-val" id="simRmse" style="font-size: 1.25rem; color: var(--primary);">0.1058</div>
+                    <div class="metric-label" style="font-size: 0.68rem;">Point RMSE (Error Titik)</div>
+                </div>
+                <div class="metric-box" style="padding: 0.55rem 0.8rem;">
+                    <div class="sim-metric-val" id="simDa" style="font-size: 1.25rem; color: var(--secondary);">55.3%</div>
+                    <div class="metric-label" style="font-size: 0.68rem;">Directional Accuracy (Arah)</div>
+                </div>
+                <div class="metric-box" style="padding: 0.55rem 0.8rem;">
+                    <div class="sim-metric-val" id="simSr" style="font-size: 1.25rem; color: var(--accent-purple);">0.72</div>
+                    <div class="metric-label" style="font-size: 0.68rem;">Annualized Sharpe Ratio</div>
+                </div>
+            </div>
+            
+            <div class="sim-rec-box" id="simRec">
+                <strong><i class="fas fa-check-circle" style="color: var(--primary-light);"></i> Rekomendasi DSS Korporasi:</strong> Model GRU direkomendasikan untuk <em>Position Sizing</em> presisi dan batas <em>Stop-Loss</em> karena batas variansi error titik paling rapat (RMSE terendah 0.1058).
+            </div>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 18: Verifikasi Prototipe Operasional Microsoft Power BI -->
+        <section class="slide" id="slide-18">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-desktop"></i> Verifikasi Sistem Nyata</div>
+            <h2 class="slide-title">Verifikasi Prototipe Operasional <span>Microsoft Power BI</span></h2>
+            <p class="slide-subtitle">Pengujian kebenaran fungsional, latensi streaming, dan integritas data enterprise</p>
+        </div>
+        
+        <div class="grid-3" style="margin-bottom: 1.25rem;">
+            <div class="card card-highlight">
+                <div class="card-title"><i class="fas fa-bolt" style="color: var(--primary);"></i> 1. Latensi Streaming Cepat</div>
+                <div class="metric-box" style="margin: 0.6rem 0; background: rgba(150, 29, 90, 0.08);">
+                    <div class="metric-value">1.2 Detik</div>
+                    <div class="metric-label">Rata-rata Refresh Tile DirectQuery</div>
+                </div>
+                <p class="card-p" style="font-size: 0.8rem;">Output inferensi model langsung disinkronkan ke PostgreSQL Data Mart dan di-render secara live di dashboard Power BI tanpa jeda pemrosesan manual.</p>
+            </div>
+            
+            <div class="card card-cyan">
+                <div class="card-title"><i class="fas fa-shield-alt" style="color: var(--secondary);"></i> 2. Integritas Data 100%</div>
+                <div class="metric-box" style="margin: 0.6rem 0; background: rgba(6, 182, 212, 0.08);">
+                    <div class="metric-value" style="color: var(--secondary);">43,786</div>
+                    <div class="metric-label">Baris Tervalidasi Checksum SHA-256</div>
+                </div>
+                <p class="card-p" style="font-size: 0.8rem;">Audit pencocokan row-count dan verifikasi cryptographic hash SHA-256 menjamin nol kehilangan data antara API sumber, basis data, dan dashboard visual.</p>
+            </div>
+            
+            <div class="card card-purple">
+                <div class="card-title"><i class="fas fa-check-double" style="color: var(--accent-purple);"></i> 3. Stabilitas Numerik</div>
+                <div class="metric-box" style="margin: 0.6rem 0; background: rgba(139, 92, 246, 0.08);">
+                    <div class="metric-value" style="color: var(--accent-purple);">≤ 0.003</div>
+                    <div class="metric-label">Deviasi Maksimal vs Ground Truth Python</div>
+                </div>
+                <p class="card-p" style="font-size: 0.8rem;">Perhitungan DAX (Data Analysis Expressions) pada Power BI untuk Sharpe Ratio dan VaR95% diverifikasi identik secara presisi dengan perhitungan Python.</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title"><i class="fas fa-layer-group" style="color: var(--primary);"></i> Komponen Dashboard Eksekutif yang Terintegrasi</div>
+            <div class="grid-4" style="margin-top: 0.5rem; font-size: 0.8rem;">
+                <div style="background: var(--secondary); border: 1px solid rgba(150, 29, 90, 0.1); padding: 0.6rem; border-radius: 6px;">
+                    <strong style="color: var(--primary);"><i class="fas fa-chart-line"></i> Tile Prediksi Overlay:</strong><br>
+                    Perbandingan harga realisasi vs 4 kurva peramalan model multi-step 168 jam.
+                </div>
+                <div style="background: var(--secondary); border: 1px solid rgba(150, 29, 90, 0.1); padding: 0.6rem; border-radius: 6px;">
+                    <strong style="color: var(--secondary);"><i class="fas fa-gauge-high"></i> KPI Gauge Sharpe Ratio:</strong><br>
+                    Pemantauan return per risiko model secara real-time terhadap batas Sharpe baseline (0.58).
+                </div>
+                <div style="background: var(--secondary); border: 1px solid rgba(150, 29, 90, 0.1); padding: 0.6rem; border-radius: 6px;">
+                    <strong style="color: var(--accent-rose);"><i class="fas fa-exclamation-circle"></i> Indikator Batas Tail-Risk VaR:</strong><br>
+                    Peringatan visual jika estimasi kerugian per jam mendekati ambang batas toleransi risiko portofolio.
+                </div>
+                <div style="background: var(--secondary); border: 1px solid rgba(150, 29, 90, 0.1); padding: 0.6rem; border-radius: 6px;">
+                    <strong style="color: var(--accent-amber);"><i class="fas fa-toggle-on"></i> Sinyal Alokasi Posisi:</strong><br>
+                    Rekomendasi alokasi modal (Long / Protective Short) terarah berdasarkan model terpilih.
+                </div>
+            </div>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 19: Evaluasi Usability Sistem (SUS) dengan 15 Pakar Domain -->
+        <section class="slide" id="slide-19">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-user-check"></i> Evaluasi Adopsi Pengguna</div>
+            <h2 class="slide-title">System Usability Scale <span>(SUS = 86.4: Kategori 'Excellent')</span></h2>
+            <p class="slide-subtitle">Validasi empiris tingkat kepuasan dan kemudahan navigasi sistem oleh 15 pakar industri & akademisi</p>
+        </div>
+        
+        <div class="grid-2-1" style="margin-bottom: 1.25rem;">
+            <div class="card card-highlight">
+                <div class="card-title"><i class="fas fa-star" style="color: var(--primary);"></i> Hasil Pengukuran Standar SUS (Brooke, 1996)</div>
+                <div class="grid-2" style="margin: 0.8rem 0;">
+                    <div class="metric-box" style="background: rgba(150, 29, 90, 0.1);">
+                        <div class="metric-value">86.4</div>
+                        <div class="metric-label">Rata-rata Skor SUS (Skala 0-100)</div>
+                    </div>
+                    <div class="metric-box" style="background: rgba(6, 182, 212, 0.1);">
+                        <div class="metric-value" style="color: var(--secondary);">± 3.2</div>
+                        <div class="metric-label">Standar Deviasi (Rentang 80–92)</div>
+                    </div>
+                </div>
+                <ul class="feature-list" style="font-size: 0.82rem;">
+                    <li><i class="fas fa-award"></i> <strong>Kategori Adjektiva 'Excellent':</strong> Melampaui batas ambang standar 85.5 (Bangor et al., 2009) yang merupakan kualifikasi Grade A+.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Konsistensi Tinggi (SD Rendah = 3.2):</strong> Menunjukkan keseragaman persepsi positif dari seluruh evaluator setelah walkthrough 30 menit.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Kemudahan Interpretasi:</strong> Para analis keuangan mampu memahami sinyal dan metriks risiko tanpa perlu memahami kode Python di baliknya.</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <div class="card-title"><i class="fas fa-users" style="color: var(--secondary);"></i> Demografi 15 Evaluator Domain</div>
+                <div style="margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                    <div style="padding: 0.7rem; background: var(--secondary); border: 1px solid rgba(150, 29, 90, 0.1); border-radius: 6px; border-left: 3px solid var(--accent-purple);">
+                        <div style="font-weight: 700; color: var(--text-primary); font-size: 0.85rem;">10 Peneliti Pascasarjana Informatika (S2/S3)</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;">Menilai integritas pipeline data, metodologi rekayasa fitur, dan transparansi atribusi model AI.</div>
+                    </div>
+                    <div style="padding: 0.7rem; background: var(--secondary); border: 1px solid rgba(150, 29, 90, 0.1); border-radius: 6px; border-left: 3px solid var(--primary);">
+                        <div style="font-weight: 700; color: var(--text-primary); font-size: 0.85rem;">5 Profesional Financial Analytics Senior</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;">Menilai relevansi metrik Sharpe Ratio, pengendalian risiko batas VaR 95%, dan kejelasan sinyal eksekusi.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="padding: 0.85rem 1.2rem;">
+            <div style="font-size: 0.82rem; color: var(--text-secondary); display: flex; align-items: center; justify-content: space-between;">
+                <span><i class="fas fa-check-circle" style="color: var(--primary);"></i> Kesimpulan Validasi Pengguna:</span>
+                <span>Prototipe Business Intelligence yang dikembangkan terbukti sukses secara fungsional dan memiliki kelayakan pakai (usability) level enterprise.</span>
+            </div>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 20: Benchmarking Komparatif terhadap State-of-the-Art Literatur (Tabel III) -->
+        <section class="slide" id="slide-20">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-book-open"></i> Benchmarking Internasional</div>
+            <h2 class="slide-title">Komparasi terhadap <span>State-of-the-Art Literatur (Tabel III)</span></h2>
+            <p class="slide-subtitle">Refleksi objektif posisi riset kami di tengah lanskap publikasi ilmiah terkini</p>
+        </div>
+        
+        <div class="table-container" style="margin-bottom: 1.25rem;">
+            <table class="academic-table">
+                <thead>
+                    <tr>
+                        <th>Studi / Peneliti</th>
+                        <th>Model Algoritma</th>
+                        <th>Aset & Frekuensi</th>
+                        <th>Directional Acc.</th>
+                        <th>Sharpe Ratio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Chen et al. [15] (2020)</strong></td>
+                        <td>LR, RF, XGBoost, SVM, LSTM</td>
+                        <td>BTC / Harian & 5-Menit</td>
+                        <td>66% (daily); 67.2% (5-m)</td>
+                        <td>— (Tidak dilaporkan)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Omole & Enke [29] (2024)</strong></td>
+                        <td>Boruta + CNN–LSTM</td>
+                        <td>BTC / On-chain Features</td>
+                        <td>82.44%</td>
+                        <td>— (Tidak dilaporkan)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Jaquart et al. [11] (2022)</strong></td>
+                        <td>LSTM, GRU Ensembles</td>
+                        <td>100 Kripto / Harian</td>
+                        <td>52.9% – 54.1%</td>
+                        <td>3.23 / 3.12 (Net of costs)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bysik & Ślepaczuk [35] (2026)</strong></td>
+                        <td>XGBoost, LSTM, iTransformer</td>
+                        <td>BTC / 1-Jam (Walk-Forward)</td>
+                        <td>— (Tidak dilaporkan)</td>
+                        <td>&gt; 1 (Net of costs)</td>
+                    </tr>
+                    <tr class="best-row">
+                        <td><strong>Penelitian Ini (GRU Model)</strong></td>
+                        <td>GRU (Best Point Loss)</td>
+                        <td>BTC/USDT / 1-Jam</td>
+                        <td>55.3% ± 2.4%</td>
+                        <td>0.72 ± 0.14 (Gross)</td>
+                    </tr>
+                    <tr class="best-row">
+                        <td><strong>Penelitian Ini (LSTM Model)</strong></td>
+                        <td>LSTM (Best Financial Utility)</td>
+                        <td>BTC/USDT / 1-Jam</td>
+                        <td><strong>57.8% ± 2.1%</strong></td>
+                        <td><strong>0.87 ± 0.12 (Gross)</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="grid-2">
+            <div class="card card-cyan">
+                <div class="card-title" style="font-size: 0.95rem;"><i class="fas fa-check" style="color: var(--secondary);"></i> Posisi Keunggulan Kami</div>
+                <p class="card-p" style="font-size: 0.8rem;">Directional Accuracy kami (<strong>55.3%–57.8%</strong>) melampaui hasil Jaquart et al. (52.9%–54.1%). Selain itu, kami menerapkan 24 fold walk-forward murni pada data per jam dengan integrasi DSS yang belum pernah dikombinasikan di paper lain.</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-title" style="font-size: 0.95rem;"><i class="fas fa-balance-scale" style="color: var(--accent-amber);"></i> Transparansi Ilmiah yang Jujur</div>
+                <p class="card-p" style="font-size: 0.8rem;">Kami tidak mengklaim keunggulan mutlak atas Sharpe Jaquart et al. (3.23) atau Bysik (1.0+) karena perbedaan universe aset, horizon, dan perlakuan biaya transaksi. Kami menyajikan komparasi ini secara berimbang dan ilmiah.</p>
+            </div>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 21: Batasan Operasional Riset (Operational Boundaries & Limitations) -->
+        <section class="slide" id="slide-21">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-shield-virus"></i> Batasan Metodologis</div>
+            <h2 class="slide-title">Batasan Operasional & <span>Tantangan Implementasi</span></h2>
+            <p class="slide-subtitle">Refleksi kritis terhadap kondisi dunia nyata yang mempengaruhi eksekusi model di industri keuangan</p>
+        </div>
+        
+        <div class="grid-3" style="margin-bottom: 1.25rem;">
+            <div class="card" style="border-top: 3px solid var(--accent-rose);">
+                <div class="card-title" style="font-size: 0.95rem; color: var(--accent-rose);"><i class="fas fa-receipt"></i> 1. Biaya Transaksi & Slippage</div>
+                <p class="card-p" style="font-size: 0.8rem; margin-top: 0.4rem;">Metrik Sharpe Ratio (0.87) dan return strategi masih dihitung <strong>gross (sebelum biaya)</strong>. Pada eksekusi per jam, fee taker Binance sebesar <strong>0.10%</strong> dapat menggerus margin profit. Namun, komitmen sinyal mingguan kami (168 jam) memiliki turnover 24× lebih rendah sehingga meminimalisasi biaya friksi.</p>
+            </div>
+            
+            <div class="card" style="border-top: 3px solid var(--accent-amber);">
+                <div class="card-title" style="font-size: 0.95rem; color: var(--accent-amber);"><i class="fas fa-newspaper"></i> 2. Black Swan & Sentimen Makro</div>
+                <p class="card-p" style="font-size: 0.8rem; margin-top: 0.4rem;">Fitur berbasis harga murni (OHLCV) memiliki blind-spot terhadap syok makro mendadak (contoh: kolapsnya ekosistem Terra-Luna, kebangkrutan bursa FTX, atau gugatan regulasi SEC). Diperlukan integrasi data sentimen berita dan on-chain metrics.</p>
+            </div>
+            
+            <div class="card" style="border-top: 3px solid var(--secondary);">
+                <div class="card-title" style="font-size: 0.95rem; color: var(--secondary);"><i class="fas fa-anchor"></i> 3. Sinyal Stale 168-Jam</div>
+                <p class="card-p" style="font-size: 0.8rem; margin-top: 0.4rem;">Sinyal komitmen arah posisi di-lock di awal setiap jendela 168 jam secara rekursif (bukan rolling 1-langkah dinamis setiap jam). Ini mengevaluasi pandangan mingguan model, namun pengujian rolling adaptive inference menjadi agenda riset selanjutnya.</p>
+            </div>
+        </div>
+        
+        <div class="card card-highlight">
+            <div class="card-title"><i class="fas fa-tools" style="color: var(--primary);"></i> Formulasi Rencana Perbaikan Biaya Bersih (Net-of-Cost Extension)</div>
+            <div class="formula-box" style="margin: 0.4rem 0;">
+                <span>R_t^{net} = s_t \cdot r_t - c \cdot |s_t - s_{t-1}|</span>
+                <span class="formula-tag">Net Return Model</span>
+            </div>
+            <p class="card-p" style="font-size: 0.82rem;">Di mana \(c\) mewakili biaya per sisi (0.10% taker fee + estimasi slippage). Langkah ini telah dirumuskan untuk diuji pada pengembangan fase berikutnya dengan uji bootstrap signifikansi rasio Sharpe.</p>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 22: Kesimpulan Utama & Implikasi Manajerial untuk Enterprise DSS -->
+        <section class="slide" id="slide-22">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-flag-checkered"></i> Kesimpulan Riset</div>
+            <h2 class="slide-title">Kesimpulan Utama & <span>Rekomendasi Manajerial</span></h2>
+            <p class="slide-subtitle">Transformasi temuan akademis menjadi pedoman strategis bagi industri finansial modern</p>
+        </div>
+        
+        <div class="grid-2" style="margin-bottom: 1.25rem;">
+            <div class="card card-highlight">
+                <div class="card-title"><i class="fas fa-check-circle" style="color: var(--primary);"></i> Ringkasan Bukti Empiris Riset</div>
+                <ul class="feature-list" style="font-size: 0.83rem;">
+                    <li><strong>Divergensi Terbukti Nyata:</strong> Model titik terbaik (GRU RMSE = 0.1058 ± 0.0034) berbeda dari model keputusan terbaik (LSTM DA = 57.8% ± 2.1%, Sharpe = 0.87 ± 0.12).</li>
+                    <li><strong>Signifikansi Terkonfirmasi:</strong> Uji Kruskal-Wallis (p &lt; 0.001) dan Diebold-Mariano membuktikan keunggulan GRU signifikan terhadap XGBoost dan Informer.</li>
+                    <li><strong>Ekosistem Siap Produksi:</strong> Terintegrasi penuh dari raw API Binance hingga Power BI DirectQuery dengan latensi 1.2 detik dan usability SUS 86.4 ('Excellent').</li>
+                </ul>
+            </div>
+            
+            <div class="card card-purple">
+                <div class="card-title"><i class="fas fa-chess-knight" style="color: var(--accent-purple);"></i> Blueprint Rekomendasi Manajerial DSS Hibrida</div>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.4rem;">
+                    <div style="background: var(--secondary); border: 1px solid rgba(150, 29, 90, 0.1); padding: 0.7rem; border-radius: 8px; border-left: 3px solid var(--primary);">
+                        <strong style="color: var(--primary); font-size: 0.85rem;"><i class="fas fa-bullseye"></i> Alokasikan Model GRU untuk:</strong>
+                        <p style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.2rem;">Penetapan <em>Position Sizing</em>, toleransi <em>Stop-Loss</em>, dan estimasi volatilitas nominal karena memiliki bound error residual paling ketat.</p>
+                    </div>
+                    <div style="background: var(--secondary); border: 1px solid rgba(150, 29, 90, 0.1); padding: 0.7rem; border-radius: 8px; border-left: 3px solid var(--accent-purple);">
+                        <strong style="color: var(--accent-purple); font-size: 0.85rem;"><i class="fas fa-compass"></i> Alokasikan Model LSTM untuk:</strong>
+                        <p style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.2rem;">Pengambilan keputusan arah portofolio (<em>Directional Trend Allocation</em>) dan sinyal masuk pasar (<em>Market Entry Signals</em>) guna memaksimalkan rasio Sharpe.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card card-cyan">
+            <div style="font-size: 0.85rem; color: var(--text-primary); display: flex; align-items: center; justify-content: space-between;">
+                <span><strong><i class="fas fa-quote-left" style="color: var(--secondary);"></i> Intisari Nilai Bisnis:</strong> Framework 4-layer berhasil mengubah peramalan AI dari ranah eksperimen lab menjadi instrumen keputusan bisnis yang terukur risiko, cepat, dan mudah dipahami eksekutif.</span>
+            </div>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 23: Agenda Riset Masa Depan (Future Work & Extensions) -->
+        <section class="slide" id="slide-23">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-rocket"></i> Roadmap Pengembangan</div>
+            <h2 class="slide-title">Agenda Riset Masa Depan <span>(Future Extensions)</span></h2>
+            <p class="slide-subtitle">Rencana pengembangan berkelanjutan untuk memperluas kapabilitas dan ketahanan sistem</p>
+        </div>
+        
+        <div class="grid-4" style="margin-bottom: 1.25rem;">
+            <div class="card card-highlight">
+                <div style="color: var(--primary); font-weight: 700; font-size: 0.75rem; text-transform: uppercase;">Ekstensi 1</div>
+                <div class="card-title" style="font-size: 0.95rem; margin: 0.3rem 0;"><i class="fas fa-calculator"></i> Net-of-Cost & Bootstrap</div>
+                <p class="card-p" style="font-size: 0.78rem;">Mengintegrasikan perlakuan fee taker 0.10% dinamis pada eksekusi per jam, serta menerapkan uji signifikansi bootstrap untuk perbedaan Sharpe Ratio antar model.</p>
+            </div>
+            
+            <div class="card card-cyan">
+                <div style="color: var(--secondary); font-weight: 700; font-size: 0.75rem; text-transform: uppercase;">Ekstensi 2</div>
+                <div class="card-title" style="font-size: 0.95rem; margin: 0.3rem 0;"><i class="fas fa-cubes"></i> Multimodal Data Fusion</div>
+                <p class="card-p" style="font-size: 0.78rem;">Menggabungkan data on-chain (exchange net flows, active addresses) dan analisis sentimen berita media finansial berbasis model NLP FinBERT / Large Language Models.</p>
+            </div>
+            
+            <div class="card card-purple">
+                <div style="color: var(--accent-purple); font-weight: 700; font-size: 0.75rem; text-transform: uppercase;">Ekstensi 3</div>
+                <div class="card-title" style="font-size: 0.95rem; margin: 0.3rem 0;"><i class="fas fa-coins"></i> Multi-Asset Validation</div>
+                <p class="card-p" style="font-size: 0.78rem;">Memvalidasi generalisasi arsitektur 4-layer pada spektrum aset kripto berkapitalisasi pasar lain (ETH/USDT, SOL/USDT, BNB/USDT) dan cross-asset spillover.</p>
+            </div>
+            
+            <div class="card" style="border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.05);">
+                <div style="color: var(--accent-amber); font-weight: 700; font-size: 0.75rem; text-transform: uppercase;">Ekstensi 4</div>
+                <div class="card-title" style="font-size: 0.95rem; margin: 0.3rem 0;"><i class="fas fa-atom"></i> Next-Gen Transformers</div>
+                <p class="card-p" style="font-size: 0.78rem;">Menguji model time-series terkini seperti <strong>PatchTST</strong> (patching channel-independence) dan <strong>TimesNet</strong> (multi-periodicity analysis) pada protokol walk-forward kami.</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-title"><i class="fas fa-database" style="color: var(--primary);"></i> Pernyataan Ketersediaan Data (Data & Code Availability)</div>
+            <p class="card-p" style="font-size: 0.85rem;">Sesuai standar prosiding konferensi bereputasi: <em>"The code, trained models, and processed hourly datasets used in this research are available from the corresponding author upon reasonable academic request."</em> Kontak: <strong>asep.surahman@nusaputra.ac.id</strong></p>
+        </div>
+        
+        </section>
+
+        <!-- SLIDE 24: Sesi Tanya Jawab (Q&A Interactive Knowledge Base) -->
+        <section class="slide" id="slide-24">
+
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-comments"></i> Forum Tanya Jawab</div>
+            <h2 class="slide-title">Sesi Diskusi & <span>Tanya Jawab (Q&A)</span></h2>
+            <p class="slide-subtitle">Terima kasih atas perhatian dewan penguji dan rekan-rekan akademisi sekalian</p>
+        </div>
+        
+        <div class="grid-2-1" style="margin-bottom: 1.25rem;">
+            <div>
+                <div style="font-size: 0.85rem; font-weight: 700; color: var(--secondary); margin-bottom: 0.5rem; text-transform: uppercase;">
+                    <i class="fas fa-question-circle"></i> FAQ Kritis Reviewer Konferensi (Klik untuk Membuka):
+                </div>
+                
+                <div class="faq-item open">
+                    <div class="faq-q" onclick="toggleFaq(this)">
+                        <span>1. Mengapa metrik MAPE ditiadakan dalam evaluasi makalah?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-a">
+                        Karena kami menggunakan <strong>Fold-Local Min-Max Scaling [0, 1]</strong> untuk mencegah temporal leakage. Pada skala [0, 1], persentase error pembagian dengan angka mendekati 0 menghasilkan nilai yang terdistorsi ekstrim dan tidak merefleksikan persentase harga dolar asli. Sehingga ditiadakan secara metodologis valid (Bagian II.B).
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-q" onclick="toggleFaq(this)">
+                        <span>2. Mengapa model Transformer mutakhir (Informer) kalah dari GRU dan LSTM?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-a">
+                        Mekanisme self-attention Informer sangat sensitif terhadap derau transaksi mikro frekuensi tinggi (1 jam). Arsitektur recurrent (GRU/LSTM) memiliki inductive bias yang lebih cocok untuk membatasi variansi deret waktu finansial, sejalan dengan temuan Grądzki et al. (2025).
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-q" onclick="toggleFaq(this)">
+                        <span>3. Mengapa memilih skema 24-Fold Walk-Forward dan bukan Cross Validation biasa?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-a">
+                        Data deret waktu finansial memiliki dependensi kausalitas kronologis. Standar cross-validation acak membocorkan masa depan ke masa lalu. 24-fold walk-forward dengan stride 1,865 lilin menjamin pengujian bebas bias kebocoran waktu secara ketat.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card card-highlight">
+                <div class="card-title"><i class="fas fa-id-card" style="color: var(--primary);"></i> Kontak Tim Peneliti</div>
+                <div style="display: flex; flex-direction: column; gap: 0.8rem; margin: 0.8rem 0; font-size: 0.85rem;">
+                    <div>
+                        <strong style="color: var(--text-primary);">Asep Surahman Sulaeman</strong><br>
+                        <span style="color: var(--primary); font-family: var(--font-mono); font-size: 0.78rem;">asep.surahman@nusaputra.ac.id</span>
+                    </div>
+                    <div>
+                        <strong style="color: var(--text-primary);">Dr. Deden Witarsyah</strong><br>
+                        <span style="color: var(--secondary); font-family: var(--font-mono); font-size: 0.78rem;">deden.witarsyah@nusaputra.ac.id</span>
+                    </div>
+                    <div>
+                        <strong style="color: var(--text-primary);">Dr. Aswan Supriyadi Sunge</strong><br>
+                        <span style="color: var(--accent-purple); font-family: var(--font-mono); font-size: 0.78rem;">aswan.sunge@pelitabangsa.ac.id</span>
+                    </div>
+                </div>
+                <div style="border-top: 1px solid var(--border-glass); padding-top: 0.8rem; font-size: 0.78rem; color: var(--text-muted);">
+                    <i class="fas fa-map-marker-alt"></i> Universitas Nusa Putra, Sukabumi & Universitas Pelita Bangsa, Bekasi, Indonesia
+                </div>
+            </div>
+        </div>
+        
+        <!-- Interactive Quiz: Cek Pemahaman Penguji / Audience (Accuracy vs Utility Paradox) -->
+        <div class="quiz-wrap" style="margin-bottom: 1.15rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem;">
+                <span style="font-size: 0.8rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.06em;">
+                    <i class="fas fa-question-circle"></i> Kuis Interaktif Uji Pemahaman: The Accuracy Paradox
+                </span>
+                <span class="brand-badge" style="background:#e8f8f5;color:#00b894;border-color:rgba(0,184,148,0.3);">Financial Machine Learning</span>
+            </div>
+            
+            <div class="quiz-q">
+                <b>Pertanyaan Sidang:</b> "Jika sebuah model AI (Model A) menghasilkan nilai RMSE lebih rendah 20% dibanding Model B pada data uji harga Bitcoin, apakah Model A pasti menghasilkan keuntungan trading (Sharpe Ratio) yang lebih tinggi?"
+            </div>
+            
+            <div class="quiz-opts">
+                <button class="quiz-btn" onclick="checkQ(this, false)">
+                    <span><b>A.</b> Ya, pasti. Semakin kecil error kuadratik (RMSE), semakin akurat dan menguntungkan sinyalnya.</span>
+                </button>
+                <button class="quiz-btn" onclick="checkQ(this, true)">
+                    <span><b>B.</b> Tidak tentu! Terjadi <i>Divergence Paradox</i> di mana RMSE titik terendah belum tentu menangkap arah tren (\(DA\)) dan rasio Sharpe.</span>
+                </button>
+                <button class="quiz-btn" onclick="checkQ(this, false)">
+                    <span><b>C.</b> Tergantung apakah model menggunakan GPU Nvidia RTX 4090 atau CPU biasa.</span>
+                </button>
+            </div>
+            
+            <div id="qfb" class="quiz-fb"></div>
+        </div>
+
+        <div class="card" style="text-align: center; padding: 0.9rem;">
+            <span style="font-family: var(--font-heading); font-size: 1.1rem; font-weight: 700; color: var(--primary);">
+                Terima Kasih • Open for Questions, Constructive Feedback & Discussion
+            </span>
+        </div>
+        
+        </section>
+
+    </main>
+
+    <!-- Speaker Notes Drawer -->
+    <div id="notesOverlay" class="drawer-overlay" onclick="closeAllPanels()"></div>
+    <div id="notesDrawer" class="drawer-content">
+        <div class="drawer-header">
+            <div class="drawer-title">
+                <i class="fas fa-comment-alt" style="color: var(--primary-light);"></i>
+                <span id="notesSlideTitle">Catatan Presenter</span>
+            </div>
+            <button class="close-btn" onclick="closeAllPanels()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="drawer-body" id="notesContent">
+            <!-- Dynamic notes -->
+        </div>
+    </div>
+
+    <!-- Slide Grid Overview Modal -->
+    <div id="overviewOverlay" class="drawer-overlay" onclick="closeAllPanels()"></div>
+    <div id="overviewModal" class="drawer-content" style="width: 850px; right: -900px; max-width: 90vw;">
+        <div class="drawer-header">
+            <div class="drawer-title">
+                <i class="fas fa-th-large" style="color: var(--primary);"></i>
+                <span>Navigasi Seluruh Slide (24 Slide Prosiding)</span>
+            </div>
+            <button class="close-btn" onclick="closeAllPanels()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-grid-container" id="overviewGrid">
+            <!-- Dynamic thumbnails -->
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Inject speaker notes JSON
+        var speakerNotes = {"1": "Selamat pagi / siang kepada dewan penguji dan rekan-rekan akademisi. Saya Asep Surahman Sulaeman mewakili tim peneliti dari Universitas Nusa Putra dan Universitas Pelita Bangsa mempresentasikan riset prosiding kami berjudul: A Deep Learning Architecture for Cryptocurrency Price Forecasting Utilizing Business Intelligence. Riset ini menjawab tantangan non-stasioneritas ekstrim pasar kripto dengan pipeline 4-layer dan validasi walk-forward 24 fold.", "2": "Slide ini memperkenalkan latar belakang kolaborasi akademik antara Program Magister Informatika Universitas Nusa Putra dengan Universitas Pelita Bangsa. Riset ini telah disusun dalam manuskrip prosiding 6 halaman standar IEEE/Scopus dengan 49 referensi internasional bereputasi tinggi.", "3": "Secara eksekutif, makalah ini mempersembahkan 4 pilar kontribusi: pipeline 4 layer modular, validasi 24-fold tanpa kebocoran data, benchmarking 4 topologi komputasi, dan temuan paradoks divergensi antara error kuadratik titik dengan akurasi arah dan rasio Sharpe.", "4": "Pasar cryptocurrency beroperasi 24/7 dengan volatilitas ekstrim dan fat-tailed distribution. Model deret waktu klasik seperti ARIMA dan model pohon statis gagal mengantisipasi dependensi non-linear, sementara trader profesional seringkali terjebak bias psikologis tanpa sistem pendukung keputusan yang terstruktur.", "5": "Berdasarkan tinjauan kritis terhadap puluhan paper terkini, kami mengidentifikasi 3 kelemahan mendasar pada riset terdahulu: temporal leakage, ketiadaan metrik risiko finansial, dan keterisolasian dari sistem DSS perusahaan. Oleh karena itu, riset kami menetapkan 3 prinsip wajib.", "6": "Inilah cetak biru arsitektur sistem 4 layer yang kami rancang. Layer 1 bertugas mengonsumsi data Binance Spot dan memverifikasi stasioneritas dengan ADF. Layer 2 merekayasa 15 fitur teknis dan mencegah kebocoran temporal. Layer 3 mengoptimasi 4 topologi model. Dan Layer 4 mengonversi sinyal menjadi matriks keputusan pada Microsoft Power BI.", "7": "Layer 1 mengonsumsi 43,786 record lilin per jam pasangan BTC/USDT dari Binance Spot API selama 5 tahun kalender. Kami menyaring 38 tick volume nol menggunakan verifikasi checksum SHA-256. Pengujian Augmented Dickey-Fuller membuktikan harga mentah non-stasioner, sehingga dilakukan first-differencing pada fitur level harga agar seluruh deret lulus uji ADF di seluruh 24 fold.", "8": "Layer 2 menghasilkan 15 indikator teknikal multiskala yang mencakup trend, momentum, volatilitas, dan volume. Yang paling krusial, kami menerapkan Fold-Local Min-Max Scaling (Persamaan 1) di mana parameter scaling hanya diambil dari jendela pelatihan 720 jam lokal, menjamin zero temporal leakage.", "9": "Untuk menjawab kotak hitam (black box) pada deep learning, kami menerapkan analisis SHapley Additive exPlanations (SHAP). Hasil analisis mengungkap bahwa volatilitas bergulir 24 jam (sigma_t-24) merupakan fitur paling berpengaruh, menyumbang 23% dari total atribusi prediksi pada model GRU, diikuti oleh RSI dan MACD.", "10": "Skema evaluasi kami menggunakan 24-Fold Chronological Walk-Forward Validation yang ketat. Dengan training window 720 jam (30 hari) dan testing window 168 jam (7 hari), kami menguji total 4,032 jam data out-of-sample (9.2% dari dataset) dengan stride seragam 1,865 lilin (~77.7 hari) merata sepanjang 5 tahun.", "11": "Layer 3 menguji empat keluarga arsitektur yang sangat berbeda: XGBoost berbasis decision tree yang diratakan, LSTM dengan 3 gate, GRU dengan 2 gate, dan Informer Transformer dengan ProbSparse self-attention. Seluruh model dilatih pada CPU Intel Core i7-1260P tanpa GPU mewah.", "12": "Slide ini memaparkan persamaan inti dari masing-masing model sekuensial. LSTM menggunakan forget gate f_t (Persamaan 4). GRU menyederhanakannya menjadi update gate z_t (Persamaan 5). Dan Informer mengganti canonical attention dengan ProbSparse self-attention (Persamaan 6) yang mereduksi kompleksitas komputasi dari O(L^2) menjadi O(L log L).", "13": "Layer 4 adalah jantung integrasi sistem pendukung keputusan. Kami mengubah peramalan rekursif 168 jam menjadi sinyal trading mingguan stale-forecast s_t. Metrik finansial dievaluasi menggunakan Annualized Sharpe Ratio 24/7 (Persamaan 7) dengan faktor akar 8760, serta Value at Risk (VaR 95%) per jam yang dialirkan ke PostgreSQL dan Microsoft Power BI.", "14": "Slide 14 menampilkan hasil kuantitatif Tabel I makalah. Model GRU keluar sebagai pemenang mutlak untuk akurasi titik dengan Mean RMSE terendah 0.1058 ± 0.0034 dan MAE 0.0948 ± 0.0028, mengungguli LSTM, Informer, dan XGBoost di seluruh 24 fold.", "15": "Untuk memastikan superioritas GRU bukan kebetulan acak, kami melakukan uji hipotesis formal. Uji Kruskal-Wallis menolak kesamaan performa (H=18.4, p < 0.001). Uji berpasangan Diebold-Mariano dengan koreksi sampel kecil Harvey membuktikan GRU unggul signifikan terhadap XGBoost (p=0.0003) dan Informer (p=0.009) bahkan setelah koreksi Bonferroni.", "16": "Inilah temuan paling menarik dalam paper kami (Tabel II). Ketika kita beralih ke metrik pendukung keputusan finansial, urutan pemenang berbalik! Model LSTM mengalahkan GRU dengan meraih Directional Accuracy tertinggi 57.8% ± 2.1%, Sharpe Ratio tertinggi 0.87 ± 0.12, dan Value at Risk terendah -1.18% per jam.", "17": "Slide 17 mengupas kontribusi konseptual terpenting riset ini: Statistical Error vs Decision Utility Divergence Paradox. Kami membuktikan bahwa model yang meminimalkan residual kuadratik (GRU) belum tentu menghasilkan keputusan trading terbaik. Sebaliknya, LSTM mempertahankan persistensi arah tren makro berkat pemisahan cell memory state.", "18": "Slide ini mendemonstrasikan verifikasi prototipe operasional Microsoft Power BI yang terhubung ke PostgreSQL Data Mart. Kami menguji kebenaran fungsional dengan latensi refresh 1.2 detik, integritas data 100% dengan checksum SHA-256, serta stabilitas numerik perhitungan Sharpe dan VaR yang cocok dengan ground truth Python.", "19": "Slide 19 memaparkan evaluasi kegunaan sistem dengan metodologi System Usability Scale (SUS) standar internasional. 15 evaluator domain (10 peneliti pascasarjana informatika dan 5 praktisi analis keuangan senior) memberikan skor rata-rata 86.4 ± 3.2, menempatkan sistem ini pada tingkatan 'Excellent' (Grade A+).", "20": "Slide 20 menyajikan perbandingan objektif dengan studi terkemuka di Tabel III makalah. Kami menyandingkan hasil kami secara jujur dengan Chen et al., Jaquart et al., Omole & Enke, serta Bysik & Ślepaczuk. Kami menegaskan bahwa perbedaan desain validasi, horizon sampling, dan perlakuan biaya membuat perbandingan ini bersifat ilustratif.", "21": "Sebagai pertanggungjawaban ilmiah yang jujur, kami menjabarkan 3 batasan operasional penelitian ini: pertama, metrik dihitung kotor sebelum biaya transaksi fee Binance 0.10%; kedua, fitur teknikal harga tidak mampu memprediksi kejutan sentimen makro black swan seperti keruntuhan Terra-Luna; dan ketiga, sinyal dikomit mingguan secara stale.", "22": "Slide 22 menyimpulkan hasil riset dan implikasi manajerialnya. Kami merekomendasikan arsitektur hibrida untuk enterprise DSS: gunakan GRU untuk position sizing dan kalkulasi stop-loss, dan gunakan LSTM untuk alokasi arah tren. Kombinasi ini memberi keunggulan ganda bagi institusi finansial.", "23": "Slide 23 menguraikan 4 agenda riset strategis masa depan: implementasi net-of-cost dengan uji bootstrap Sharpe, penggabungan metrik on-chain dan NLP sentiment analysis, ekspansi ke pasangan altcoin seperti Ethereum dan Solana, serta pengujian arsitektur transformer baru seperti PatchTST dan TimesNet.", "24": "Slide 24 menutup presentasi resmi dan membuka sesi tanya jawab interaktif. Kami menyediakan basis pengetahuan interaktif berupa accordion 4 pertanyaan kritis yang paling sering diajukan reviewer konferensi internasional beserta jawaban ilmiahnya."};
+
+
+// ─── State ──────────────────────────────────────────────────
+var currentSlide = 1;
+var totalSlides  = 24;
+var panelOpen    = null; // 'notes' | 'overview' | null
+
+// ─── Init ────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    initSlideGrid();
+    showSlide(1);
+    initKeyboard();
+    setTimeout(initShapChart, 300);
+
+    // Keep fullscreen icon in sync with browser state
+    document.addEventListener('fullscreenchange', () => {
+        const fsi = document.getElementById('fsi');
+        if (fsi) fsi.className = document.fullscreenElement ? 'fas fa-compress' : 'fas fa-expand';
+    });
+});
+
+// ─── Core slide navigation ────────────────────────────────────
+function showSlide(n) {
+    if (n < 1) n = 1;
+    if (n > totalSlides) n = totalSlides;
+    currentSlide = n;
+
+    document.querySelectorAll('.slide').forEach((s, i) => {
+        const active = (i + 1 === n);
+        s.classList.toggle('active', active);
+        if (active) s.scrollTop = 0;
+    });
+
+    // Slide number label
+    const snum = document.getElementById('snum');
+    if (snum) snum.textContent = n + ' / ' + totalSlides;
+
+    // Progress bar via CSS custom property
+    const pbar = document.getElementById('pbar');
+    if (pbar) pbar.style.setProperty('--prog', ((n - 1) / (totalSlides - 1) * 100).toFixed(1) + '%');
+
+    // Thumb highlight in overview
+    document.querySelectorAll('.thumb-card').forEach((t, i) => {
+        t.classList.toggle('active-thumb', i + 1 === n);
+    });
+
+    // Refresh notes if open
+    if (panelOpen === 'notes') updateSpeakerNotes();
+}
+
+function nextSlide() { showSlide(currentSlide + 1); }
+function prevSlide()  { showSlide(currentSlide - 1); }
+
+// ─── Fullscreen ───────────────────────────────────────────────
+function toggleFS() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+        showToast('⛶ Masuk Mode Layar Penuh');
+    } else {
+        document.exitFullscreen();
+        showToast('⊡ Keluar Layar Penuh');
+    }
+}
+// legacy alias kept for any inline onclick="toggleFullscreen()"
+function toggleFullscreen() { toggleFS(); }
+
+// ─── Toast notification ───────────────────────────────────────
+function showToast(msg) {
+    const t = document.getElementById('fs-toast');
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._tid);
+    t._tid = setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ─── Panel helpers ────────────────────────────────────────────
+function openPanel(which) {
+    closeAllPanels();
+    panelOpen = which;
+    document.getElementById(which + 'Overlay')?.classList.add('active');
+    document.getElementById(which + 'Drawer')?.classList.add('active');
+    if (which === 'notes') updateSpeakerNotes();
+    // overview uses different id
+    document.getElementById('overviewModal')?.classList.toggle('active', which === 'overview');
+}
+
+function closeAllPanels() {
+    ['notesOverlay','notesDrawer','overviewOverlay','overviewModal'].forEach(id => {
+        document.getElementById(id)?.classList.remove('active');
+    });
+    panelOpen = null;
+}
+
+function toggleNotes() {
+    panelOpen === 'notes' ? closeAllPanels() : openPanel('notes');
+}
+function toggleOverview() {
+    const modal = document.getElementById('overviewModal');
+    const overlay = document.getElementById('overviewOverlay');
+    if (!modal || !overlay) return;
+    if (modal.classList.contains('active')) {
+        closeAllPanels();
+    } else {
+        closeAllPanels();
+        panelOpen = 'overview';
+        overlay.classList.add('active');
+        modal.classList.add('active');
+    }
+}
+
+// ─── Speaker Notes ────────────────────────────────────────────
+function updateSpeakerNotes() {
+    const el  = document.getElementById('notesContent');
+    const ttl = document.getElementById('notesSlideTitle');
+    if (!el || !ttl) return;
+    const titleEl = document.querySelector('.slide.active .slide-title');
+    ttl.textContent = 'Slide ' + currentSlide + ': ' + (titleEl ? titleEl.innerText : 'Slide');
+    const note = (typeof speakerNotes !== 'undefined') ? speakerNotes[currentSlide] : null;
+    if (note) {
+        el.innerHTML = `<div style="background:rgba(150,29,90,.08);border-left:3px solid var(--primary);padding:.8rem 1rem;border-radius:6px;margin-bottom:1rem;color:var(--primary);font-weight:600;font-size:.82rem;"><i class="fas fa-microphone-alt"></i> Naskah Bicara Presenter:</div><p style="line-height:1.75;color:#2d3436;font-size:.92rem;">${note}</p>`;
+    } else {
+        el.innerHTML = '<p style="color:var(--text-light)">Belum ada catatan untuk slide ini.</p>';
+    }
+}
+
+// ─── Slide Grid Overview ──────────────────────────────────────
+function initSlideGrid() {
+    const grid = document.getElementById('overviewGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    const titles = [
+        'Judul & Cover Prosiding Konferensi',
+        'Tim Peneliti & Afiliasi Riset',
+        'Ringkasan Eksekutif — 4 Klaim Utama',
+        'Latar Belakang & Urgensi Masalah',
+        'Kritik Literatur & 3 Persyaratan Kredibel',
+        'Arsitektur 4-Layer Terintegrasi',
+        'Layer 1: ETL Pipeline & Feature Engineering',
+        'Layer 2: Empat Model Deep Learning',
+        'Metodologi Validasi Walk-Forward 24 Fold',
+        'Layer 3: SHAP Explainability',
+        'Layer 4: Business Intelligence (Power BI)',
+        'Data & Eksperimen',
+        'Hasil Utama: Komparasi Model',
+        'Analisis Divergensi Paradoks',
+        'Uji Diebold-Mariano & Kruskal-Wallis',
+        'Dashboard Power BI & DirectQuery',
+        'Sistem Pendukung Keputusan (DSS)',
+        'Simulasi DSS Interaktif — Live Demo',
+        'Limitasi & Arah Riset Masa Depan',
+        'Kontribusi Ilmiah & Novelty',
+        'Kesimpulan & Implikasi Praktis',
+        'Referensi & Sitasi Utama',
+        'Ucapan Terima Kasih',
+        'Sesi Tanya Jawab (FAQ)'
+    ];
+    for (let i = 1; i <= totalSlides; i++) {
+        const card = document.createElement('div');
+        card.className = 'thumb-card' + (i === currentSlide ? ' active-thumb' : '');
+        card.innerHTML = `<div class="thumb-num">SLIDE ${String(i).padStart(2,'0')}</div><div class="thumb-title">${titles[i-1]||'Slide '+i}</div>`;
+        card.onclick = () => { showSlide(i); closeAllPanels(); };
+        grid.appendChild(card);
+    }
+}
+
+// ─── Keyboard ─────────────────────────────────────────────────
+function initKeyboard() {
+    document.addEventListener('keydown', e => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        switch (e.key) {
+            case 'ArrowRight': case ' ': case 'PageDown':
+                e.preventDefault(); nextSlide(); break;
+            case 'ArrowLeft': case 'PageUp':
+                e.preventDefault(); prevSlide(); break;
+            case 'f': case 'F': toggleFS(); break;
+            case 'n': case 'N': toggleNotes(); break;
+            case 'g': case 'G': case 'o': case 'O': toggleOverview(); break;
+            case 'Home': e.preventDefault(); showSlide(1); break;
+            case 'End':  e.preventDefault(); showSlide(totalSlides); break;
+            case 'Escape': closeAllPanels(); closeModal(); break;
+        }
+    });
+}
+
+// FAQ Accordion toggle
+function toggleFaq(el) {
+    const item = el.parentElement;
+    if (item) item.classList.toggle('open');
+}
+
+// Interactive Live DSS Simulation
+function runSim(model) {
+    const btns = document.querySelectorAll('.btn-sim');
+    btns.forEach(b => b.classList.remove('active-sim'));
+    
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active-sim');
+    }
+    
+    const rmseEl = document.getElementById('simRmse');
+    const daEl = document.getElementById('simDa');
+    const srEl = document.getElementById('simSr');
+    const varEl = document.getElementById('simVar');
+    const recEl = document.getElementById('simRec');
+    
+    if (model === 'GRU') {
+        if (rmseEl) rmseEl.textContent = '0.1058';
+        if (daEl) daEl.textContent = '55.3%';
+        if (srEl) srEl.textContent = '0.72';
+        if (varEl) varEl.textContent = '-1.32%';
+        if (recEl) recEl.innerHTML = '<strong><i class="fas fa-check-circle" style="color: #1ABC9C;"></i> Rekomendasi DSS Korporasi:</strong> Model GRU direkomendasikan untuk <em>Position Sizing</em> presisi dan batas <em>Stop-Loss</em> karena batas variansi error titik paling rapat (RMSE terendah 0.1058).';
+    } else if (model === 'LSTM') {
+        if (rmseEl) rmseEl.textContent = '0.1145';
+        if (daEl) daEl.textContent = '57.8%';
+        if (srEl) srEl.textContent = '0.87';
+        if (varEl) varEl.textContent = '-1.18%';
+        if (recEl) recEl.innerHTML = '<strong><i class="fas fa-trophy" style="color: #F5A623;"></i> Rekomendasi DSS Korporasi:</strong> Model LSTM direkomendasikan untuk <em>Alokasi Tren Makro (Directional Allocation)</em> dan <em>Sinyal Masuk Pasar</em> karena menghasilkan Sharpe Ratio tertinggi (0.87) dan akurasi arah maksimal (57.8%).';
+    } else if (model === 'Informer') {
+        if (rmseEl) rmseEl.textContent = '0.1321';
+        if (daEl) daEl.textContent = '53.6%';
+        if (srEl) srEl.textContent = '0.54';
+        if (varEl) varEl.textContent = '-1.74%';
+        if (recEl) recEl.innerHTML = '<strong><i class="fas fa-info-circle" style="color: #9B59B6;"></i> Evaluasi DSS:</strong> Informer memiliki keunggulan komputasi O(L log L) untuk sekuens sangat panjang, namun sedikit terdistorsi noise mikro frekuensi 1-jam (Sharpe 0.54).';
+    } else if (model === 'XGBoost') {
+        if (rmseEl) rmseEl.textContent = '0.1524';
+        if (daEl) daEl.textContent = '51.4%';
+        if (srEl) srEl.textContent = '0.31';
+        if (varEl) varEl.textContent = '-2.15%';
+        if (recEl) recEl.innerHTML = '<strong><i class="fas fa-exclamation-triangle" style="color: #C8356A;"></i> Evaluasi DSS:</strong> Model pohon statis mengalami degradasi error saat proyeksi rekursif multi-step 168 jam, tidak direkomendasikan untuk trading frekuensi tinggi.';
+    }
+}
+
+// Chart.js initialization for SHAP values
+function initShapChart() {
+    const ctx = document.getElementById('shapChart');
+    if (!ctx) return;
+    
+    try {
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'Rolling Vol. σ_{t-24}',
+                    'RSI-14 (Momentum)',
+                    'MACD Line (Trend)',
+                    'ATR-14 (Volatility)',
+                    'Stoch %K-14 (Oscillator)',
+                    'OBV (Volume Trend)',
+                    'EMA-12 (Fast MA)',
+                    'Bollinger Width',
+                    'ROC-10 (Rate of Change)'
+                ],
+                datasets: [{
+                    label: 'Mean Absolute SHAP Value (|SHAP|)',
+                    data: [0.232, 0.174, 0.148, 0.112, 0.095, 0.082, 0.065, 0.051, 0.041],
+                    backgroundColor: [
+                        'rgba(200, 53, 106, 0.85)',
+                        'rgba(245, 166, 35, 0.85)',
+                        'rgba(155, 89, 182, 0.85)',
+                        'rgba(26, 188, 156, 0.85)',
+                        'rgba(52, 152, 219, 0.85)',
+                        'rgba(150, 29, 90, 0.75)',
+                        'rgba(241, 148, 138, 0.85)',
+                        'rgba(248, 196, 113, 0.85)',
+                        'rgba(130, 88, 159, 0.75)'
+                    ],
+                    borderColor: 'rgba(255, 255, 255, 0.15)',
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return (context.raw * 100).toFixed(1) + '% Kontribusi Atribusi';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(0, 0, 0, 0.06)' },
+                        ticks: {
+                            color: '#636e72',
+                            font: { family: "'Poppins', sans-serif" },
+                            callback: function(value) {
+                                return (value * 100).toFixed(0) + '%';
+                            }
+                        }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: { color: '#2d3436', font: { family: "'Poppins', sans-serif", size: 11, weight: '500' } }
+                    }
+                }
+            }
+        });
+    } catch (e) {
+        console.warn('Chart error:', e);
+    }
+}
+
+
+        // Render KaTeX after page load
+        window.addEventListener('load', () => {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '\\(', right: '\\)', display: false},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                });
+            }
+        });
+    </script>
+    <!-- Interactive Detail Modal Dialog -->
+    <div class="modal-bg" id="modal">
+        <div class="modal-box">
+            <div class="modal-x" onclick="closeModal()"><i class="fas fa-times"></i></div>
+            <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.1rem;">
+                <div style="width: 44px; height: 44px; min-width: 44px; border-radius: 12px; background: #fae8f0; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+                    <i id="micon" class="fas fa-lightbulb"></i>
+                </div>
+                <h3 id="mtit" style="color: var(--primary); font-size: 1.15rem; margin: 0; font-family: var(--font-heading); font-weight: 700;">Judul Modal</h3>
+            </div>
+            <div id="mbod" style="font-size: 0.88rem; line-height: 1.7; color: var(--text-dark);">
+                <!-- Dynamic body content -->
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

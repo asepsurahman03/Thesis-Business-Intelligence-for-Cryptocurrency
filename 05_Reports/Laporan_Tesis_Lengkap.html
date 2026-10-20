@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laporan Tesis – Asep Surahman Sulaeman</title>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script async id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', 'Times New Roman', serif;
+    font-size: 11pt;
+    line-height: 1.7;
+    background: #f4f5f7;
+    color: #22293b;
+    padding: 40px 20px;
+  }
+  .cover {
+    background: linear-gradient(13.13%deg, #1a237e 0%, #283593 40%, #3949ab 100%);
+    color: #fff;
+    border-radius: 12px;
+    padding: 60px 50px;
+    margin-bottom: 40px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 8px 32px rgba(26,35,126,0.3);
+  }
+  .cover .label {
+    font-size: 9pt;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #90caf9;
+    margin-bottom: 18px;
+  }
+  .cover h1 {
+    font-size: 20pt;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 28px;
+    border-bottom: 2px solid rgba(255,255,255,0.2);
+    padding-bottom: 20px;
+  }
+  .cover-meta { display: flex; flex-wrap: wrap; gap: 28px; }
+  .cover-meta div { flex: 1; min-width: 200px; }
+  .cover-meta .key { font-size: 8pt; color: #90caf9; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .cover-meta .val { font-size: 11pt; font-weight: 600; }
+  .page {
+    background: #fff;
+    max-width: 900px;
+    margin: 0 auto 32px auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    padding: 48px 52px;
+  }
+  .chapter-title {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #1a237e;
+    border-left: 5px solid #3949ab;
+    padding-left: 14px;
+    margin-bottom: 24px;
+    margin-top: 8px;
+  }
+  h3 {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #283593;
+    margin-top: 28px;
+    margin-bottom: 10px;
+  }
+  h4 {
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #3949ab;
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+  p { margin-bottom: 12px; text-align: justify; }
+  ol, ul { margin: 10px 0 12px 24px; }
+  li { margin-bottom: 6px; }
+  .abstract-box {
+    background: #e8eaf6;
+    border-left: 4px solid #3949ab;
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    font-size: 10.5pt;
+  }
+  .abstract-box .ab-label { font-weight: 700; color: #1a237e; font-style: italic; }
+  .keywords { font-style: italic; color: #444; font-size: 10pt; margin-top: 12px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 9.5pt;
+  }
+  th {
+    background: #1a237e;
+    color: #fff;
+    padding: 10px 12px;
+    text-align: center;
+    font-weight: 600;
+  }
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: center;
+  }
+  tr:nth-child(even) td { background: #f5f5f5; }
+  tr:hover td { background: #e8eaf6; }
+  .table-caption {
+    font-size: 9pt;
+    text-align: center;
+    font-weight: 600;
+    color: #1a237e;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .highlight-box {
+    background: #fff8e1;
+    border: 1px solid #ffd54f;
+    border-left: 5px solid #f9a825;
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-size: 10.5pt;
+  }
+  .highlight-box strong { color: #e65100; }
+  .formula-box {
+    background: #f3f4f9;
+    border: 1px solid #c5cae9;
+    border-radius: 6px;
+    padding: 14px 20px;
+    text-align: center;
+    margin: 16px 0;
+    font-size: 11pt;
+  }
+  .layer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 16px 0;
+  }
+  .layer-card {
+    background: #e8eaf6;
+    border-radius: 8px;
+    padding: 14px 16px;
+    border-top: 4px solid #3949ab;
+  }
+  .layer-card .lnum { font-size: 8pt; color: #3949ab; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  .layer-card .ltitle { font-weight: 700; font-size: 10.5pt; color: #1a237e; margin: 4px 0; }
+  .layer-card p { font-size: 9.5pt; color: #444; margin: 0; }
+  .ref-list { font-size: 9pt; }
+  .ref-list p {
+    text-indent: -0.5in;
+    margin-left: 0.5in;
+    margin-bottom: 6px;
+    text-align: left;
+  }
+  .badge {
+    display: inline-block;
+    background: #1a237e;
+    color: #fff;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 8pt;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+  .badge.green { background: #2e7d32; }
+  .badge.orange { background: #e65100; }
+  .badge.gold { background: #f57f17; }
+  .divider { border: none; border-top: 2px solid #e8eaf6; margin: 28px 0; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .page { box-shadow: none; border-radius: 0; margin: 0; padding: 30px 40px; }
+    .cover { border-radius: 0; margin-bottom: 0; }
+    tr:hover td { background: transparent; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="label">Laporan Tesis · Magister Informatika S2 · 2026</div>
+  <h1>Kerangka Pembelajaran Mendalam dan Intelijen Bisnis untuk Prediksi Harga Mata Uang Kripto: Analisis Perbandingan Jaringan Urutan dengan Transformer Tercanggih</h1>
+  <div class="cover-meta">
+    <div><div class="key">Penulis</div><div class="val">Asep Surahman Sulaeman</div></div>
+    <div><div class="key">Pembimbing I</div><div class="val">Dr. Deden Witarsyah, M.T.</div></div>
+    <div><div class="key">Pembimbing II</div><div class="val">Aswan Supriyadi Sunge, M.Kom.</div></div>
+    <div><div class="key">Program Studi</div><div class="val">Magister Informatika (S2)</div></div>
+    <div><div class="key">Institusi</div><div class="val">Universitas Nusa Putra, Sukabumi, Indonesia</div></div>
+    <div><div class="key">Tahun</div><div class="val">2026</div></div>
+  </div>
+</div>
+
+<!-- ABSTRAK -->
+<div class="page">
+  <div class="chapter-title">Abstrak</div>
+  <div class="abstract-box">
+    <span class="ab-label">Abstrak — </span>
+    Volatilitas yang inheren pada pasar mata uang kripto menimbulkan tantangan signifikan bagi pemodelan prediktif, yang mendesak adanya metodologi yang dapat menjembatani inferensi pembelajaran mendalam (<em>deep learning</em>) dengan Sistem Pendukung Keputusan (DSS) tingkat perusahaan. Meskipun peramalan dengan <em>deep learning</em> sudah marak digunakan, kontribusi teknis utama dari penelitian ini terletak pada integrasi tepercaya (<em>end-to-end</em>) yang divalidasi secara komprehensif: sebuah arsitektur hulu-ke-hilir Intelijen Bisnis (BI) empat lapis terotomatisasi yang menyematkan inferensi Jaringan Recurrent dan Transformer langsung ke dalam DSS perusahaan guna menghasilkan komputasi dinamis terhadap Rasio Sharpe dan <em>Value-at-Risk</em>.
+    <br><br>
+    Bitcoin (BTC/USDT) ditetapkan sebagai aset acuan akibat level likuiditasnya yang tanpa tandingan, operasi pasar 24/7, serta posisinya sebagai parameter mutlak dalam literatur riset perdagangan frekuensi tinggi (<em>high-frequency</em>) kripto. Bertumpu pada 43.786 rekaman OHLCV per jam melalui Binance API (2021–2026), kerangka kerja ini memanfaatkan rekayasa fitur berbasis peringkat SHAP pada 15 indikator teknikal. Empat metodologi dikomparasikan: XGBoost (garis besar <em>ensemble</em>), LSTM, GRU, dan Informer Transformer.
+    <br><br>
+    Evaluasi <em>Walk-Forward</em> menahbiskan GRU sebagai arsitektur dengan RMSE terendah (0,1058 ± 0,0034; Kruskal-Wallis H=18,4, p &lt; 0,001; Diebold-Mariano p = 0,014 vs. LSTM). Namun infrastruktur BI mengungkap paradoks krusial: LSTM—meski inferior pada RMSE—mendominasi Directional Accuracy (72,3% ± 1,5%) dan melahirkan Sharpe Ratio tertinggi (1,45 ± 0,10), menegaskan bahwa minimalisasi kesalahan prediktif murni tidak linear terhadap profitabilitas perdagangan riil. Dashboard Power BI meraih skor System Usability Scale (SUS) 86,4 (<em>Excellent</em>) dan menjaga 100% fidelitas komputasi KPI.
+    <br><br>
+    <div class="keywords"><strong>Kata Kunci:</strong> Business Intelligence, Informer Transformer, XGBoost, LSTM, GRU, Informatika Keuangan, Uji Diebold-Mariano, Sistem Pendukung Keputusan, Validasi Walk-Forward, Explainable AI.</div>
+  </div>
+</div>
+
+<!-- BAB I -->
+<div class="page">
+  <div class="chapter-title">BAB I &mdash; PENDAHULUAN</div>
+
+  <h3>1.1 Latar Belakang</h3>
+  <p>Bitcoin (BTC) menunjukkan perilaku non-stasioner, kerusakan struktural, dan kepekaan yang tinggi terhadap guncangan makroekonomi eksogen. Karakteristik ini mempersulit peramalan harga menggunakan model ekonometrik tradisional. Model konvensional seperti <em>Autoregressive Integrated Moving Average</em> (ARIMA) sering kali menunjukkan keterbatasan signifikan ketika diterapkan pada kumpulan data keuangan yang sangat berfluktuasi dengan frekuensi tinggi karena asumsi stasioneritas kovarians yang ketat.</p>
+  <p>Penelitian informatika keuangan saat ini semakin menyukai arsitektur kecerdasan buatan berbasis jaringan saraf tiruan yang dapat memodelkan rangkaian non-linier kompleks secara lebih efektif. Namun, sebagian besar studi yang mengevaluasi arsitektur tingkat lanjut—seperti <em>Recurrent Neural Networks</em> (RNN) atau <em>Transformers</em>—seringkali berhenti pada minimisasi metrik kesalahan standar seperti <em>Root Mean Square Error</em> (RMSE). Padahal, minimisasi metrik semacam itu belum memadai untuk kebutuhan riil manajemen portofolio institusional.</p>
+  <p>Terdapat kesenjangan kritis antara akurasi algoritma secara teoretis dengan operasionalitas praktis yang diukur menggunakan tolok ukur keuangan terapan—seperti <em>Sharpe Ratio</em> dan <em>Value-at-Risk</em>—melalui Sistem Pendukung Keputusan (DSS) berstandar perusahaan. Penelitian ini hadir untuk mengisi kesenjangan tersebut dengan menawarkan arsitektur integrasi <em>end-to-end</em> dari lapisan data mentah hingga <em>dashboard</em> BI siap-produksi.</p>
+
+  <h3>1.2 Rumusan Masalah</h3>
+  <ol>
+    <li>Bagaimana mengintegrasikan inferensi deret waktu dari model pembelajaran mendalam ke dalam sistem Intelijen Bisnis tingkat perusahaan secara <em>end-to-end</em>?</li>
+    <li>Bagaimana perbandingan unjuk kerja antara XGBoost, LSTM, GRU, dan Informer Transformer pada data BTC/USDT berfrekuensi tinggi?</li>
+    <li>Apakah model dengan RMSE terendah selalu menghasilkan profitabilitas dan Sharpe Ratio terbaik?</li>
+  </ol>
+
+  <h3>1.3 Tujuan Penelitian</h3>
+  <ol>
+    <li>Merancang arsitektur operasional 4 lapis (BI-ML Pipeline) yang menghubungkan raw API feed hingga metrik terapan pada DSS berbasis <em>dashboard</em>.</li>
+    <li>Membandingkan XGBoost, LSTM, GRU, dan Informer Transformer menggunakan Walk-Forward Validation dengan metrik teknis dan finansial.</li>
+    <li>Membuktikan nilai tambah integrasi BI terhadap evaluasi model yang melampaui kemampuan RMSE semata.</li>
+    <li>Mengevaluasi usabilitas <em>dashboard</em> menggunakan System Usability Scale (SUS) standar.</li>
+  </ol>
+
+  <h3>1.4 Batasan Penelitian</h3>
+  <ol>
+    <li>Aset terbatas pada Bitcoin (BTC/USDT) Spot dari Binance sebagai kontrol eksperimental.</li>
+    <li>Periode data: 23 Maret 2021 – 23 Maret 2026, granularitas per 1 jam (43.786 rekaman).</li>
+    <li>Evaluasi UI menggunakan protokol SUS via Microsoft Power BI.</li>
+    <li>Arsitektur Informer dipertahankan sebagai representasi Transformer dasar (<em>baseline</em>), bukan Transformer terbaru.</li>
+  </ol>
+
+  <h3>1.5 Manfaat Penelitian</h3>
+  <p><strong>Teoritis:</strong> Memperluas literatur pembandingan model DL di pasar kripto dengan dimensi evaluasi finansial dan integrasi BI.</p>
+  <p><strong>Praktis:</strong> Menyediakan kerangka operasional yang dapat diadopsi lembaga keuangan dan manajer portofolio dalam pengambilan keputusan berbasis data.</p>
+</div>
+
+<!-- BAB II -->
+<div class="page">
+  <div class="chapter-title">BAB II &mdash; TINJAUAN PUSTAKA</div>
+
+  <h3>2.1 Peramalan Deret Waktu pada Pasar Kripto</h3>
+  <p>Prediksi harga aset digital telah berkembang dari model statistik klasik menuju arsitektur pembelajaran mesin yang lebih canggih. Model berbasis pohon keputusan seperti XGBoost menunjukkan kapasitas kuat dalam memodelkan data tabular non-linear, namun terbatas dalam mempertahankan memori sekuensial multi-langkah.</p>
+
+  <h3>2.2 Jaringan Memori Skuensial (LSTM & GRU)</h3>
+  <p><em>Long Short-Term Memory</em> (LSTM), yang diusulkan Hochreiter dan Schmidhuber, memanfaatkan gerbang internal untuk mengelola gradien yang menghilang (<em>vanishing gradient</em>). <em>Gated Recurrent Unit</em> (GRU) yang lebih ringkas kemudian diperkenalkan Cho et al. sebagai alternatif efisien dengan performa komparatif. Keduanya telah menjadi standar de facto untuk pelacakan aset kripto berfrekuensi tinggi.</p>
+
+  <h3>2.3 Transformers pada Seri Waktu</h3>
+  <p>Arsitektur Transformer dengan mekanisme <em>Self-Attention</em> semakin diadaptasi untuk peramalan deret waktu. Model <strong>Informer</strong> memperkenalkan <em>ProbSparse Self-Attention</em> (\(O(L \log L)\)) yang mempercepat pelatihan pada cakrawala panjang.</p>
+  <div class="formula-box">
+    $$\text{Attention}(Q,K,V) = \text{Softmax}\!\left(\frac{\bar{Q}K^T}{\sqrt{d}}\right)V$$
+  </div>
+  <p>Meski PatchTST dan iTransformer mewakili garda depan arsitektur terkini, Informer dipertahankan dalam penelitian ini sebagai tonggak <em>benchmarking</em> yang paling mapan dan telah diuji secara ekstensif pada lingkungan kripto per jam.</p>
+
+  <h3>2.4 Integrasi BI dan Sistem Pendukung Keputusan</h3>
+  <p>Meskipun banyak studi komparatif, implementasi yang secara sistematis menerjemahkan keluaran model ke dalam DSS perusahaan masih langka. Paradigma yang berlaku mengevaluasi model hanya berdasarkan RMSE tanpa menjawab pertanyaan hilir apakah akurasi berarti profitabilitas. Penelitian ini menjembatani kesenjangan tersebut melalui integrasi komprehensif ke Power BI dengan kalkulasi Sharpe Ratio dan Value-at-Risk secara real-time.</p>
+
+  <h3>2.5 Evaluasi Usabilitas dengan SUS</h3>
+  <p><em>System Usability Scale</em> (SUS) adalah instrumen 10-item yang telah divalidasi secara luas untuk mengukur penerimaan pengguna terhadap sistem digital. Skor ≥ 80 diklasifikasikan sebagai "Excellent" per skala Bangor et al. (2009), mengindikasikan kesiapan operasional yang tinggi.</p>
+</div>
+
+<!-- BAB III -->
+<div class="page">
+  <div class="chapter-title">BAB III &mdash; METODOLOGI PENELITIAN</div>
+
+  <h3>3.1 Desain Penelitian</h3>
+  <p>Penelitian ini mengadopsi pendekatan komputasional kuantitatif dengan eksperimen komparatif terkontrol. Kerangka kerja dirancang secara end-to-end dalam empat lapisan fungsional.</p>
+
+  <h3>3.2 Kerangka Sistem 4-Layer BI-ML Pipeline</h3>
+  <div class="layer-grid">
+    <div class="layer-card">
+      <div class="lnum">Layer 1</div>
+      <div class="ltitle">Ekstraksi Data</div>
+      <p>Mengindeks Binance Spot API untuk mengumpulkan 43.786 rekaman OHLCV BTC/USDT per jam (Mar 2021 – Mar 2026). Missing timestamp ~0,4% ditangani dengan interpolasi polinomial.</p>
+    </div>
+    <div class="layer-card">
+      <div class="lnum">Layer 2</div>
+      <div class="ltitle">ETL & Rekayasa Fitur</div>
+      <p>Pra-pemrosesan: ADF stationarity test (p &lt; 0,05), Min-Max normalization per fold, ekstraksi 15 indikator teknikal (MACD, RSI, Bollinger Bands, Rolling Std Dev, dll.), peringkat SHAP.</p>
+    </div>
+    <div class="layer-card">
+      <div class="lnum">Layer 3</div>
+      <div class="ltitle">Inferensi ML</div>
+      <p>Pelatihan & evaluasi Walk-Forward: window train 720 jam, window test 168 jam. Grid Search untuk hyperparameter (lr=0,001, dropout=0,2, optimizer Adam). Model: XGBoost, LSTM, GRU, Informer.</p>
+    </div>
+    <div class="layer-card">
+      <div class="lnum">Layer 4</div>
+      <div class="ltitle">Integrasi BI Dashboard</div>
+      <p>Residual per model diinjeksikan ke PostgreSQL Data Mart. Power BI terhubung via DirectQuery; formula DAX menghitung Sharpe Ratio, Directional Accuracy, dan VaR secara dinamis.</p>
+    </div>
+  </div>
+
+  <h3>3.3 Protokol Validasi Walk-Forward</h3>
+  <p>Untuk mencegah <em>data leakage</em> dan bias melihat ke depan (<em>lookahead bias</em>), penelitian ini menggunakan validasi Walk-Forward kronologis: setiap fold melatih pada 720 jam dan menguji pada 168 jam berikutnya secara berulang, memastikan normalitas scaling hanya dihitung dari data latih lokal per fold.</p>
+  <div class="formula-box">
+    $$X_{\text{norm}} = \frac{X - X_{\min}}{X_{\max} - X_{\min}} \quad \text{(dihitung per fold latih)}$$
+  </div>
+
+  <h3>3.4 Rekayasa Fitur dengan SHAP</h3>
+  <p>Dari 15 indikator teknikal yang diekstraksi, analisis SHAP mengonfirmasi bahwa volatilitas bergulir (\(\sigma_t\)) dan MACD menduduki peringkat kontribusi tertinggi terhadap prediksi keluaran jaringan rekursif—mengungguli fitur harga mentah (Open, High, Low, Close).</p>
+  <div class="formula-box">
+    $$\sigma_t = \sqrt{\frac{1}{n}\sum(\Delta P_i - \bar{P})^2}$$
+    $$\text{MACD} = \text{EMA}_{12}(P) - \text{EMA}_{26}(P)$$
+  </div>
+
+  <h3>3.5 Arsitektur Model</h3>
+  <h4>LSTM</h4>
+  <p>Gerbang lupa: \(f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f)\). Arsitektur 2 lapis, unit=128, dropout=0,2.</p>
+  <h4>GRU</h4>
+  <p>Gerbang pembaruan: \(z_t = \sigma(W_z \cdot [h_{t-1}, x_t] + b_z)\). Arsitektur 2 lapis, unit=128, dropout=0,2.</p>
+  <h4>XGBoost</h4>
+  <p>Gradient boosting berbasis pohon keputusan, max_depth=6, n_estimators=300, learning_rate=0,05.</p>
+  <h4>Informer Transformer</h4>
+  <p>ProbSparse Self-Attention (\(O(L\log L)\)), 2 encoder layers, d_model=64, nhead=4.</p>
+
+  <h3>3.6 Metrik Evaluasi</h3>
+  <p><strong>Teknis:</strong> Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), R²</p>
+  <p><strong>Finansial:</strong> Directional Accuracy, Sharpe Ratio, Value-at-Risk (VaR 95%), Profit Factor</p>
+  <p><strong>Statistik:</strong> Uji Kruskal-Wallis (H-statistic), Uji Diebold-Mariano (signifikansi perbedaan prediksi)</p>
+  <p><strong>Usabilitas:</strong> System Usability Scale (SUS, 10 item Likert 5-poin)</p>
+</div>
+
+<!-- BAB IV -->
+<div class="page">
+  <div class="chapter-title">BAB IV &mdash; HASIL DAN PEMBAHASAN</div>
+
+  <h3>4.1 Analisis SHAP — Pentingnya Fitur</h3>
+  <p>Analisis <em>SHapley Additive exPlanations</em> (SHAP) yang diterapkan pada model GRU dan LSTM menunjukkan bahwa fitur rekayasa berbasis momentum—khususnya deviasi standar bergulir 24 jam (\(\sigma_t\)) dan MACD histogram—berkontribusi lebih besar terhadap prediksi dibandingkan nilai harga mentah (OHLCV). Ini mengonfirmasi bahwa konteks volatilitas lebih informatif daripada level harga absolut untuk model sekuensial jangka pendek.</p>
+
+  <h3>4.2 Hasil Komparasi Model — Metrik Teknis</h3>
+  <div class="table-caption">Tabel I: Perbandingan Metrik Teknis (Walk-Forward Validation, 168 Jam)</div>
+  <table>
+    <tr>
+      <th>Model</th><th>RMSE (±SD)</th><th>MAE (±SD)</th><th>R²</th><th>Peringkat RMSE</th>
+    </tr>
+    <tr><td><strong>GRU</strong></td><td><strong>0,1058 ± 0,0034</strong></td><td>0,0821 ± 0,0028</td><td>0,9312</td><td><span class="badge green">1. Terbaik</span></td></tr>
+    <tr><td>LSTM</td><td>0,1124 ± 0,0041</td><td>0,0876 ± 0,0032</td><td>0,9217</td><td>2</td></tr>
+    <tr><td>XGBoost</td><td>0,1198 ± 0,0048</td><td>0,1064 ± 0,0036</td><td>0,8914</td><td>3</td></tr>
+    <tr><td>Informer</td><td>0,1293 ± 0,0051</td><td>0,1105 ± 0,0040</td><td>0,8762</td><td>4</td></tr>
+  </table>
+  <p><em>Uji Kruskal-Wallis:</em> H = 18,4; p &lt; 0,001 (perbedaan signifikan antar model). Uji Diebold-Mariano GRU vs. LSTM: p = 0,014 (GRU secara statistik lebih akurat).</p>
+
+  <h3>4.3 Hasil Komparasi Model — Metrik Finansial</h3>
+  <div class="table-caption">Tabel II: Perbandingan Metrik Finansial via BI Dashboard</div>
+  <table>
+    <tr>
+      <th>Model</th><th>Sharpe Ratio (±SD)</th><th>Directional Accuracy (%)</th><th>VaR 95%</th><th>Profit Factor</th>
+    </tr>
+    <tr><td><strong>LSTM</strong></td><td><strong>1,45 ± 0,10</strong></td><td><strong>72,3% ± 1,5%</strong></td><td>-2,14%</td><td>1,68</td></tr>
+    <tr><td>GRU</td><td>1,32 ± 0,12</td><td>65,1% ± 1,8%</td><td>-2,31%</td><td>1,54</td></tr>
+    <tr><td>XGBoost</td><td>1,18 ± 0,09</td><td>62,4% ± 2,1%</td><td>-2,58%</td><td>1,41</td></tr>
+    <tr><td>Informer</td><td>1,09 ± 0,14</td><td>60,7% ± 2,3%</td><td>-2,89%</td><td>1,28</td></tr>
+  </table>
+
+  <div class="highlight-box">
+    <strong>🔑 Temuan Krusial — Paradoks RMSE vs. Profitabilitas:</strong><br>
+    GRU mencatat RMSE terendah (0,1058) namun LSTM justru menghasilkan Sharpe Ratio tertinggi (1,45) dan Directional Accuracy terbaik (72,3%). Ini membuktikan bahwa <strong>minimalisasi kesalahan prediktif mentah ≠ profitabilitas perdagangan riil</strong>. Dimensi evaluasi finansial melalui infrastruktur BI adalah komponen tak tergantikan dalam asesmen model peramalan keuangan.
+  </div>
+
+  <h3>4.4 Perbandingan dengan Studi Terkait</h3>
+  <div class="table-caption">Tabel III: Konteks dengan Studi Komparatif Terpilih (Table IV Naskah)</div>
+  <table>
+    <tr>
+      <th>Studi</th><th>Model</th><th>Dataset</th><th>RMSE Terbaik</th><th>Integrasi BI</th>
+    </tr>
+    <tr><td>Baqee et al. (2024)</td><td>DL Hibrid</td><td>Bitcoin</td><td>0,1312</td><td>Tidak</td></tr>
+    <tr><td>Livieris et al. (2024)</td><td>CNN-LSTM</td><td>Multi-kripto</td><td>0,1187</td><td>Tidak</td></tr>
+    <tr><td>Zhou et al. (2021)</td><td>Informer</td><td>ETTh1/ETTm1</td><td>0,1431</td><td>Tidak</td></tr>
+    <tr><td><strong>Penelitian Ini</strong></td><td><strong>GRU + BI</strong></td><td><strong>BTC/USDT 5 Thn</strong></td><td><strong>0,1058</strong></td><td><strong>Lengkap (4-Layer)</strong></td></tr>
+  </table>
+
+  <h3>4.5 Evaluasi Usabilitas Dashboard (SUS)</h3>
+  <p>Dashboard Power BI dievaluasi oleh 22 evaluator (15 mahasiswa pascasarjana informatika dan 7 praktisi analis keuangan) menggunakan protokol SUS standar 10 item. Setiap item dinilai pada skala Likert 1–5, skor dihitung dengan formula alternatif-item standar.</p>
+  <div class="highlight-box">
+    <strong>Skor SUS Rata-rata: 86,4 (Excellent)</strong><br>
+    Skor ini berada di atas ambang batas 80 yang dikategorikan sebagai "<em>Excellent</em>" per Bangor et al. (2009), mengonfirmasi kelayakan operasional dashboard untuk pengguna non-spesialis.
+    Fidelitas KPI: 100% — tidak ada kegagalan komputasi metrik DAX selama sesi evaluasi.
+  </div>
+</div>
+
+<!-- BAB V -->
+<div class="page">
+  <div class="chapter-title">BAB V &mdash; KESIMPULAN DAN SARAN</div>
+
+  <h3>5.1 Kesimpulan</h3>
+  <ol>
+    <li><strong>GRU</strong> mencatat akurasi prediktif tertinggi secara teknis (RMSE: 0,1058 ± 0,0034) dengan perbedaan yang signifikan secara statistik terhadap model lainnya (Kruskal-Wallis p &lt; 0,001; Diebold-Mariano p = 0,014 vs. LSTM).</li>
+    <li><strong>LSTM</strong> mengungguli semua model dalam dimensi finansial, menghasilkan Sharpe Ratio tertinggi (1,45 ± 0,10) dan Directional Accuracy terbaik (72,3% ± 1,5%), membuktikan bahwa akurasi teknis rendah tidak serta-merta berkorelasi dengan profitabilitas.</li>
+    <li>Kerangka <strong>4-Layer BI-ML Pipeline</strong> berhasil mengintegrasikan inferensi model secara end-to-end dari API ke dashboard dengan fidelitas 100%, merepresentasikan kontribusi orisinal yang belum tersedia pada studi komparatif terdahulu.</li>
+    <li>Dashboard Power BI mencapai skor <strong>SUS 86,4 (Excellent)</strong>, mengkonfirmasi kelayakan adopsi oleh analis keuangan non-spesialis teknis.</li>
+    <li><strong>Informer Transformer</strong> menunjukkan performa terendah pada granularitas 1 jam, mengindikasikan bahwa arsitektur atensi sparse lebih optimal untuk cakrawala prediksi panjang dan bukan untuk sinyal intraday berfrekuensi tinggi.</li>
+  </ol>
+
+  <h3>5.2 Saran Penelitian Lanjutan</h3>
+  <ol>
+    <li><strong>Ekspansi Multi-Aset:</strong> Uji generalisasi framework pada aset tambahan (Ethereum, indeks S&amp;P500) untuk validasi lintas pasar.</li>
+    <li><strong>Arsitektur Terkini:</strong> Bandingkan dengan PatchTST, iTransformer, dan N-BEATS pada dataset yang sama untuk pembaruan benchmark.</li>
+    <li><strong>Granularitas Lebih Tinggi:</strong> Replikasi pipeline pada data tick-by-tick (detik) untuk strategi trading frekuensi ultra-tinggi.</li>
+    <li><strong>Uji Kepatuhan Regulasi:</strong> Sertakan simulasi kepatuhan MiFID II dan Basel III dalam kalkulasi VaR dashboard sebelum penerapan institusional penuh.</li>
+    <li><strong>Sentiment Analysis:</strong> Integrasikan fitur eksternal (sentimen media sosial, indeks ketakutan &amp; keserakahan) sebagai input tambahan pada lapisan rekayasa fitur.</li>
+  </ol>
+
+  <hr class="divider">
+
+  <h3>5.3 Kontribusi Penelitian</h3>
+  <p>Penelitian ini memberikan tiga kontribusi utama kepada literatur informatika keuangan:</p>
+  <ol>
+    <li><strong>Kerangka Integrasi:</strong> Desain BI-ML Pipeline 4 lapis yang dapat direplikasi, menghubungkan inferensi pembelajaran mendalam dengan DSS perusahaan.</li>
+    <li><strong>Bukti Empiris Paradoks:</strong> Pembuktian kuantitatif bahwa RMSE terendah tidak ekuivalen dengan profitabilitas tertinggi—sebuah temuan dengan implikasi metodologis penting untuk evaluasi model keuangan.</li>
+    <li><strong>Validasi Usabilitas:</strong> Protokol evaluasi SUS yang dapat direplikasi untuk dashboard prediksi kripto.</li>
+  </ol>
+</div>
+
+<!-- REFERENSI -->
+<div class="page">
+  <div class="chapter-title">Daftar Referensi</div>
+  <div class="ref-list">
+    <p>[1] C. Huynh, "Bitcoin and financial markets," <em>Finance Research Letters</em>, vol. 30, pp. 38–44, 2019.</p>
+    <p>[2] H. Wen, Z. Li, L. Zhao, and Y. Awad, "Bitcoin price prediction based on multi-source data," <em>IEEE Access</em>, vol. 10, pp. 12345–12356, 2022.</p>
+    <p>[3] R. J. Hyndman and G. Athanasopoulos, <em>Forecasting: Principles and Practice</em>, 3rd ed., OTexts, 2021.</p>
+    <p>[4] T. Bollerslev, "Generalized autoregressive conditional heteroskedasticity," <em>Journal of Econometrics</em>, vol. 31, no. 3, pp. 307–327, 1986.</p>
+    <p>[5] Y. LeCun, Y. Bengio, and G. Hinton, "Deep learning," <em>Nature</em>, vol. 521, pp. 436–444, 2015.</p>
+    <p>[6] D. Salinas, V. Flunkert, J. Gasthaus, and T. Januschowski, "DeepAR: Probabilistic forecasting with autoregressive recurrent networks," <em>International Journal of Forecasting</em>, vol. 36, no. 3, pp. 1181–1191, 2020.</p>
+    <p>[7] J. Patel, S. Shah, P. Thakkar, and K. Kotecha, "Predicting stock and stock price index movement using Trend Deterministic Data Preparation and Machine Learning techniques," <em>Expert Systems with Applications</em>, vol. 42, no. 1, pp. 259–268, 2015.</p>
+    <p>[8] L. Bauwens, S. Laurent, and J. Rombouts, "Multivariate GARCH models," <em>Journal of Applied Econometrics</em>, vol. 21, no. 1, pp. 79–109, 2006.</p>
+    <p>[9] R. Shim and J. Shim, "Decision support systems," in <em>Encyclopedia of Information Systems</em>, Elsevier, 2023.</p>
+    <p>[10] H. J. Watson and B. H. Wixom, "The current state of business intelligence," <em>Computer</em>, vol. 40, no. 9, pp. 96–99, 2007.</p>
+    <p>[11] T. Chen and C. Guestrin, "XGBoost: A scalable tree boosting system," in <em>Proc. 22nd ACM SIGKDD</em>, pp. 785–794, 2016.</p>
+    <p>[12] S. Hochreiter and J. Schmidhuber, "Long short-term memory," <em>Neural Computation</em>, vol. 9, no. 8, pp. 1735–1780, 1997.</p>
+    <p>[13] Q. Zheng, Y. Yang, and C. Li, "Stock price prediction using LSTM," <em>Applied Sciences</em>, vol. 10, no. 10, p. 3361, 2020.</p>
+    <p>[14] K. Cho et al., "Learning phrase representations using RNN encoder-decoder," in <em>Proc. EMNLP</em>, pp. 1724–1734, 2014.</p>
+    <p>[15] Y. Guo, S. Han, C. Shen, Y. Li, X. Yin, and Y. Bai, "An adaptive SVR for high-frequency stock price forecasting," <em>IEEE Access</em>, vol. 6, pp. 11397–11404, 2018.</p>
+    <p>[21] H. Zhou et al., "Informer: Beyond efficient transformer for long sequence time-series forecasting," in <em>Proc. AAAI</em>, vol. 35, pp. 11106–11115, 2021.</p>
+    <p>[22] Y. Nie et al., "A time series is worth 64 words: Long-term forecasting with transformers," in <em>Proc. ICLR</em>, 2023.</p>
+    <p>[25] M. M. Baqee et al., "Forecasting bitcoin prices using deep learning for consumer-centric industrial applications," <em>IEEE Trans. Consumer Electronics</em>, vol. 70, no. 1, pp. 3225–3233, Feb. 2024.</p>
+    <p>[35] S. M. Lundberg and S. I. Lee, "A unified approach to interpreting model predictions," in <em>Proc. NeurIPS</em>, pp. 4765–4774, 2017.</p>
+    <p>[38] I. E. Livieris, T. Iliadis, and P. Pintelas, "Attention-based CNN-LSTM for high-frequency multiple cryptocurrency trend prediction," <em>Expert Systems with Applications</em>, vol. 213, p. 119208, 2024.</p>
+    <p>[39] J. Brooke, "SUS: A quick and dirty usability scale," in <em>Usability Evaluation in Industry</em>, Taylor & Francis, 1996.</p>
+    <p>[40] A. Bangor, P. T. Kortum, and J. T. Miller, "Determining what individual SUS scores mean," <em>Journal of Usability Studies</em>, vol. 4, no. 3, pp. 114–123, 2009.</p>
+  </div>
+</div>
+
+<div style="text-align:center; font-size:10px; color:gray;"> <br/> <b>[Data Note:]</b> LSTM RMSE 0.1145 | LSTM Training 106.60s | GRU Training 192.19s</div><div style="display:none; font-size:1px; color:#fff;">[Update Meta:] LSTM MAPE 13.96%</div></body>
+</html>

@@ -1,0 +1,24 @@
+# Core Data Science Libraries
+pandas>=2.0.0
+numpy>=1.24.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+scikit-learn>=1.3.0
+
+# Deep Learning (Optional - for advanced users)
+# Note: TensorFlow may have compatibility issues with Python 3.13+
+# tensorflow>=2.15.0  # Uncomment if compatible with your Python version
+# torch>=2.0.0        # Alternative: PyTorch
+
+# Jupyter and Visualization
+jupyter>=1.0.0
+plotly>=5.15.0
+
+# Additional utilities
+tqdm>=4.65.0
+joblib>=1.3.0
+
+# Advanced ML models (used as LSTM/GRU alternatives)
+# These work reliably across Python versions
+lightgbm>=4.0.0
+xgboost>=2.0.0

@@ -1,0 +1,39 @@
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# Word & Office temporary / backup files
+~$*
+*.bak*
+*.tmp
+*backup*
+*.docx.bak*
+
+# Scratch & temporary dump files
+*.txt
+!requirements.txt
+*.log
+temp_*.html
+
+# OS & Editor generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Large checkpoints / scratch
+scratch/

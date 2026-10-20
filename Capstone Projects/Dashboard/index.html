@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CryptoPredict AI — DSS Dashboard | Universitas Nusa Putra</title>
+  <meta name="description" content="Sistem Pendukung Keputusan Investasi Kripto berbasis Deep Learning (GRU & LSTM). Capstone Project Magister Informatika Universitas Nusa Putra.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Canvas Partikel Dinamis -->
+<canvas id="particles-canvas" class="particles-bg"></canvas>
+
+<!-- ════════════════ TOPBAR ════════════════ -->
+<header class="topbar" id="topbar">
+  <div class="topbar-left">
+    <div class="brand-mark">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L21 7V17L12 22L3 17V7L12 2Z" fill="url(#brand-grad)"/>
+        <path d="M8 12L11 15L16 9" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs>
+          <linearGradient id="brand-grad" x1="0" y1="0" x2="24" y2="24">
+            <stop offset="0%" stop-color="#6366f1"/>
+            <stop offset="50%" stop-color="#8b5cf6"/>
+            <stop offset="100%" stop-color="#ec4899"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="brand-text">
+      <span class="brand-name">CryptoPredict<span class="brand-ai"> AI</span></span>
+      <span class="brand-sub">Universitas Nusa Putra · Magister Informatika Data Science</span>
+    </div>
+  </div>
+
+  <div class="topbar-center">
+    <nav class="top-nav">
+      <button class="nav-btn active" data-page="overview" id="nav-overview">
+        <span class="nav-icon">⬡</span> Overview
+      </button>
+      <button class="nav-btn" data-page="prediction" id="nav-prediction">
+        <span class="nav-icon">🧠</span> Prediksi AI
+      </button>
+      <button class="nav-btn" data-page="simulator" id="nav-simulator">
+        <span class="nav-icon">⚡</span> Simulasi Portofolio
+      </button>
+      <button class="nav-btn" data-page="models" id="nav-models">
+        <span class="nav-icon">📊</span> Benchmark
+      </button>
+      <button class="nav-btn" data-page="risk" id="nav-risk">
+        <span class="nav-icon">🛡</span> Risiko &amp; Kalkulator
+      </button>
+      <button class="nav-btn" data-page="explainability" id="nav-explainability">
+        <span class="nav-icon">💡</span> Explainability
+      </button>
+      <button class="nav-btn" data-page="pkm" id="nav-pkm">
+        <span class="nav-icon">🤝</span> Mitra &amp; PKM
+      </button>
+      <button class="nav-btn" data-page="methodology" id="nav-methodology">
+        <span class="nav-icon">🔬</span> Metodologi
+      </button>
+    </nav>
+  </div>
+
+  <div class="topbar-right">
+    <div class="ticker-wrap">
+      <div class="ticker-top">
+        <span class="ticker-symbol">₿ BTC/USDT</span>
+        <div class="live-pill">
+          <span class="live-dot"></span>LIVE
+        </div>
+      </div>
+      <div class="ticker-price" id="top-price">—</div>
+      <div class="ticker-change" id="top-change">—</div>
+    </div>
+    <div class="server-status" id="server-status" title="Status API Server">
+      <span class="dot offline"></span>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════ MAIN CONTENT ════════════════ -->
+<main class="main-content">
+
+  <!-- ─── PAGE: OVERVIEW ─── -->
+  <section class="page active" id="page-overview">
+
+    <!-- Hero banner -->
+    <div class="hero-banner">
+      <div class="hero-text">
+        <div class="hero-badge">⚡ Capstone Project · Magister Informatika Data Science · 2026</div>
+        <h1 class="hero-title">Deep Learning<br><span class="hero-gradient">Crypto Forecasting</span> DSS</h1>
+        <p class="hero-desc">Sistem Pendukung Keputusan berbasis GRU &amp; LSTM untuk pasar Bitcoin/USDT dengan analisis risiko kuantitatif, Walk-Forward Validation, dan SHAP explainability.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat">
+          <div class="hstat-val gradient-text">0.1058</div>
+          <div class="hstat-lbl">GRU RMSE (Best)</div>
+        </div>
+        <div class="hstat-div"></div>
+        <div class="hstat">
+          <div class="hstat-val gradient-text">72.3%</div>
+          <div class="hstat-lbl">LSTM Dir. Accuracy</div>
+        </div>
+        <div class="hstat-div"></div>
+        <div class="hstat">
+          <div class="hstat-val gradient-text">24</div>
+          <div class="hstat-lbl">WFV Folds</div>
+        </div>
+        <div class="hstat-div"></div>
+        <div class="hstat">
+          <div class="hstat-val gradient-text">43.8K</div>
+          <div class="hstat-lbl">Jam Data</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI Cards Grid -->
+    <div class="section-header">
+      <div class="section-label-v2">📈 Metrik Kinerja Utama</div>
+      <div class="section-desc">Key Performance Indicators dari evaluasi Walk-Forward Validation 24-fold tanpa data leakage</div>
+    </div>
+
+    <div class="kpi-grid-v2">
+      <div class="kpi-card-v2 kpi-accent-indigo" id="kpi-price">
+        <div class="kpi-glow indigo-glow"></div>
+        <div class="kpi-v2-top">
+          <div class="kpi-v2-icon">₿</div>
+          <div class="kpi-v2-label">Harga BTC/USDT</div>
+        </div>
+        <div class="kpi-v2-value" id="kpi-price-val">—</div>
+        <div class="kpi-v2-footer">
+          <span class="kpi-pill green" id="kpi-price-ch">—</span>
+          <span class="kpi-v2-sub">24 jam terakhir</span>
+        </div>
+        <div class="kpi-sparkline">
+          <svg viewBox="0 0 100 28" preserveAspectRatio="none" width="100%" height="28">
+            <defs><linearGradient id="sp1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#6366f1" stop-opacity="0.35"/><stop offset="100%" stop-color="#6366f1" stop-opacity="0"/></linearGradient></defs>
+            <polygon points="0,28 0,22 15,18 30,20 45,10 60,16 75,6 90,12 100,4 100,28" fill="url(#sp1)"/>
+            <polyline points="0,22 15,18 30,20 45,10 60,16 75,6 90,12 100,4" fill="none" stroke="#6366f1" stroke-width="1.8"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="kpi-card-v2 kpi-accent-violet">
+        <div class="kpi-glow violet-glow"></div>
+        <div class="kpi-v2-top">
+          <div class="kpi-v2-icon">⚡</div>
+          <div class="kpi-v2-label">GRU — Best RMSE</div>
+        </div>
+        <div class="kpi-v2-value mono">0.1058</div>
+        <div class="kpi-v2-footer">
+          <span class="kpi-pill purple">±0.0034 SD</span>
+          <span class="kpi-v2-sub">MAE 0.0948 · MAPE 13.13%</span>
+        </div>
+        <div class="kpi-sparkline">
+          <svg viewBox="0 0 100 28" preserveAspectRatio="none" width="100%" height="28">
+            <defs><linearGradient id="sp2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.35"/><stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"/></linearGradient></defs>
+            <polygon points="0,28 0,18 20,14 40,16 60,8 80,10 100,4 100,28" fill="url(#sp2)"/>
+            <polyline points="0,18 20,14 40,16 60,8 80,10 100,4" fill="none" stroke="#8b5cf6" stroke-width="1.8"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="kpi-card-v2 kpi-accent-emerald">
+        <div class="kpi-glow emerald-glow"></div>
+        <div class="kpi-v2-top">
+          <div class="kpi-v2-icon">📈</div>
+          <div class="kpi-v2-label">LSTM — Dir. Accuracy</div>
+        </div>
+        <div class="kpi-v2-value">72.3%</div>
+        <div class="kpi-v2-footer">
+          <span class="kpi-pill emerald">Sharpe 1.45</span>
+          <span class="kpi-v2-sub">VaR95 −2.34% · MDD −7.6%</span>
+        </div>
+        <div class="kpi-sparkline">
+          <svg viewBox="0 0 100 28" preserveAspectRatio="none" width="100%" height="28">
+            <defs><linearGradient id="sp3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#10b981" stop-opacity="0.35"/><stop offset="100%" stop-color="#10b981" stop-opacity="0"/></linearGradient></defs>
+            <polygon points="0,28 0,20 25,16 50,10 70,14 90,6 100,4 100,28" fill="url(#sp3)"/>
+            <polyline points="0,20 25,16 50,10 70,14 90,6 100,4" fill="none" stroke="#10b981" stroke-width="1.8"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="kpi-card-v2 kpi-accent-amber">
+        <div class="kpi-glow amber-glow"></div>
+        <div class="kpi-v2-top">
+          <div class="kpi-v2-icon">🔁</div>
+          <div class="kpi-v2-label">Walk-Forward Folds</div>
+        </div>
+        <div class="kpi-v2-value">24</div>
+        <div class="kpi-v2-footer">
+          <span class="kpi-pill amber">No Leakage</span>
+          <span class="kpi-v2-sub">Kronologis · 43.786 jam data</span>
+        </div>
+        <div class="kpi-sparkline">
+          <svg viewBox="0 0 100 28" preserveAspectRatio="none" width="100%" height="28">
+            <defs><linearGradient id="sp4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f59e0b" stop-opacity="0.35"/><stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/></linearGradient></defs>
+            <polygon points="0,28 0,22 12,20 25,16 38,18 50,12 63,14 75,8 88,10 100,6 100,28" fill="url(#sp4)"/>
+            <polyline points="0,22 12,20 25,16 38,18 50,12 63,14 75,8 88,10 100,6" fill="none" stroke="#f59e0b" stroke-width="1.8"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="kpi-card-v2 kpi-accent-sky">
+        <div class="kpi-glow sky-glow"></div>
+        <div class="kpi-v2-top">
+          <div class="kpi-v2-icon">🧪</div>
+          <div class="kpi-v2-label">Signifikansi Statistik</div>
+        </div>
+        <div class="kpi-v2-value mono">p&lt;0.001</div>
+        <div class="kpi-v2-footer">
+          <span class="kpi-pill sky">Kruskal H=18.4</span>
+          <span class="kpi-v2-sub">D-M test p=0.014</span>
+        </div>
+        <div class="kpi-sparkline">
+          <svg viewBox="0 0 100 28" preserveAspectRatio="none" width="100%" height="28">
+            <defs><linearGradient id="sp5" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.35"/><stop offset="100%" stop-color="#0ea5e9" stop-opacity="0"/></linearGradient></defs>
+            <polygon points="0,28 0,24 25,18 50,12 75,7 100,3 100,28" fill="url(#sp5)"/>
+            <polyline points="0,24 25,18 50,12 75,7 100,3" fill="none" stroke="#0ea5e9" stroke-width="1.8"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Price Chart -->
+    <div class="card-v2">
+      <div class="card-v2-header">
+        <div>
+          <div class="card-v2-title">📉 Harga Historis BTC/USDT</div>
+          <div class="card-v2-sub">Binance Spot API · Mar 2021 – Mar 2026 · 43.786 candle per jam</div>
+        </div>
+        <div class="period-tabs" id="period-tabs">
+          <button class="ptab" data-period="7d">7H</button>
+          <button class="ptab active" data-period="30d">30H</button>
+          <button class="ptab" data-period="90d">90H</button>
+          <button class="ptab" data-period="1y">1T</button>
+          <button class="ptab" data-period="all">Semua</button>
+        </div>
+      </div>
+      <div class="chart-wrap chart-tall"><canvas id="chart-history"></canvas></div>
+    </div>
+
+    <!-- 3 Mini charts -->
+    <div class="three-col-grid">
+      <div class="card-v2">
+        <div class="card-v2-header"><div class="card-v2-title">📦 Volume Perdagangan 24h</div></div>
+        <div class="chart-wrap"><canvas id="chart-volume" height="160"></canvas></div>
+      </div>
+      <div class="card-v2">
+        <div class="card-v2-header"><div class="card-v2-title">📡 RSI-14 Momentum</div></div>
+        <div class="chart-wrap"><canvas id="chart-rsi" height="160"></canvas></div>
+        <div class="rsi-labels">
+          <span class="rsi-zone rsi-ob">Overbought &gt;70</span>
+          <span class="rsi-zone rsi-os">Oversold &lt;30</span>
+        </div>
+      </div>
+      <div class="card-v2">
+        <div class="card-v2-header">
+          <div class="card-v2-title">🏆 Model Snapshot RMSE</div>
+          <div class="card-v2-sub">Lebih kecil = lebih baik</div>
+        </div>
+        <div class="chart-wrap"><canvas id="chart-model-snap" height="160"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Info Banner (PKM & Capstone) -->
+    <div class="info-banner-v2">
+      <div class="banner-icon-v2">🎓</div>
+      <div class="banner-body">
+        <div class="banner-title">Capstone Project — Magister Informatika Data Science · Universitas Nusa Putra</div>
+        <div class="banner-desc">Penelitian ini merupakan hilirisasi tesis berjudul <em>"A Deep Learning Architecture for Cryptocurrency Price Forecasting"</em> yang disinergikan dengan Program Kemitraan Masyarakat (PKM) bersama komunitas trader dan pelaku UMKM ekonomi digital.</div>
+      </div>
+      <div class="banner-tags">
+        <span class="banner-tag">PKM</span>
+        <span class="banner-tag">Tridharma PT</span>
+        <span class="banner-tag">UMKM Digital</span>
+        <span class="banner-tag">Open Access</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ─── PAGE: PREDIKSI AI ─── -->
+  <section class="page" id="page-prediction">
+    <div class="pred-layout">
+
+      <!-- LEFT: Control Sidebar (sticky) -->
+      <aside class="pred-sidebar">
+        <div class="pred-sidebar-inner">
+          <div class="psb-header">
+            <div class="psb-title"><span class="psb-icon">🧠</span><span>Inferensi Model AI</span></div>
+            <div class="psb-sub">Deep Learning Multi-Step Forecasting</div>
+          </div>
+
+          <div class="psb-section">
+            <div class="psb-label">Pilih Model</div>
+            <div class="model-selector-v" id="model-selector">
+              <button class="model-btn-v active" data-model="GRU" id="sel-gru">
+                <div class="mbv-left"><span class="mbv-icon">⚡</span><div><div class="mbv-name">GRU</div><div class="mbv-desc">Point-Loss Champion</div></div></div>
+                <div class="mbv-badge">RMSE 0.1058</div>
+              </button>
+              <button class="model-btn-v" data-model="LSTM" id="sel-lstm">
+                <div class="mbv-left"><span class="mbv-icon">📈</span><div><div class="mbv-name">LSTM</div><div class="mbv-desc">Best Trading Utility</div></div></div>
+                <div class="mbv-badge">DA 72.3%</div>
+              </button>
+              <button class="model-btn-v" data-model="Informer" id="sel-informer">
+                <div class="mbv-left"><span class="mbv-icon">🔮</span><div><div class="mbv-name">Informer</div><div class="mbv-desc">Self-Attention</div></div></div>
+                <div class="mbv-badge">RMSE 0.1321</div>
+              </button>
+              <button class="model-btn-v" data-model="XGBoost" id="sel-xgboost">
+                <div class="mbv-left"><span class="mbv-icon">🌲</span><div><div class="mbv-name">XGBoost</div><div class="mbv-desc">Gradient Boosted</div></div></div>
+                <div class="mbv-badge">RMSE 0.1524</div>
+              </button>
+            </div>
+          </div>
+
+          <div class="psb-section">
+            <div class="psb-label">Horizon Prediksi</div>
+            <div class="step-grid-5" id="step-selector">
+              <button class="step-btn-v" data-steps="6">6j</button>
+              <button class="step-btn-v active" data-steps="24">24j</button>
+              <button class="step-btn-v" data-steps="48">48j</button>
+              <button class="step-btn-v" data-steps="72">72j</button>
+              <button class="step-btn-v" data-steps="168">7H</button>
+            </div>
+          </div>
+
+          <button class="run-btn-v" id="run-predict">
+            <span id="run-btn-icon">⚡</span>
+            <span id="run-btn-text">Jalankan Prediksi AI</span>
+            <span class="run-ripple"></span>
+          </button>
+
+          <div class="model-info-panel-grid" id="model-info-panel">
+            <div class="mip-item"><span class="mip-lbl">RMSE</span><span class="mip-val mono" id="mip-rmse">0.1058</span></div>
+            <div class="mip-item"><span class="mip-lbl">MAE</span><span class="mip-val mono" id="mip-mae">0.0812</span></div>
+            <div class="mip-item"><span class="mip-lbl">MAPE</span><span class="mip-val mono" id="mip-mape">2.84%</span></div>
+            <div class="mip-item"><span class="mip-lbl">Dir. Acc</span><span class="mip-val mono" id="mip-da">68.4%</span></div>
+            <div class="mip-item"><span class="mip-lbl">Sharpe</span><span class="mip-val mono" id="mip-sharpe">1.38</span></div>
+            <div class="mip-item"><span class="mip-lbl">VaR 95%</span><span class="mip-val mono" id="mip-var">-2.70%</span></div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- RIGHT: Results Panel -->
+      <div class="pred-results">
+        <div class="signal-row-v">
+          <div class="signal-card-v glow-indigo" id="signal-action-card">
+            <div class="scv-icon">🎯</div>
+            <div class="scv-label">Sinyal Trading</div>
+            <div class="scv-value" id="sig-action">—</div>
+            <div class="scv-sub" id="sig-pct">Jalankan prediksi</div>
+          </div>
+          <div class="signal-card-v glow-amber">
+            <div class="scv-icon">⚠️</div>
+            <div class="scv-label">Level Risiko</div>
+            <div class="scv-value" id="sig-risk">—</div>
+            <div class="scv-sub" id="sig-var">VaR 95%</div>
+          </div>
+          <div class="signal-card-v glow-emerald">
+            <div class="scv-icon">💰</div>
+            <div class="scv-label">Target Harga (t+n)</div>
+            <div class="scv-value mono" id="sig-final-price">—</div>
+            <div class="scv-sub" id="sig-final-ts">USDT</div>
+          </div>
+          <div class="signal-card-v glow-violet">
+            <div class="scv-icon">📊</div>
+            <div class="scv-label">Confidence Interval</div>
+            <div class="scv-value mono" id="sig-ci">—</div>
+            <div class="scv-sub">95% CI (±1.96σ)</div>
+          </div>
+        </div>
+
+        <div class="pred-chart-card">
+          <div class="pcc-header">
+            <div>
+              <div class="pcc-title" id="pred-chart-title">Grafik Prediksi Multi-Step</div>
+              <div class="pcc-sub" id="pred-chart-sub">Pilih model di kiri dan klik "Jalankan Prediksi"</div>
+            </div>
+            <div class="model-metrics-mini" id="model-metrics-mini"></div>
+          </div>
+          <div class="pred-empty-state" id="pred-empty-state">
+            <div class="pes-icon">🤖</div>
+            <div class="pes-title">Siap Menjalankan Inferensi</div>
+            <div class="pes-desc">Pilih model AI dan horizon prediksi di panel kiri,<br>lalu tekan <strong>Jalankan Prediksi AI</strong></div>
+          </div>
+          <div class="chart-wrap" style="display:none" id="pred-chart-wrap">
+            <canvas id="chart-prediction"></canvas>
+          </div>
+        </div>
+
+        <div class="pred-table-card" id="pred-table-card" style="display:none">
+          <div class="ptc-header" id="ptc-toggle">
+            <div><span class="ptc-title">📋 Tabel Prediksi Detail</span><span class="ptc-sub"> · Titik prediksi lengkap dengan confidence interval</span></div>
+            <span class="ptc-chevron" id="ptc-chevron">▼</span>
+          </div>
+          <div class="table-wrap" id="ptc-body">
+            <table class="data-table" id="pred-table">
+              <thead><tr><th>Jam ke-</th><th>Timestamp</th><th>Prediksi</th><th>CI Atas</th><th>CI Bawah</th><th>Δ dari Sekarang</th></tr></thead>
+              <tbody id="pred-table-body"><tr><td colspan="6" class="empty-cell">Belum ada data — jalankan prediksi terlebih dahulu</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── PAGE: SIMULASI PORTOFOLIO ─── -->
+  <section class="page" id="page-simulator">
+    <div class="section-header">
+      <div class="section-label-v2">⚡ Simulator Portofolio &amp; Backtesting DSS</div>
+      <div class="section-desc">Uji strategi investasi kuantitatif berbasis model Deep Learning secara interaktif dengan historical data 43.786 jam</div>
+    </div>
+
+    <div class="sim-layout">
+      <!-- Left Config Sidebar -->
+      <div class="card-v2 sim-config-card">
+        <div class="card-v2-header">
+          <div class="card-v2-title">⚙️ Konfigurasi Strategi</div>
+        </div>
+
+        <div class="sim-form-group">
+          <label class="sim-label">Modal Awal Investasi ($)</label>
+          <div class="sim-input-wrap">
+            <span class="sim-prefix">$</span>
+            <input type="number" id="sim-capital" class="sim-input" value="5000" min="100" max="1000000" step="500">
+          </div>
+          <div class="sim-quick-pills">
+            <button class="sq-pill" data-val="1000">$1K</button>
+            <button class="sq-pill active" data-val="5000">$5K</button>
+            <button class="sq-pill" data-val="10000">$10K</button>
+            <button class="sq-pill" data-val="25000">$25K</button>
+          </div>
+        </div>
+
+        <div class="sim-form-group">
+          <label class="sim-label">Model AI Pengambil Keputusan</label>
+          <select id="sim-model" class="sim-select">
+            <option value="GRU" selected>GRU (Point-Loss Champion — Akurasi Titik)</option>
+            <option value="LSTM">LSTM (Trading Utility Champion — Dir. Accuracy 72.3%)</option>
+            <option value="Informer">Informer Transformer (Self-Attention Multi-Step)</option>
+            <option value="XGBoost">XGBoost (Gradient Boosted Trees)</option>
+          </select>
+        </div>
+
+        <div class="two-col-grid" style="gap:10px;margin-bottom:12px;">
+          <div class="sim-form-group" style="margin-bottom:0;">
+            <label class="sim-label">Take Profit (%)</label>
+            <input type="number" id="sim-tp" class="sim-input" value="5.0" min="0.5" max="30" step="0.5">
+          </div>
+          <div class="sim-form-group" style="margin-bottom:0;">
+            <label class="sim-label">Stop Loss (%)</label>
+            <input type="number" id="sim-sl" class="sim-input" value="3.0" min="0.5" max="20" step="0.5">
+          </div>
+        </div>
+
+        <div class="sim-form-group">
+          <label class="sim-label">Periode Waktu Pengujian</label>
+          <select id="sim-period" class="sim-select">
+            <option value="30d">30 Hari Terakhir (Hourly)</option>
+            <option value="90d" selected>90 Hari Terakhir (Hourly)</option>
+            <option value="180d">180 Hari (6 Bulan)</option>
+            <option value="1y">1 Tahun Penuh</option>
+          </select>
+        </div>
+
+        <div class="sim-form-group">
+          <label class="sim-label">Alokasi Modal per Sinyal (%)</label>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <input type="range" id="sim-alloc-slider" min="10" max="100" step="5" value="25" style="flex:1;">
+            <span id="sim-alloc-val" class="mono" style="font-weight:700;color:var(--indigo-l);min-width:40px;">25%</span>
+          </div>
+          <div class="sim-help-text">Rekomendasi SOP Mitra: 20-30% untuk mitigasi drawdown.</div>
+        </div>
+
+        <button class="run-btn-v" id="btn-run-sim" style="margin-top:10px;">
+          <span>🚀</span>
+          <span>Jalankan Simulasi Backtest</span>
+        </button>
+      </div>
+
+      <!-- Right Output Panel -->
+      <div class="sim-results-panel">
+        <div class="sim-kpi-grid">
+          <div class="sim-kpi-card">
+            <div class="sk-lbl">Saldo Akhir Portofolio</div>
+            <div class="sk-val mono green" id="sk-final-capital">$6,420.50</div>
+            <div class="sk-sub" id="sk-net-profit">+$1,420.50 Net Profit</div>
+          </div>
+          <div class="sim-kpi-card">
+            <div class="sk-lbl">Total Return (%)</div>
+            <div class="sk-val mono green" id="sk-return">+28.41%</div>
+            <div class="sk-sub" id="sk-vs-bh">vs Buy &amp; Hold: +11.20%</div>
+          </div>
+          <div class="sim-kpi-card">
+            <div class="sk-lbl">Win Rate Sinyal</div>
+            <div class="sk-val mono indigo" id="sk-winrate">71.4%</div>
+            <div class="sk-sub" id="sk-trades-count">25 Menang / 35 Total Trade</div>
+          </div>
+          <div class="sim-kpi-card">
+            <div class="sk-lbl">Max Drawdown Portofolio</div>
+            <div class="sk-val mono amber" id="sk-mdd">-6.45%</div>
+            <div class="sk-sub" id="sk-profit-factor">Profit Factor: 2.18</div>
+          </div>
+        </div>
+
+        <div class="card-v2" style="margin-bottom:14px;">
+          <div class="card-v2-header">
+            <div>
+              <div class="card-v2-title">📈 Kurva Pertumbuhan Modal (Equity Curve)</div>
+              <div class="card-v2-sub">Perbandingan Portofolio Strategi AI vs Strategi Pasif (Buy &amp; Hold)</div>
+            </div>
+            <div class="legend-badge-group">
+              <span class="lbg-item" style="color:var(--emerald-l)">● Strategi DSS AI</span>
+              <span class="lbg-item" style="color:var(--text-muted)">-- Buy &amp; Hold</span>
+            </div>
+          </div>
+          <div class="chart-wrap" style="height:270px;"><canvas id="chart-sim-equity"></canvas></div>
+        </div>
+
+        <div class="card-v2" style="margin-bottom:0;">
+          <div class="card-v2-header">
+            <div class="card-v2-title">📋 Log Eksekusi Sinyal Transaksi Simulasi</div>
+            <div class="card-v2-sub">Detail simulasi masuk &amp; keluar posisi berdasarkan sinyal model AI</div>
+          </div>
+          <div class="table-wrap" style="max-height:210px;overflow-y:auto;">
+            <table class="data-table" id="sim-trade-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Waktu Masuk</th>
+                  <th>Aksi</th>
+                  <th>Harga Entry</th>
+                  <th>Harga Exit</th>
+                  <th>PnL (%)</th>
+                  <th>Profit/Loss ($)</th>
+                  <th>Alasan Exit</th>
+                </tr>
+              </thead>
+              <tbody id="sim-trade-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PAGE: BENCHMARK ─── -->
+  <section class="page" id="page-models">
+    <div class="section-header">
+      <div class="section-label-v2">🏆 Evaluasi Komparatif Empat Arsitektur</div>
+      <div class="section-desc">Walk-Forward Validation · 24 Fold · Dataset BTC/USDT Binance Mar 2021–2026</div>
+    </div>
+
+    <div class="card-v2">
+      <div class="card-v2-header">
+        <div class="card-v2-title">Tabel Benchmark Komprehensif — 24-fold Walk-Forward Validation</div>
+        <div class="card-v2-sub">Dataset: Binance BTC/USDT Hourly · Mar 2021 – Mar 2026 · 43.786 rekaman</div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table benchmark-table">
+          <thead>
+            <tr><th>Model</th><th>RMSE ↓</th><th>MAE ↓</th><th>MAPE ↓</th><th>Dir. Accuracy ↑</th><th>Sharpe Ratio ↑</th><th>VaR 95% ↑</th><th>Max DD ↑</th><th>Peringkat</th></tr>
+          </thead>
+          <tbody id="benchmark-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="two-col-grid">
+      <div class="card-v2">
+        <div class="card-v2-header">
+          <div class="card-v2-title">📉 RMSE per Fold (24-fold Walk-Forward)</div>
+          <div class="card-v2-sub">Semakin rendah semakin baik</div>
+        </div>
+        <div class="chart-wrap"><canvas id="chart-walkforward" height="260"></canvas></div>
+      </div>
+      <div class="card-v2">
+        <div class="card-v2-header">
+          <div class="card-v2-title">🕸 Radar: Profil Kinerja Multi-Dimensi</div>
+          <div class="card-v2-sub">Perbandingan holistik semua model</div>
+        </div>
+        <div class="chart-wrap"><canvas id="chart-radar" height="260"></canvas></div>
+      </div>
+    </div>
+
+    <div class="two-col-grid">
+      <div class="card-v2 stat-card-v2">
+        <div class="stat-badge">Kruskal-Wallis Test</div>
+        <div class="stat-metric-grid">
+          <div class="sm-item"><div class="sm-val">18.4</div><div class="sm-lbl">H Statistic</div></div>
+          <div class="sm-item highlight"><div class="sm-val green">&lt; 0.001</div><div class="sm-lbl">p-value</div></div>
+          <div class="sm-item"><div class="sm-val amber">α=0.05</div><div class="sm-lbl">Confidence</div></div>
+        </div>
+        <div class="stat-note-v2">Distribusi RMSE antar 4 model berbeda secara statistik — keunggulan model bukan kebetulan (noise).</div>
+      </div>
+      <div class="card-v2 stat-card-v2">
+        <div class="stat-badge">Diebold-Mariano Test (GRU vs LSTM)</div>
+        <div class="stat-metric-grid">
+          <div class="sm-item"><div class="sm-val">2.47</div><div class="sm-lbl">DM Statistic</div></div>
+          <div class="sm-item highlight"><div class="sm-val green">0.014</div><div class="sm-lbl">p-value</div></div>
+          <div class="sm-item"><div class="sm-val indigo">GRU &gt; LSTM</div><div class="sm-lbl">Hasil</div></div>
+        </div>
+        <div class="stat-note-v2">GRU superior secara statistik dalam akurasi titik prediksi; LSTM unggul dalam utilitas finansial (Sharpe, DA).</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PAGE: MANAJEMEN RISIKO ─── -->
+  <section class="page" id="page-risk">
+    <div class="section-header">
+      <div class="section-label-v2">🛡 Risk Analytics Kuantitatif</div>
+      <div class="section-desc">Analisis risiko portofolio berbasis Value-at-Risk, CVaR, dan Maximum Drawdown</div>
+    </div>
+
+    <div class="risk-kpi-grid">
+      <div class="risk-kpi-v2 risk-red"><div class="rk-icon-lg">📉</div><div class="rk-lbl">VaR Harian (95%)</div><div class="rk-val-lg" id="rk-var">—</div><div class="rk-sub-v2">Max kerugian harian (95% CI)</div><div class="rk-prog"><div class="rk-prog-fill red" style="width:65%"></div></div></div>
+      <div class="risk-kpi-v2 risk-red"><div class="rk-icon-lg">⚡</div><div class="rk-lbl">CVaR / Expected Shortfall</div><div class="rk-val-lg" id="rk-cvar">—</div><div class="rk-sub-v2">Rata-rata kerugian beyond VaR</div><div class="rk-prog"><div class="rk-prog-fill red" style="width:75%"></div></div></div>
+      <div class="risk-kpi-v2 risk-red"><div class="rk-icon-lg">🕳</div><div class="rk-lbl">Maximum Drawdown</div><div class="rk-val-lg" id="rk-mdd">—</div><div class="rk-sub-v2">Penurunan terdalam dari puncak</div><div class="rk-prog"><div class="rk-prog-fill red" style="width:55%"></div></div></div>
+      <div class="risk-kpi-v2 risk-green"><div class="rk-icon-lg">📊</div><div class="rk-lbl">Sharpe Ratio (Ann.)</div><div class="rk-val-lg" id="rk-sharpe">—</div><div class="rk-sub-v2">Return per unit risiko total</div><div class="rk-prog"><div class="rk-prog-fill green" style="width:60%"></div></div></div>
+      <div class="risk-kpi-v2 risk-green"><div class="rk-icon-lg">⬆</div><div class="rk-lbl">Sortino Ratio</div><div class="rk-val-lg" id="rk-sortino">—</div><div class="rk-sub-v2">Return per unit downside risk</div><div class="rk-prog"><div class="rk-prog-fill green" style="width:68%"></div></div></div>
+      <div class="risk-kpi-v2 risk-amber"><div class="rk-icon-lg">🌊</div><div class="rk-lbl">Volatilitas Tahunan</div><div class="rk-val-lg" id="rk-vol">—</div><div class="rk-sub-v2">Standar deviasi return (ann.)</div><div class="rk-prog"><div class="rk-prog-fill amber" style="width:80%"></div></div></div>
+    </div>
+
+    <div class="two-col-grid">
+      <div class="card-v2">
+        <div class="card-v2-header"><div class="card-v2-title">📊 Distribusi Return Logaritmik</div><div class="card-v2-sub">90 hari terakhir — fat-tail analysis</div></div>
+        <div class="chart-wrap"><canvas id="chart-return-dist" height="260"></canvas></div>
+      </div>
+      <div class="card-v2">
+        <div class="card-v2-header"><div class="card-v2-title">📉 Drawdown Timeline</div><div class="card-v2-sub">Drawdown kumulatif dari puncak</div></div>
+        <div class="chart-wrap"><canvas id="chart-drawdown" height="260"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card-v2">
+      <div class="card-v2-header"><div class="card-v2-title">🛡 Rekomendasi Manajemen Risiko</div></div>
+      <div class="risk-recommend-v2" id="risk-recommend">
+        <div class="rr-card"><div class="rr-icon-v2">⚠️</div><div class="rr-title">Position Sizing</div><div class="rr-desc">Batasi eksposur maksimum 2–5% dari total modal per transaksi berdasarkan nilai VaR harian yang terukur.</div></div>
+        <div class="rr-card"><div class="rr-icon-v2">🛡️</div><div class="rr-title">Stop-Loss Otomatis</div><div class="rr-desc">Pasang stop-loss pada level 1.5× VaR harian (≈3.5%) sebagai circuit-breaker otomatis untuk proteksi portofolio.</div></div>
+        <div class="rr-card"><div class="rr-icon-v2">📊</div><div class="rr-title">Diversifikasi Signal</div><div class="rr-desc">Gabungkan sinyal GRU (akurasi titik) dan LSTM (directional) untuk keputusan yang lebih robust dan tervalidasi.</div></div>
+        <div class="rr-card"><div class="rr-icon-v2">🔄</div><div class="rr-title">Rebalancing Berkala</div><div class="rr-desc">Lakukan rebalancing setiap 24 jam mengikuti horizon prediksi model untuk meminimalkan drawdown kumulatif.</div></div>
+      </div>
+    </div>
+
+    <!-- ─── INTERACTIVE TOOL: KALKULATOR UKURAN POSISI & BATAS RISIKO (SOP MITRA) ─── -->
+    <div class="card-v2" style="margin-top:16px;">
+      <div class="card-v2-header">
+        <div>
+          <div class="card-v2-title">🧮 Kalkulator Ukuran Posisi &amp; Batas Risiko Interaktif (SOP Mitra)</div>
+          <div class="card-v2-sub">Alat bantu praktis bagi anggota komunitas mitra untuk menghitung lot aman &amp; membatasi risiko sebelum masuk pasar</div>
+        </div>
+        <span class="kpi-pill green">SOP Protection Active</span>
+      </div>
+
+      <div class="pos-calc-grid">
+        <div class="pos-calc-inputs">
+          <div class="pci-group">
+            <label class="sim-label">Total Saldo Akun Portofolio ($)</label>
+            <input type="number" id="calc-equity" class="sim-input" value="10000" min="100" step="500">
+          </div>
+          <div class="pci-group">
+            <label class="sim-label">Toleransi Risiko per Transaksi (%)</label>
+            <div style="display:flex;gap:6px;align-items:center;">
+              <input type="number" id="calc-risk-pct" class="sim-input" value="2.0" min="0.5" max="10" step="0.5" style="width:80px;">
+              <button class="sq-pill active" id="btn-risk-1">1% Aman</button>
+              <button class="sq-pill" id="btn-risk-2">2% SOP</button>
+              <button class="sq-pill" id="btn-risk-5">5% Agresif</button>
+            </div>
+          </div>
+          <div class="two-col-grid" style="gap:10px;margin-bottom:0;">
+            <div class="pci-group" style="margin-bottom:0;">
+              <label class="sim-label">Harga Masuk / Entry Price ($)</label>
+              <input type="number" id="calc-entry" class="sim-input" value="67430" step="10">
+            </div>
+            <div class="pci-group" style="margin-bottom:0;">
+              <label class="sim-label">Tingkat Stop Loss Price ($)</label>
+              <input type="number" id="calc-sl" class="sim-input" value="65744" step="10">
+            </div>
+          </div>
+          <div style="margin-top:8px;">
+            <button class="ptab active" id="btn-use-var" style="font-size:11px;padding:4px 10px;" title="Isi otomatis berdasarkan VaR 95% (-2.5%)">⚡ Gunakan Stop Loss VaR 95% Model (-2.5%)</button>
+          </div>
+        </div>
+
+        <div class="pos-calc-results">
+          <div class="pcr-header">Hasil Perhitungan Ukuran Posisi Aman:</div>
+          <div class="pcr-item">
+            <span class="pcr-lbl">Batas Maksimum Kerugian (Max Risk $):</span>
+            <span class="pcr-val red mono" id="calc-res-risk-usd">$200.00</span>
+          </div>
+          <div class="pcr-item">
+            <span class="pcr-lbl">Ukuran Posisi Maksimum Diizinkan:</span>
+            <span class="pcr-val green mono" id="calc-res-pos-usd">$7,998.81</span>
+          </div>
+          <div class="pcr-item">
+            <span class="pcr-lbl">Volume Koin Maksimum (BTC):</span>
+            <span class="pcr-val indigo mono" id="calc-res-pos-btc">0.1186 BTC</span>
+          </div>
+          <div class="pcr-item">
+            <span class="pcr-lbl">Jarak Stop Loss:</span>
+            <span class="pcr-val amber mono" id="calc-res-sl-dist">2.50% (-$1,686)</span>
+          </div>
+          <div class="pcr-status" id="calc-status-box">
+            ✅ <strong>Posisi Terlindungi:</strong> Alokasi risiko 2.0% memenuhi standar perlindungan modal Program Kemitraan Masyarakat (PKM).
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PAGE: EXPLAINABILITY ─── -->
+  <section class="page" id="page-explainability">
+    <div class="section-header">
+      <div class="section-label-v2">💡 AI Explainability — SHAP Feature Importance</div>
+      <div class="section-desc">Interpretasi model GRU dengan SHAP values — 15 fitur rekayasa multivariat</div>
+    </div>
+
+    <div class="two-col-grid">
+      <div class="card-v2">
+        <div class="card-v2-header"><div class="card-v2-title">SHAP Feature Importance — Model GRU</div><div class="card-v2-sub">15 fitur rekayasa · Mean |SHAP| value</div></div>
+        <div class="chart-wrap"><canvas id="chart-shap" height="360"></canvas></div>
+      </div>
+      <div class="card-v2">
+        <div class="card-v2-header"><div class="card-v2-title">Kategori Fitur</div><div class="card-v2-sub">Distribusi kontribusi per kelompok fitur</div></div>
+        <div class="chart-wrap"><canvas id="chart-shap-cat" height="260"></canvas></div>
+        <div class="feature-legend" id="feature-legend"></div>
+      </div>
+    </div>
+
+    <div class="card-v2">
+      <div class="card-v2-header"><div class="card-v2-title">Detail 15 Fitur Rekayasa</div><div class="card-v2-sub">Pipeline fitur multivariat — trend, momentum, volatilitas, volume</div></div>
+      <div class="table-wrap">
+        <table class="data-table" id="feature-table">
+          <thead><tr><th>#</th><th>Nama Fitur</th><th>Kategori</th><th>SHAP Value</th><th>Kontribusi</th><th>Deskripsi</th></tr></thead>
+          <tbody id="feature-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PAGE: MITRA & PKM ─── -->
+  <section class="page" id="page-pkm">
+    <div class="section-header">
+      <div class="section-label-v2">🤝 Program Kemitraan Masyarakat (PKM) &amp; Profil Mitra</div>
+      <div class="section-desc">Hilirisasi Riset Capstone Project Magister Informatika Universitas Nusa Putra bersama Komunitas Trader &amp; Penggiat Ekonomi Digital Sukabumi</div>
+    </div>
+
+    <!-- Profil Mitra & Permasalahan Prioritas -->
+    <div class="two-col-grid">
+      <div class="card-v2">
+        <div class="card-v2-header">
+          <div class="card-v2-title">🏢 Profil Mitra Kerjasama Resmi</div>
+          <span class="kpi-pill purple">MoA: 042/MoA-PKM/UNP/2026</span>
+        </div>
+        <div class="mitra-profile-content">
+          <div class="mp-item">
+            <div class="mp-icon">👥</div>
+            <div>
+              <div class="mp-title">Mitra 1: Komunitas Trader &amp; Penggiat Ekonomi Digital Sukabumi</div>
+              <div class="mp-desc">Komunitas swadaya yang menaungi <strong>lebih dari 150 wirausahawan muda, mahasiswa, dan investor ritel</strong> di wilayah Sukabumi yang aktif bertransaksi pada instrumen aset digital resmi (diawasi Bappebti).</div>
+            </div>
+          </div>
+          <div class="mp-item" style="margin-top:14px;">
+            <div class="mp-icon">🏪</div>
+            <div>
+              <div class="mp-title">Mitra 2: Pelaku UMKM Digital &amp; Koperasi Sukabumi Kreatif</div>
+              <div class="mp-desc">Pelaku usaha mikro dan menengah daerah yang mengadopsi penerimaan transaksi digital dan membutuhkan sistem hedging/perlindungan nilai aset likuid dari volatilitas pasar kripto.</div>
+            </div>
+          </div>
+          <div class="pkm-location-tag" style="margin-top:14px;">
+            📍 <strong>Lokasi Kegiatan:</strong> Laboratorium Komputasi Universitas Nusa Putra &amp; Sekretariat Komunitas Sukabumi
+          </div>
+        </div>
+      </div>
+
+      <div class="card-v2">
+        <div class="card-v2-header">
+          <div class="card-v2-title">⚠️ Analisis Permasalahan Prioritas Mitra</div>
+          <span class="kpi-pill red">Fokus Intervensi</span>
+        </div>
+        <div class="pkm-problems-list">
+          <div class="pp-item">
+            <div class="pp-num red">01</div>
+            <div>
+              <div class="pp-title">Tingginya Kerugian Ritel Akibat FOMO</div>
+              <div class="pp-desc">&gt;70% anggota mengalami kerugian modal akibat perilaku trading emosional dan ketergantungan pada rumor grup pesan instan tanpa dasar kuantitatif.</div>
+            </div>
+          </div>
+          <div class="pp-item">
+            <div class="pp-num amber">02</div>
+            <div>
+              <div class="pp-title">Ketiadaan Instrumen Risiko Kuantitatif</div>
+              <div class="pp-desc">Mitra tidak memiliki akses pada sistem terpadu untuk mengukur batasan risiko harian <em>Value at Risk (VaR 95%)</em> dan <em>Sharpe Ratio</em>.</div>
+            </div>
+          </div>
+          <div class="pp-item">
+            <div class="pp-num indigo">03</div>
+            <div>
+              <div class="pp-title">Kesenjangan Akses Teknologi AI &amp; Data Science</div>
+              <div class="pp-desc">Ketiadaan antarmuka visual cerdas (DSS) yang siap pakai tanpa memerlukan keahlian pemrograman atau analisis matematis yang rumit.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 Pilar Solusi & Target Capaian IKU -->
+    <div class="card-v2">
+      <div class="card-v2-header">
+        <div class="card-v2-title">🎯 Tiga Pilar Solusi Intervensi &amp; Target Luaran IKU Perguruan Tinggi</div>
+      </div>
+      <div class="three-col-grid" style="margin-bottom:0;">
+        <div class="pkm-pillar-card pkm-pillar-green">
+          <div class="ppc-badge">PILAR 1</div>
+          <div class="ppc-icon">📚</div>
+          <div class="ppc-title">Edukasi Literasi Risiko</div>
+          <div class="ppc-desc">Workshop intensif 2 hari di Lab Komputasi UNP mengenai volatilitas pasar, metrik risiko kuantitatif (VaR, CVaR, Sharpe), dan psikologi trading disiplin.</div>
+          <div class="ppc-output">Luaran: Modul Pelatihan Ber-ISBN &amp; Target Peningkatan Literasi &ge;40%</div>
+        </div>
+        <div class="pkm-pillar-card pkm-pillar-blue">
+          <div class="ppc-badge">PILAR 2</div>
+          <div class="ppc-icon">💻</div>
+          <div class="ppc-title">Adopsi Dashboard DSS AI</div>
+          <div class="ppc-desc">Pemberian akses terbuka ke CryptoPredict AI DSS Dashboard ini agar anggota komunitas dapat memantau peramalan pasar dan batas risiko secara mandiri.</div>
+          <div class="ppc-output">Luaran: HKI Hak Cipta Sistem DSS dari DJKI Kemenkumham RI</div>
+        </div>
+        <div class="pkm-pillar-card pkm-pillar-amber">
+          <div class="ppc-badge">PILAR 3</div>
+          <div class="ppc-icon">🛡️</div>
+          <div class="ppc-title">Pendampingan &amp; SOP Cut-Loss</div>
+          <div class="ppc-desc">Penyusunan Standard Operating Procedure (SOP) alokasi modal dan pembatasan cut-loss dinamis berbasis deviasi standar model GRU-LSTM selama 8 minggu.</div>
+          <div class="ppc-output">Luaran: Publikasi Artikel di Jurnal Abdimas Terakreditasi SINTA</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Roadmap 4 Bulan PKM -->
+    <div class="card-v2">
+      <div class="card-v2-header">
+        <div class="card-v2-title">📅 Roadmap &amp; Jadwal Pelaksanaan Program Kemitraan (4 Bulan)</div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Bulan</th><th>Tahapan Program</th><th>Fokus Kegiatan Bersama Mitra</th><th>Luaran Terverifikasi</th><th>Pelaksana</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="kpi-pill purple">Bulan 1</span></td>
+              <td><strong>Persiapan &amp; Penandatanganan MoA</strong></td>
+              <td>FGD pemetaan profil risiko mitra, konfigurasi dashboard DSS, dan finalisasi modul ber-ISBN</td>
+              <td>Surat Perjanjian Kerjasama (MoA) &amp; Draf Modul Ber-ISBN</td>
+              <td>Tim Pengusul &amp; Mitra</td>
+            </tr>
+            <tr>
+              <td><span class="kpi-pill emerald">Bulan 2</span></td>
+              <td><strong>Pelatihan Intensif Luring (2 Hari)</strong></td>
+              <td>Workshop di Lab Komputasi Universitas Nusa Putra: simulasi dashboard, interpretasi sinyal AI, dan kalkulasi lot</td>
+              <td>Pre-test Literasi, Modul Cetak, Dokumentasi Media Massa</td>
+              <td>Mahasiswa &amp; Dosen Pembimbing</td>
+            </tr>
+            <tr>
+              <td><span class="kpi-pill sky">Bulan 3</span></td>
+              <td><strong>Pendampingan Transaksi &amp; Simulasi</strong></td>
+              <td>Monitoring mingguan penerapan SOP cut-loss dan pengujian fitur simulator portofolio pada bursa resmi Bappebti</td>
+              <td>Logbook transaksi portofolio mitra &amp; asistensi daring</td>
+              <td>Tim Mahasiswa</td>
+            </tr>
+            <tr>
+              <td><span class="kpi-pill amber">Bulan 4</span></td>
+              <td><strong>Evaluasi, HKI, &amp; Diseminasi SINTA</strong></td>
+              <td>Pengukuran post-test kapasitas mitra, penyerahan sertifikat HKI Kemenkumham, dan submit naskah jurnal abdimas</td>
+              <td>Laporan Akhir PKM, Sertifikat HKI, Artikel Jurnal SINTA</td>
+              <td>Tim Pengusul &amp; LPPM UNP</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- INTERACTIVE TOOLS: Kuis Literasi Risiko + Logbook Konsultasi Mitra -->
+    <div class="two-col-grid">
+      <div class="card-v2" id="card-pkm-quiz">
+        <div class="card-v2-header">
+          <div>
+            <div class="card-v2-title">📝 Kuis Evaluasi Literasi Risiko Investasi (Pre-Test / Post-Test Mitra)</div>
+            <div class="card-v2-sub">Uji pemahaman mitigasi risiko keuangan berbasis AI secara interaktif untuk anggota komunitas mitra</div>
+          </div>
+        </div>
+
+        <div id="quiz-container">
+          <div class="quiz-question-box">
+            <div class="quiz-q-num" id="quiz-q-num">Pertanyaan 1 dari 5</div>
+            <div class="quiz-q-text" id="quiz-q-text">Memuat pertanyaan kuis literasi...</div>
+            <div class="quiz-options" id="quiz-options"></div>
+          </div>
+          <div class="quiz-nav">
+            <button class="ptab active" id="btn-quiz-next">Jawab &amp; Lanjut →</button>
+            <span class="quiz-score-live" id="quiz-score-live">Skor Saat Ini: 0</span>
+          </div>
+        </div>
+
+        <div id="quiz-result-box" style="display:none;" class="quiz-result-card">
+          <div class="qr-icon">🎓</div>
+          <div class="qr-title" id="qr-title">Hasil Evaluasi Literasi Risiko</div>
+          <div class="qr-score" id="qr-score">80 / 100</div>
+          <div class="qr-desc" id="qr-desc">Selamat! Anda telah memahami konsep mitigasi risiko berbasis AI sesuai standar SOP Program Kemitraan Masyarakat.</div>
+          <button class="ptab active" id="btn-quiz-restart" style="margin-top:12px;">Ulangi Kuis</button>
+        </div>
+      </div>
+
+      <div class="card-v2">
+        <div class="card-v2-header">
+          <div>
+            <div class="card-v2-title">💬 Logbook Asistensi &amp; Form Feedback Mitra</div>
+            <div class="card-v2-sub">Kanal interaktif pengajuan pertanyaan konsultasi portofolio atau feedback dari anggota komunitas</div>
+          </div>
+        </div>
+
+        <form id="form-mitra-feedback" class="mitra-feedback-form">
+          <div class="sim-form-group">
+            <label class="sim-label">Nama Anggota / Nama UMKM</label>
+            <input type="text" id="fb-name" class="sim-input" placeholder="Contoh: Rian (Anggota Komunitas Trader Sukabumi)" required>
+          </div>
+          <div class="sim-form-group">
+            <label class="sim-label">Topik Asistensi / Feedback</label>
+            <select id="fb-topic" class="sim-select">
+              <option value="Evaluasi Sinyal AI">Evaluasi Sinyal Prediksi Model GRU/LSTM</option>
+              <option value="Konsultasi Position Sizing">Konsultasi Batas Risiko &amp; Position Sizing</option>
+              <option value="Kendala Teknis Dashboard">Masukan Antarmuka Dashboard</option>
+              <option value="Hasil Simulasi Portofolio">Laporan Hasil Uji Simulator Portofolio</option>
+            </select>
+          </div>
+          <div class="sim-form-group">
+            <label class="sim-label">Catatan Asistensi / Ulasan</label>
+            <textarea id="fb-message" class="sim-input" rows="3" placeholder="Tuliskan pengalaman atau pertanyaan terkait mitigasi risiko..." required style="resize:vertical;"></textarea>
+          </div>
+          <button type="submit" class="run-btn-v" style="padding:8px 16px;">
+            <span>Kirim Logbook Konsultasi</span>
+          </button>
+        </form>
+
+        <div class="feedback-recent-list" id="feedback-recent-list">
+          <div class="fr-title">Log Asistensi Terkini:</div>
+          <div class="fr-item">
+            <div class="fr-header"><strong>Budi Santoso (UMKM Digital)</strong> · <span class="fr-time">Hari ini</span></div>
+            <div class="fr-body">"Sangat terbantu dengan kalkulator ukuran posisi. Kerugian floating loss berhasil ditekan di bawah 3%."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PAGE: METODOLOGI ─── -->
+  <section class="page" id="page-methodology">
+    <div class="section-header">
+      <div class="section-label-v2">🔬 Arsitektur Four-Layer DSS</div>
+      <div class="section-desc">Pipeline end-to-end dari data mentah Binance hingga Business Intelligence Dashboard</div>
+    </div>
+
+    <div class="card-v2 arch-card-v2">
+      <div class="card-v2-header">
+        <div class="card-v2-title">Four-Layer Decision Support System Architecture</div>
+        <div class="card-v2-sub">Data Acquisition → Feature Engineering → Model Training → DSS Dashboard</div>
+      </div>
+      <div class="arch-pipeline">
+        <div class="arch-step">
+          <div class="arch-step-num">01</div>
+          <div class="arch-step-icon">🌐</div>
+          <div class="arch-step-title">Data Acquisition</div>
+          <div class="arch-step-items"><span>Binance REST API</span><span>OHLCV Parser</span><span>43.786 Records</span></div>
+        </div>
+        <div class="arch-arrow-v2">→</div>
+        <div class="arch-step">
+          <div class="arch-step-num">02</div>
+          <div class="arch-step-icon">⚙️</div>
+          <div class="arch-step-title">Feature Engineering</div>
+          <div class="arch-step-items"><span>MinMax Scaler</span><span>15 Indikator</span><span>Seq=24 Window</span></div>
+        </div>
+        <div class="arch-arrow-v2">→</div>
+        <div class="arch-step arch-step-active">
+          <div class="arch-step-num">03</div>
+          <div class="arch-step-icon">🧠</div>
+          <div class="arch-step-title">Model Training</div>
+          <div class="arch-step-items"><span class="step-hl">GRU ⚡ Best</span><span class="step-hl">LSTM 📈</span><span>24-fold WFV</span></div>
+        </div>
+        <div class="arch-arrow-v2">→</div>
+        <div class="arch-step">
+          <div class="arch-step-num">04</div>
+          <div class="arch-step-icon">📊</div>
+          <div class="arch-step-title">DSS Dashboard</div>
+          <div class="arch-step-items"><span>Risk Engine</span><span>SHAP XAI</span><span>PKM Mitra</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col-grid">
+      <div class="card-v2">
+        <div class="card-v2-header"><div class="card-v2-title">📦 Spesifikasi Dataset</div></div>
+        <div class="spec-table-v2">
+          <div class="spec-row-v2"><span>Sumber</span><span>Binance Spot REST API (BTCUSDT)</span></div>
+          <div class="spec-row-v2"><span>Resolusi</span><span>1 jam (Hourly OHLCV)</span></div>
+          <div class="spec-row-v2"><span>Periode</span><span>1 Mar 2021 – 1 Mar 2026</span></div>
+          <div class="spec-row-v2"><span>Total Candle</span><span class="spec-highlight">43.786 rekaman</span></div>
+          <div class="spec-row-v2"><span>Fitur Engineered</span><span>15 indikator multivariat</span></div>
+          <div class="spec-row-v2"><span>Train/Val Split</span><span>Walk-Forward (no leakage)</span></div>
+          <div class="spec-row-v2"><span>Normalisasi</span><span>MinMaxScaler [0,1]</span></div>
+          <div class="spec-row-v2"><span>Sequence Length</span><span>24 jam (look-back window)</span></div>
+        </div>
+      </div>
+      <div class="card-v2">
+        <div class="card-v2-header"><div class="card-v2-title">⚡ Spesifikasi Model Terbaik (GRU)</div></div>
+        <div class="spec-table-v2">
+          <div class="spec-row-v2"><span>Arsitektur</span><span>GRU (Gated Recurrent Unit)</span></div>
+          <div class="spec-row-v2"><span>Hidden Size</span><span>50 unit</span></div>
+          <div class="spec-row-v2"><span>Num Layers</span><span>3 layer stacked</span></div>
+          <div class="spec-row-v2"><span>Dropout</span><span>0.2 (regularisasi)</span></div>
+          <div class="spec-row-v2"><span>Optimizer</span><span>Adam (lr=0.001)</span></div>
+          <div class="spec-row-v2"><span>Loss Function</span><span>MSE Loss</span></div>
+          <div class="spec-row-v2"><span>Framework</span><span class="spec-highlight">PyTorch 2.x</span></div>
+          <div class="spec-row-v2"><span>Epochs</span><span>100 (early stopping patience=10)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pkm-card-v2">
+      <div class="pkm-icon-v2">🤝</div>
+      <div class="pkm-body-v2">
+        <div class="pkm-title-v2">Luaran PKM — Program Kemitraan Masyarakat</div>
+        <div class="pkm-desc-v2">Sistem DSS ini disinergikan dengan Program Kemitraan Masyarakat (PKM) bersama dua mitra strategis: <strong>komunitas trader kripto lokal</strong> dan <strong>UMKM berbasis ekonomi digital</strong>. PKM bertujuan meningkatkan literasi risiko finansial berbasis AI melalui workshop, modul pelatihan, dan akses terbuka ke dashboard ini sebagai alat bantu keputusan investasi yang terukur dan etis.</div>
+        <div class="pkm-tags-v2">
+          <span class="ptag-v2 indigo">Hilirisasi Riset</span>
+          <span class="ptag-v2 violet">Tridharma PT</span>
+          <span class="ptag-v2 emerald">Literasi Keuangan Digital</span>
+          <span class="ptag-v2 amber">Komunitas Trader</span>
+          <span class="ptag-v2 sky">UMKM Digital</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- ════════════════ LOADING OVERLAY ════════════════ -->
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loader-v2">
+    <div class="loader-hex">
+      <svg width="64" height="64" viewBox="0 0 64 64">
+        <path d="M32 6L58 20V44L32 58L6 44V20L32 6Z" fill="none" stroke="url(#lg1)" stroke-width="1.8" stroke-dasharray="220" stroke-dashoffset="220">
+          <animate attributeName="stroke-dashoffset" values="220;0;220" dur="2s" repeatCount="indefinite"/>
+        </path>
+        <path d="M32 18L46 26V42L32 50L18 42V26L32 18Z" fill="none" stroke="url(#lg2)" stroke-width="1.2" opacity="0.6" stroke-dasharray="140" stroke-dashoffset="140">
+          <animate attributeName="stroke-dashoffset" values="140;0;140" dur="2s" begin="0.3s" repeatCount="indefinite"/>
+        </path>
+        <defs>
+          <linearGradient id="lg1" x1="0" y1="0" x2="64" y2="64"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#ec4899"/></linearGradient>
+          <linearGradient id="lg2" x1="0" y1="0" x2="64" y2="64"><stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#0ea5e9"/></linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="loader-title">CryptoPredict <span class="brand-ai">AI</span></div>
+    <div class="loader-sub" id="loader-text">Memuat model dan koneksi API…</div>
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
