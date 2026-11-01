@@ -1941,7 +1941,7 @@ table.academic-table tr.best-row td {
     transition: var(--trans);
 }
 .v-more:hover { background: var(--primary); color: #fff; }
-.v-row-end { display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.8rem; flex-wrap: wrap; }
+.v-row-end { display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 0.55rem; flex-wrap: wrap; }
 
 /* Simple table tweaks */
 .v-table td, .v-table th { font-size: 0.92rem !important; }
@@ -1955,7 +1955,21 @@ table.academic-table tr.best-row td {
 
 /* Skala teks mengikuti ukuran layar (proyektor / laptop) */
 html { font-size: max(13px, min(1.15vw, 2.05vh)); }
-.v-body { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+/* Isi slide tidak boleh menyusut; jika layar pendek, slide di-scroll (bukan saling menimpa) */
+.v-body { flex: 1 0 auto; display: flex; flex-direction: column; }
+.slide > *, .v-body > * { flex-shrink: 0; }
+.slide { padding-top: 4.3rem; padding-bottom: 4.9rem; }
+#scroll-hint {
+    position: fixed; left: 50%; bottom: 1.1rem; transform: translate(-50%, 8px);
+    display: flex; align-items: center; gap: 0.45rem; padding: 0.42rem 0.95rem;
+    background: rgba(150, 29, 90, 0.92); color: #fff; border-radius: 999px;
+    font-size: 0.78rem; font-weight: 600; box-shadow: 0 6px 18px rgba(150, 29, 90, 0.28);
+    opacity: 0; pointer-events: none; transition: opacity 0.25s ease, transform 0.25s ease; z-index: 150; cursor: pointer;
+}
+#scroll-hint.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+#scroll-hint i { animation: hintBounce 1.4s ease-in-out infinite; }
+@keyframes hintBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+@media print { #scroll-hint { display: none !important; } }
 .v-body > :first-child { margin-top: auto; }
 .v-body > :last-child { margin-bottom: auto; }
 .v-models.cols-3 { grid-template-columns: repeat(3, 1fr); }
@@ -1969,7 +1983,7 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
 .v-split.mid { align-items: center; }
 
 
-#wfSvg svg { max-height: 30vh; margin: 0 auto; }
+#wfSvg svg { max-height: 26vh; margin: 0 auto; }
 .v-stats.compact .v-stat { padding: 0.55rem 0.8rem; border-top-width: 4px; }
 .v-stats.compact .num { font-size: 1.5rem; margin-top: 0; }
 .v-stats.compact .lbl { font-size: 0.82rem; margin-top: 0.1rem; }
@@ -2011,7 +2025,7 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
 .v-team-card .inst { font-size: 0.76rem; color: var(--text-light); margin-top: auto; }
 .v-chart .cv.sm { height: 230px; }
 .v-figure.sm img { max-height: 42vh; }
-.v-figure.md img { max-height: 50vh; }
+.v-figure.md img { max-height: 45vh; }
 @media (max-width: 820px) {
     .v-explain.cols .v-explain-body { column-count: 1; }
     .v-team { grid-template-columns: 1fr; }
@@ -2088,6 +2102,9 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
 
     <!-- Toast -->
     <div id="fs-toast"></div>
+
+    <!-- Penanda masih ada isi di bawah (muncul otomatis bila slide perlu di-scroll) -->
+    <div id="scroll-hint" onclick="scrollActive(1)" title="Gulir ke bawah (↓ / roda mouse)"><i class="fas fa-angle-double-down"></i> Gulir ke bawah</div>
 
     <!-- Presentation Main Frame -->
     <main class="presentation" id="presentation">
@@ -2286,7 +2303,7 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
                 <div class="v-point"><div class="v-ico green"><i class="fas fa-check-double"></i></div><div><b>Lulus uji ADF</b><span>Data dibuat stabil (stasioner) sebelum dipakai</span></div></div>
             </div>
         </div>
-                <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>Apa itu uji ADF?</b> Augmented Dickey-Fuller adalah uji statistik untuk mengecek apakah pola data stabil. Harga mentah Bitcoin <b>tidak lulus</b> (polanya terus berubah), sehingga yang dipakai model adalah <b>perubahan harga</b>, bukan harga mentahnya. Setelah itu semua data lulus uji di 24 periode.</p><p><b>Data rusak:</b> 5 tahun seharusnya 43.824 jam; 38 jam tanpa transaksi (volume nol, harga Open = High = Low = Close) dibuang, kurang dari 0,01% data, tanpa diganti dengan data karangan. Keutuhan data dijaga dengan kode pengecek SHA-256.</p><p><b>Kenapa BTC/USDT?</b> Bitcoin adalah aset acuan di literatur prediksi kripto, diperdagangkan <b>24/7 tanpa jeda</b>, dan pasangan BTC/USDT di Binance sangat likuid, sehingga hasilnya mencerminkan kemampuan model, bukan gangguan karena pasar sepi seperti pada koin kecil.</p></div></div>
+                <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>Apa itu uji ADF?</b> Augmented Dickey-Fuller adalah uji statistik untuk mengecek apakah pola data stabil. Harga mentah Bitcoin <b>tidak lulus</b> (polanya terus berubah), sehingga yang dipakai model adalah <b>perubahan harga</b>, bukan harga mentahnya. Setelah itu semua data lulus uji di 24 periode.</p><p><b>Data rusak:</b> dari 43.824 jam, 38 jam tanpa transaksi (volume nol) dibuang (&lt; 0,01%) tanpa diganti data karangan; keutuhan dicek dengan SHA-256.</p><p><b>Kenapa BTC/USDT?</b> Bitcoin adalah aset acuan literatur, diperdagangkan <b>24/7</b>, dan BTC/USDT di Binance sangat likuid, sehingga hasil mencerminkan kemampuan model, bukan gangguan pasar sepi.</p></div></div>
         </div>
         </section>
 
@@ -2399,7 +2416,7 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
             <div class="v-model"><div class="big-ico">⚡</div><div class="type">Deep Learning (RNN)</div><h4 style="color:#0984e3;">GRU</h4><p>Versi ringkas LSTM, 2 "gerbang"</p><div class="analog">Seperti <b>catatan ringkas</b>, cepat & hemat parameter</div></div>
             <div class="v-model"><div class="big-ico">🔭</div><div class="type">Transformer</div><h4 style="color:#6c5ce7;">Informer</h4><p>Mekanisme "attention" modern</p><div class="analog">Seperti <b>lampu sorot</b> yang fokus ke momen penting</div></div>
         </div>
-        <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>XGBoost</b> mewakili machine learning klasik yang populer, tetapi membaca data seperti tabel biasa tanpa memperhatikan urutan waktu. <b>LSTM</b> dan <b>GRU</b> adalah jaringan saraf yang dirancang untuk data berurutan seperti harga per jam.</p><p>LSTM memakai 3 "gerbang" (lupa, masuk, keluar) untuk mengatur memori; GRU menyederhanakannya jadi 2 gerbang sehingga parameternya lebih sedikit (154.881 vs 206.465). <b>Informer</b> adalah Transformer modern yang memilih momen terpenting dengan "ProbSparse attention", sehingga hitungannya lebih ringan (dari O(L²) ke O(L log L)). Di sini Informer dilatih murni dari nol tanpa <i>pre-training</i> dengan input tetap 24 jam, yang mungkin ikut menjelaskan error-nya lebih tinggi.</p><p><b>Penyetelan:</b> XGBoost dipilih lewat Grid Search berurutan waktu (TimeSeriesSplit, 5 bagian); arsitektur neural dipilih dari error validasi terkecil. Semua dilatih di <b>laptop biasa (CPU Intel i7, tanpa GPU)</b> dengan pengaturan sejenis agar adil.</p></div></div>
+        <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>XGBoost</b> mewakili machine learning klasik yang populer, tetapi membaca data seperti tabel biasa tanpa memperhatikan urutan waktu. <b>LSTM</b> dan <b>GRU</b> adalah jaringan saraf yang dirancang untuk data berurutan seperti harga per jam.</p><p>LSTM memakai 3 "gerbang" (lupa, masuk, keluar) untuk mengatur memori; GRU menyederhanakannya jadi 2 gerbang sehingga parameternya lebih sedikit (154.881 vs 206.465). <b>Informer</b> memakai "ProbSparse attention" yang lebih ringan (O(L log L)); di sini dilatih dari nol tanpa <i>pre-training</i>, yang mungkin ikut membuat error-nya lebih tinggi.</p><p><b>Penyetelan:</b> XGBoost lewat Grid Search berurutan waktu (TimeSeriesSplit); model neural dipilih dari error validasi terkecil. Semua dilatih di <b>laptop biasa (CPU Intel i7, tanpa GPU)</b> agar adil.</p></div></div>
         <div class="v-row-end"><span class="v-more" onclick="showModal('model-detail')"><i class="fas fa-table"></i> Spesifikasi model</span><span class="v-more" onclick="showModal('rumus-model')"><i class="fas fa-square-root-alt"></i> Rumus LSTM / GRU / Informer</span></div>
                 </div>
         </section>
@@ -2425,7 +2442,7 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
             <div class="v-model"><div class="big-ico">⚖️</div><h4 style="color:#0984e3;">Sharpe Ratio</h4><p><b>Untung per unit risiko</b>, semakin tinggi semakin baik</p></div>
             <div class="v-model"><div class="big-ico">🛡️</div><h4 style="color:#00a383;">VaR 95%</h4><p><b>Batas rugi</b> terburuk per jam (95% kasus)</p></div>
         </div>
-        <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>Cara kerja:</b> di awal setiap minggu uji, model membuat <b>lintasan prediksi 168 jam</b> sekaligus. Untuk tiap jam, jika prediksi jam itu lebih tinggi dari harga asli jam sebelumnya, sinyalnya <b>Beli (+1)</b>; jika lebih rendah, <b>Jual/lindungi (−1)</b>. Untung-rugi tiap jam = sinyal × perubahan harga sebenarnya.</p><p><b>Catatan penting ("stale forecast"):</b> lintasan prediksi itu <b>tidak diperbarui</b> saat harga baru masuk, sehingga sinyalnya setara dengan <b>pandangan arah mingguan</b>, bukan strategi trading per jam yang siap dieksekusi. Sharpe Ratio disetahunkan dengan faktor √8760 (365 hari × 24 jam) dan bunga bebas risiko 2% per tahun; VaR 95% = persentil ke-5 return. Semua dihitung <b>sebelum biaya</b> (fee Binance 0,10% taker / 0,02% maker).</p></div></div>
+        <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>Cara kerja:</b> di awal setiap minggu uji, model membuat <b>lintasan prediksi 168 jam</b> sekaligus. Untuk tiap jam, jika prediksi jam itu lebih tinggi dari harga asli jam sebelumnya, sinyalnya <b>Beli (+1)</b>; jika lebih rendah, <b>Jual/lindungi (−1)</b>. Untung-rugi tiap jam = sinyal × perubahan harga sebenarnya.</p><p><b>Catatan ("stale forecast"):</b> lintasan prediksi <b>tidak diperbarui</b> saat harga baru masuk, jadi sinyalnya setara <b>pandangan arah mingguan</b>, bukan strategi per jam yang siap dieksekusi. Sharpe disetahunkan (√8760, bunga bebas risiko 2%); VaR 95% = persentil ke-5 return. Semua <b>sebelum biaya</b> (fee Binance 0,10% taker / 0,02% maker).</p></div></div>
         <div class="v-row-end"><span class="v-more" onclick="showModal('rumus-keuangan')"><i class="fas fa-square-root-alt"></i> Lihat rumus sinyal & Sharpe</span></div>
                 </div>
         </section>
@@ -2918,7 +2935,24 @@ function showSlide(n) {
     if (pbar) pbar.style.setProperty('--prog', ((n - 1) / (totalSlides - 1) * 100).toFixed(1) + '%');
     document.querySelectorAll('.thumb-card').forEach((t, i) => t.classList.toggle('active-thumb', i + 1 === n));
     if (panelOpen === 'notes') updateSpeakerNotes();
+    updateScrollHint();
 }
+
+// ─── Scroll isi slide bila layar pendek ───────────────────────
+function activeSlideEl() { return document.querySelector('.slide.active'); }
+function updateScrollHint() {
+    const s = activeSlideEl(), h = document.getElementById('scroll-hint');
+    if (!s || !h) return;
+    h.classList.toggle('show', s.scrollHeight - s.clientHeight - s.scrollTop > 8);
+}
+function scrollActive(dir) {
+    const s = activeSlideEl();
+    if (s) s.scrollBy({ top: dir * s.clientHeight * 0.6, behavior: 'smooth' });
+}
+document.querySelectorAll('.slide').forEach(s => s.addEventListener('scroll', updateScrollHint, { passive: true }));
+window.addEventListener('resize', updateScrollHint);
+window.addEventListener('load', () => setTimeout(updateScrollHint, 400));
+
 function nextSlide() { showSlide(currentSlide + 1); }
 function prevSlide() { showSlide(currentSlide - 1); }
 
@@ -3004,6 +3038,8 @@ function initKeyboard() {
         switch (e.key) {
             case 'ArrowRight': case ' ': case 'PageDown': e.preventDefault(); nextSlide(); break;
             case 'ArrowLeft': case 'PageUp': e.preventDefault(); prevSlide(); break;
+            case 'ArrowDown': e.preventDefault(); scrollActive(1); break;
+            case 'ArrowUp': e.preventDefault(); scrollActive(-1); break;
             case 'f': case 'F': toggleFS(); break;
             case 'n': case 'N': toggleNotes(); break;
             case 'g': case 'G': case 'o': case 'O': toggleOverview(); break;
