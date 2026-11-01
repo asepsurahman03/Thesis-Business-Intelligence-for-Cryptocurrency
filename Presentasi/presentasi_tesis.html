@@ -1968,6 +1968,55 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
 .v-split.top { align-items: start; }
 .v-split.mid { align-items: center; }
 
+
+#wfSvg svg { max-height: 30vh; margin: 0 auto; }
+.v-stats.compact .v-stat { padding: 0.55rem 0.8rem; border-top-width: 4px; }
+.v-stats.compact .num { font-size: 1.5rem; margin-top: 0; }
+.v-stats.compact .lbl { font-size: 0.82rem; margin-top: 0.1rem; }
+/* Kotak penjelasan (bahasa sederhana) */
+.v-explain {
+    margin-top: 0.9rem;
+    background: #fbf7f9;
+    border: 1px solid rgba(150, 29, 90, 0.14);
+    border-left: 5px solid var(--primary);
+    border-radius: 14px;
+    padding: 0.75rem 1.1rem 0.8rem;
+}
+.v-explain h5 {
+    font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em;
+    color: var(--primary); margin: 0 0 0.3rem; display: flex; align-items: center; gap: 0.45rem;
+}
+.v-explain p { font-size: 0.9rem; line-height: 1.6; color: var(--text-dark); margin: 0; }
+.v-explain p + p { margin-top: 0.4rem; }
+.v-explain.cols .v-explain-body { column-count: 2; column-gap: 1.8rem; }
+.v-explain.cols p { break-inside: avoid; }
+.v-explain.blue { border-left-color: #0984e3; background: #f4f9fe; }
+.v-explain.blue h5 { color: #0984e3; }
+.v-explain.green { border-left-color: #00b894; background: #f2fbf8; }
+.v-explain.green h5 { color: #00a383; }
+.v-explain.orange { border-left-color: #e17055; background: #fef7f3; }
+.v-explain.orange h5 { color: #d35400; }
+.v-team { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.v-team-card {
+    background: #fff; border: 1px solid rgba(150,29,90,0.12); border-radius: 18px; padding: 1.1rem;
+    box-shadow: var(--shadow); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
+}
+.v-team-card .avatar {
+    width: 66px; height: 66px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; color: #fff; background: var(--gradient); margin-bottom: 0.2rem;
+}
+.v-team-card h4 { margin: 0; font-size: 1.05rem; color: var(--text-dark); }
+.v-team-card .role { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+.v-team-card p { margin: 0; font-size: 0.86rem; color: var(--text-secondary); line-height: 1.5; }
+.v-team-card .inst { font-size: 0.76rem; color: var(--text-light); margin-top: auto; }
+.v-chart .cv.sm { height: 230px; }
+.v-figure.sm img { max-height: 42vh; }
+.v-figure.md img { max-height: 50vh; }
+@media (max-width: 820px) {
+    .v-explain.cols .v-explain-body { column-count: 1; }
+    .v-team { grid-template-columns: 1fr; }
+}
+
 /* ===========================
    RESPONSIVE (tablet & ponsel)
    =========================== */
@@ -2022,7 +2071,7 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
     </div>
 
     <!-- Slide Number (bottom-left) -->
-    <div class="slide-num" id="snum">1 / 26</div>
+    <div class="slide-num" id="snum">1 / 27</div>
 
     <!-- Controls (bottom-right) -->
     <div class="controls">
@@ -2082,27 +2131,43 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
         </div>
         </section>
 
-        <!-- SLIDE 2: Alur Presentasi -->
+        <!-- SLIDE 2: Tim Peneliti -->
         <section class="slide" id="slide-2">
+        <div class="slide-header">
+            <div class="slide-category"><i class="fas fa-users"></i> Tim Peneliti</div>
+            <h2 class="slide-title">Siapa di Balik <span>Penelitian Ini?</span></h2>
+        </div>
+        <div class="v-body">
+        <div class="v-team">
+            <div class="v-team-card"><div class="avatar"><i class="fas fa-user-graduate"></i></div><div class="role" style="color: var(--primary);">Peneliti Utama</div><h4>Asep Surahman Sulaeman</h4><p>Membangun model deep learning untuk data harga per jam, mengolah data bursa kripto, dan memastikan sinyal bebas bocoran data masa depan.</p><div class="inst"><i class="fas fa-map-marker-alt"></i> Universitas Nusa Putra, Sukabumi</div></div>
+            <div class="v-team-card"><div class="avatar" style="background: linear-gradient(135deg,#0984e3,#00b4d8);"><i class="fas fa-user-tie"></i></div><div class="role" style="color:#0984e3;">Pembimbing Utama</div><h4>Dr. Deden Witarsyah</h4><p>Ahli Sistem Pendukung Keputusan (DSS), Business Intelligence, dan pengujian kemudahan sistem (SUS).</p><div class="inst"><i class="fas fa-map-marker-alt"></i> Universitas Nusa Putra, Sukabumi</div></div>
+            <div class="v-team-card"><div class="avatar" style="background: linear-gradient(135deg,#6c5ce7,#a29bfe);"><i class="fas fa-chalkboard-teacher"></i></div><div class="role" style="color:#6c5ce7;">Pembimbing Pendamping</div><h4>Dr. Aswan Supriyadi Sunge</h4><p>Ahli optimasi machine learning, data deret waktu keuangan, dan uji statistik pembanding model.</p><div class="inst"><i class="fas fa-map-marker-alt"></i> Universitas Pelita Bangsa, Bekasi</div></div>
+        </div>
+        <div class="v-explain cols"><h5><i class="fas fa-file-alt"></i> Tentang penelitian</h5><div class="v-explain-body"><p>Hasil penelitian ini juga ditulis sebagai <b>makalah konferensi format IEEE (6 halaman)</b> dengan <b>49 referensi internasional</b> (IEEE, ScienceDirect, Springer, MDPI). Seluruh eksperimen bisa diulang di <b>laptop biasa</b> (CPU Intel Core i7-1260P) tanpa GPU khusus.</p><p><b>Sasaran kontribusi:</b> menjembatani model AI di laboratorium dengan dashboard yang dipakai industri, menjelaskan mengapa model dengan error terkecil belum tentu paling untung, dan memberi cetak biru sistem pendukung keputusan bagi manajer investasi.</p></div></div>
+        </div>
+        </section>
+
+        <!-- SLIDE 3: Alur Presentasi -->
+        <section class="slide" id="slide-3">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-list-ol"></i> Alur Presentasi</div>
             <h2 class="slide-title">Apa yang Akan <span>Saya Sampaikan?</span></h2>
         </div>
         <div class="v-body">
         <div class="v-agenda">
-            <div class="v-agenda-item" onclick="showSlide(4)"><div class="n"><i class="fas fa-exclamation"></i></div><div><b>1. Masalah</b><span>Kenapa harga kripto sulit diprediksi</span></div></div>
-            <div class="v-agenda-item" onclick="showSlide(6)"><div class="n"><i class="fas fa-bullseye"></i></div><div><b>2. Tujuan</b><span>Apa yang ingin dicapai</span></div></div>
-            <div class="v-agenda-item" onclick="showSlide(7)"><div class="n"><i class="fas fa-sitemap"></i></div><div><b>3. Metode</b><span>Sistem 4 tahap (4-Layer)</span></div></div>
-            <div class="v-agenda-item" onclick="showSlide(15)"><div class="n"><i class="fas fa-chart-bar"></i></div><div><b>4. Hasil</b><span>Model mana yang terbaik?</span></div></div>
-            <div class="v-agenda-item" onclick="showSlide(20)"><div class="n"><i class="fas fa-desktop"></i></div><div><b>5. Dashboard</b><span>Power BI & uji pengguna</span></div></div>
-            <div class="v-agenda-item" onclick="showSlide(24)"><div class="n"><i class="fas fa-flag-checkered"></i></div><div><b>6. Kesimpulan</b><span>Temuan & saran</span></div></div>
+            <div class="v-agenda-item" onclick="showSlide(5)"><div class="n"><i class="fas fa-exclamation"></i></div><div><b>1. Masalah</b><span>Kenapa harga kripto sulit diprediksi</span></div></div>
+            <div class="v-agenda-item" onclick="showSlide(7)"><div class="n"><i class="fas fa-bullseye"></i></div><div><b>2. Tujuan</b><span>Apa yang ingin dicapai</span></div></div>
+            <div class="v-agenda-item" onclick="showSlide(8)"><div class="n"><i class="fas fa-sitemap"></i></div><div><b>3. Metode</b><span>Sistem 4 tahap (4-Layer)</span></div></div>
+            <div class="v-agenda-item" onclick="showSlide(16)"><div class="n"><i class="fas fa-chart-bar"></i></div><div><b>4. Hasil</b><span>Model mana yang terbaik?</span></div></div>
+            <div class="v-agenda-item" onclick="showSlide(21)"><div class="n"><i class="fas fa-desktop"></i></div><div><b>5. Dashboard</b><span>Power BI & uji pengguna</span></div></div>
+            <div class="v-agenda-item" onclick="showSlide(25)"><div class="n"><i class="fas fa-flag-checkered"></i></div><div><b>6. Kesimpulan</b><span>Temuan & saran</span></div></div>
         </div>
         <div class="v-key"><i class="fas fa-hand-pointer"></i><span>Tip: klik kotak di atas untuk langsung lompat ke bagian tersebut.</span></div>
                 </div>
         </section>
 
-        <!-- SLIDE 3: Ringkasan -->
-        <section class="slide" id="slide-3">
+        <!-- SLIDE 4: Ringkasan -->
+        <section class="slide" id="slide-4">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-compass"></i> Ringkasan Penelitian</div>
             <h2 class="slide-title">Penelitian Ini dalam <span>4 Angka</span></h2>
@@ -2114,19 +2179,19 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
             <div class="v-stat purple"><div class="emoji">🎯</div><div class="num">57,8%</div><div class="lbl">Tebakan arah benar</div><div class="sub">Model LSTM • Sharpe 0,87</div></div>
             <div class="v-stat green"><div class="emoji">⭐</div><div class="num">86,4</div><div class="lbl">Skor kemudahan (SUS)</div><div class="sub">Kategori "Excellent"</div></div>
         </div>
-        <div class="v-key"><i class="fas fa-lightbulb"></i><span><b>Temuan utama:</b> model yang paling <b>presisi</b> (GRU) ternyata <b>bukan</b> model yang paling <b>menguntungkan</b> (LSTM).</span></div>
-                </div>
+                <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>Cara membaca angka di atas:</b> harga Bitcoin dicatat <b>setiap jam selama 5 tahun</b> (43.786 data). Model tidak hanya diuji sekali, tetapi <b>24 kali di periode pasar yang berbeda</b> agar hasilnya tidak kebetulan.</p><p><b>57,8%</b> artinya dari 100 kali menebak harga akan naik atau turun, model LSTM benar sekitar 58 kali, di atas tebakan acak (50%). <b>SUS 86,4</b> berarti pengguna menilai dashboard-nya sangat mudah dipakai.</p><p><b>Temuan utama:</b> model yang paling <b>presisi</b> menebak angka (GRU) ternyata <b>bukan</b> model yang paling <b>menguntungkan</b> untuk investasi (LSTM).</p></div></div>
+        </div>
         </section>
 
-        <!-- SLIDE 4: Latar Belakang -->
-        <section class="slide" id="slide-4">
+        <!-- SLIDE 5: Latar Belakang -->
+        <section class="slide" id="slide-5">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-exclamation-triangle"></i> Latar Belakang</div>
             <h2 class="slide-title">Harga Bitcoin <span>Naik-Turun Ekstrem</span></h2>
         </div>
         <div class="v-body">
         <div class="v-split">
-            <figure class="v-figure">
+            <figure class="v-figure md">
                 <img src="images/tren_harga_btc.png" alt="Grafik harga Bitcoin per jam 2021 sampai 2026" onclick="zoomImg(this)">
                 <figcaption><i class="fas fa-search-plus"></i> Harga BTC 2021–2026: dari sekitar 16 ribu USD hingga 126 ribu USD (klik untuk memperbesar)</figcaption>
             </figure>
@@ -2136,12 +2201,12 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
                 <div class="v-point"><div class="v-ico purple"><i class="fas fa-brain"></i></div><div><b>Keputusan emosional</b><span>Investor mudah panik atau FOMO</span></div></div>
             </div>
         </div>
-        <div class="v-key blue"><i class="fas fa-crosshairs"></i><span><b>Analogi:</b> memprediksi kripto seperti menembak target di tengah badai, targetnya bergerak dan anginnya berubah terus.</span></div>
-                </div>
+                <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p>Bursa saham seperti BEI punya jam buka-tutup dan libur akhir pekan, tetapi <b>pasar kripto berjalan terus 8.760 jam setahun</b>. Harganya bisa melonjak atau anjlok tajam dalam waktu singkat, dan pola lama cepat tidak berlaku lagi (istilahnya <b>non-stasioner</b>).</p><p>Akibatnya keputusan manual mudah dipengaruhi emosi: <b>panik menjual</b> saat harga turun, atau <b>ikut-ikutan membeli (FOMO)</b> saat harga naik. Karena itu dibutuhkan <b>sistem pendukung keputusan berbasis AI</b> yang objektif dan bisa mengukur risikonya.</p><p><b>Analogi:</b> memprediksi kripto seperti menembak target di tengah badai, targetnya bergerak dan anginnya berubah terus. Model yang hanya menghafal masa lalu pasti meleset.</p></div></div>
+        </div>
         </section>
 
-        <!-- SLIDE 5: Research Gap -->
-        <section class="slide" id="slide-5">
+        <!-- SLIDE 6: Research Gap -->
+        <section class="slide" id="slide-6">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-search"></i> Celah Penelitian (Research Gap)</div>
             <h2 class="slide-title">Apa yang Kurang dari <span>Penelitian Sebelumnya?</span></h2>
@@ -2162,11 +2227,12 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
                 <div class="v-vs-row"><i class="fas fa-desktop"></i><span>Disajikan di <b>dashboard Power BI</b> yang siap dipakai</span></div>
             </div>
         </div>
-                </div>
+                <div class="v-explain cols"><h5><i class="fas fa-question-circle"></i> Kenapa tiga hal ini penting?</h5><div class="v-explain-body"><p><b>1. Kebocoran data.</b> Jika data diacak, saat belajar model ikut "melihat" harga masa depan. Hasilnya terlihat sangat akurat, padahal di dunia nyata masa depan tidak bisa dilihat.</p><p><b>2. Error kecil belum tentu untung.</b> Investor perlu tahu <b>arah</b> harga (naik/turun) dan <b>besar risikonya</b>, bukan hanya selisih angka. Karena itu dipakai akurasi arah, Sharpe Ratio, dan VaR.</p><p><b>3. Tidak bisa dipakai.</b> Hasil yang hanya ada di notebook atau paper tidak bisa digunakan manajer investasi sehari-hari. Penelitian ini menghubungkannya ke database dan dashboard Power BI.</p></div></div>
+        </div>
         </section>
 
-        <!-- SLIDE 6: Tujuan -->
-        <section class="slide" id="slide-6">
+        <!-- SLIDE 7: Tujuan -->
+        <section class="slide" id="slide-7">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-bullseye"></i> Tujuan Penelitian</div>
             <h2 class="slide-title">3 Hal yang <span>Ingin Dicapai</span></h2>
@@ -2177,11 +2243,12 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
             <div class="v-model"><div class="big-ico">⚖️</div><h4 style="color: #0984e3;">Membandingkan Model</h4><p>Menguji <b>4 model AI</b> dari dua sisi: ketepatan angka <b>dan</b> keuntungan keputusan.</p></div>
             <div class="v-model"><div class="big-ico">📊</div><h4 style="color: #00a383;">Menyajikan untuk Pengguna</h4><p>Dashboard <b>Power BI</b> yang mudah dipahami, lalu diuji oleh <b>15 evaluator</b>.</p></div>
         </div>
-                </div>
+                <div class="v-explain"><h5><i class="fas fa-bullseye"></i> Intinya</h5><div class="v-explain-body"><p>Singkatnya, penelitian ini ingin membuktikan bahwa AI untuk prediksi kripto harus <b>diuji dengan jujur</b> (tanpa bocoran masa depan), <b>dinilai dari sisi bisnis</b> (untung dan risiko), dan <b>disajikan dalam bentuk yang mudah dipakai</b> oleh pengambil keputusan.</p></div></div>
+        </div>
         </section>
 
-        <!-- SLIDE 7: Arsitektur 4-Layer -->
-        <section class="slide" id="slide-7">
+        <!-- SLIDE 8: Arsitektur 4-Layer -->
+        <section class="slide" id="slide-8">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-sitemap"></i> Metode Penelitian</div>
             <h2 class="slide-title">Sistem Bekerja dalam <span>4 Tahap</span></h2>
@@ -2196,19 +2263,19 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
             <div class="v-arrow"><i class="fas fa-arrow-right"></i></div>
             <div class="v-flow-step c4"><span class="tag">LAYER 4</span><div class="big-ico"><i class="fas fa-chart-pie"></i></div><h4>Dashboard BI</h4><p>Prediksi diubah jadi sinyal & risiko di Power BI</p><span class="out">Refresh 1,2 detik</span></div>
         </div>
-        <div class="v-key"><i class="fas fa-route"></i><span>Alurnya: <b>data → fitur → model AI → keputusan</b>. Setiap tahap akan dijelaskan di slide berikut.</span></div>
-                </div>
+                <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>Bayangkan seperti dapur restoran:</b> Layer 1 menyiapkan bahan (mengambil dan membersihkan data), Layer 2 meracik bumbu (menghitung indikator), Layer 3 memasak (melatih model AI), dan Layer 4 menyajikan ke meja (dashboard untuk pengambil keputusan).</p><p>Hasil tiap tahap langsung menjadi bahan tahap berikutnya, sehingga sistem berjalan <b>otomatis dari data mentah sampai rekomendasi keputusan</b>. Setiap tahap dijelaskan di slide-slide berikutnya.</p></div></div>
+        </div>
         </section>
 
-        <!-- SLIDE 8: Layer 1 Data -->
-        <section class="slide" id="slide-8">
+        <!-- SLIDE 9: Layer 1 Data -->
+        <section class="slide" id="slide-9">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-database"></i> Layer 1 • Data</div>
             <h2 class="slide-title">5 Tahun Data Bitcoin <span>per Jam</span></h2>
         </div>
         <div class="v-body">
         <div class="v-split">
-            <figure class="v-figure">
+            <figure class="v-figure md">
                 <img src="images/dataset_btc_5tahun.png" alt="Grafik harga dan volume BTC/USDT per jam Maret 2021 sampai Maret 2026" onclick="zoomImg(this)">
                 <figcaption><i class="fas fa-search-plus"></i> Harga penutupan (atas) dan volume transaksi (bawah) BTC/USDT</figcaption>
             </figure>
@@ -2219,11 +2286,12 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
                 <div class="v-point"><div class="v-ico green"><i class="fas fa-check-double"></i></div><div><b>Lulus uji ADF</b><span>Data dibuat stabil (stasioner) sebelum dipakai</span></div></div>
             </div>
         </div>
-                </div>
+                <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>Apa itu uji ADF?</b> Augmented Dickey-Fuller adalah uji statistik untuk mengecek apakah pola data stabil. Harga mentah Bitcoin <b>tidak lulus</b> (polanya terus berubah), sehingga yang dipakai model adalah <b>perubahan harga</b>, bukan harga mentahnya. Setelah itu semua data lulus uji di 24 periode.</p><p><b>Data rusak:</b> 38 jam tanpa transaksi (volume nol) dibuang, kurang dari 0,01% data, tanpa diganti dengan data karangan. Keutuhan data dijaga dengan kode pengecek SHA-256.</p></div></div>
+        </div>
         </section>
 
-        <!-- SLIDE 9: Layer 2 Fitur -->
-        <section class="slide" id="slide-9">
+        <!-- SLIDE 10: Layer 2 Fitur -->
+        <section class="slide" id="slide-10">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-sliders-h"></i> Layer 2 • Fitur</div>
             <h2 class="slide-title">15 Indikator Teknikal dalam <span>4 Kelompok</span></h2>
@@ -2235,12 +2303,12 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
             <div class="v-cat"><div class="big-ico" style="background: linear-gradient(135deg,#e17055,#f39c12);"><i class="fas fa-wave-square"></i></div><h4>Volatilitas</h4><p>Seberapa liar gejolaknya?</p><div class="v-chips"><span class="v-chip">Bollinger</span><span class="v-chip">ATR-14</span><span class="v-chip">Rolling σ</span></div></div>
             <div class="v-cat"><div class="big-ico" style="background: linear-gradient(135deg,#6c5ce7,#a29bfe);"><i class="fas fa-water"></i></div><h4>Volume & Konvergensi</h4><p>Seberapa ramai transaksinya?</p><div class="v-chips"><span class="v-chip">MACD</span><span class="v-chip">Signal</span><span class="v-chip">Histogram</span><span class="v-chip">OBV</span></div></div>
         </div>
-        <div class="v-key blue"><i class="fas fa-eye"></i><span>Model melihat <b>24 jam terakhir × 15 indikator</b> untuk menebak harga berikutnya.</span></div>
-                </div>
+                <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>Indikator teknikal</b> adalah rumus dari harga dan volume yang biasa dipakai trader. Contoh: <b>RSI</b> menunjukkan apakah harga sudah "terlalu tinggi" atau "terlalu rendah"; <b>MACD</b> menunjukkan perubahan arah tren; <b>Bollinger Bands</b> dan <b>ATR</b> mengukur seberapa liar harga bergerak; <b>OBV</b> melihat apakah kenaikan harga didukung banyaknya transaksi.</p><p>Setiap kali menebak, model melihat <b>24 jam terakhir × 15 indikator</b> (sebuah tabel 24 × 15), lalu memperkirakan harga berikutnya.</p></div></div>
+        </div>
         </section>
 
-        <!-- SLIDE 10: Anti Kebocoran -->
-        <section class="slide" id="slide-10">
+        <!-- SLIDE 11: Anti Kebocoran -->
+        <section class="slide" id="slide-11">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-shield-alt"></i> Layer 2 • Mencegah Kebocoran Data</div>
             <h2 class="slide-title">Model <span>Tidak Boleh Mengintip</span> Masa Depan</h2>
@@ -2266,12 +2334,13 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
             <div class="v-point"><div class="v-ico green"><i class="fas fa-lock"></i></div><div><b>Fold-Local Min-Max Scaling</b><span>Nilai min & max diambil <b>hanya</b> dari data latih, lalu "dibekukan" saat menguji.</span></div></div>
             <div class="v-point"><div class="v-ico orange"><i class="fas fa-exclamation-triangle"></i></div><div><b>Kenapa penting?</b><span>Banyak paper tampak akurat 99% karena tanpa sadar membocorkan data masa depan.</span></div></div>
         </div>
+        <div class="v-explain cols"><h5><i class="fas fa-lightbulb"></i> Contoh sederhana</h5><div class="v-explain-body"><p><b>Contoh:</b> harga BTC tahun 2022 sekitar 16 ribu USD, sedangkan tahun 2025 mencapai 126 ribu USD. Jika skala dihitung dari seluruh data, model yang belajar di 2022 sudah "tahu" harga nanti bisa sampai 126 ribu. Itu <b>bocoran masa depan</b>.</p><p>Di penelitian ini skala <b>hanya dihitung dari 720 jam data latih</b>, lalu dipakai apa adanya untuk 168 jam data uji. Konsekuensinya, metrik <b>MAPE tidak dipakai</b> karena skala tiap periode berbeda sehingga persentasenya tidak bermakna.</p></div></div>
         <div class="v-row-end"><span class="v-more" onclick="showModal('rumus-skala')"><i class="fas fa-square-root-alt"></i> Lihat rumus</span></div>
                 </div>
         </section>
 
-        <!-- SLIDE 11: SHAP -->
-        <section class="slide" id="slide-11">
+        <!-- SLIDE 12: SHAP -->
+        <section class="slide" id="slide-12">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-eye"></i> Explainable AI (SHAP)</div>
             <h2 class="slide-title">Fitur Apa yang <span>Paling Berpengaruh?</span></h2>
@@ -2281,7 +2350,7 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
             <div class="v-chart">
                 <h4><i class="fas fa-chart-bar" style="color: var(--primary);"></i> Kontribusi fitur terhadap prediksi (nilai SHAP)</h4>
                 <div class="hint">Semakin panjang batang = semakin berpengaruh</div>
-                <div class="cv" style="height: 320px;"><canvas id="shapChart"></canvas></div>
+                <div class="cv" style="height: 270px;"><canvas id="shapChart"></canvas></div>
             </div>
             <div class="v-points">
                 <div class="v-point"><div class="v-ico orange"><i class="fas fa-wave-square"></i></div><div><b>#1 Volatilitas (23,2%)</b><span>Gejolak 24 jam terakhir paling menentukan</span></div></div>
@@ -2289,11 +2358,12 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
                 <div class="v-point"><div class="v-ico green"><i class="fas fa-brain"></i></div><div><b>Model "masuk akal"</b><span>Tidak menghafal acak, tapi sesuai kaidah analisis teknikal</span></div></div>
             </div>
         </div>
-                </div>
+                <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>SHAP</b> adalah metode untuk "membuka kotak hitam" AI. Cara kerjanya mirip membagi skor kemenangan tim ke setiap pemain: dihitung seberapa besar <b>setiap fitur ikut menentukan</b> hasil prediksi.</p><p>Hasilnya, <b>volatilitas 24 jam</b> paling berpengaruh (23,2%), disusul <b>RSI</b> dan <b>MACD</b>. Volume (OBV) membantu terutama saat harga menembus level penting. Artinya model bekerja masuk akal, sesuai cara analis teknikal membaca pasar.</p></div></div>
+        </div>
         </section>
 
-        <!-- SLIDE 12: Walk-forward -->
-        <section class="slide" id="slide-12">
+        <!-- SLIDE 13: Walk-forward -->
+        <section class="slide" id="slide-13">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-calendar-alt"></i> Cara Pengujian</div>
             <h2 class="slide-title">Diuji <span>24 Kali</span> Sepanjang 5 Tahun</h2>
@@ -2306,18 +2376,18 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
                 <span><span style="display:inline-block;width:14px;height:14px;border-radius:3px;background:#e17055;vertical-align:middle;"></span> Uji 168 jam (7 hari)</span>
             </div>
         </div>
-        <div class="v-stats" style="margin-top: 1.1rem;">
+        <div class="v-stats compact" style="margin-top: 0.8rem;">
             <div class="v-stat"><div class="num">24</div><div class="lbl">Ujian terpisah</div></div>
             <div class="v-stat blue"><div class="num">30 hari</div><div class="lbl">Belajar</div></div>
             <div class="v-stat orange"><div class="num">7 hari</div><div class="lbl">Diuji</div></div>
             <div class="v-stat green"><div class="num">4.032 jam</div><div class="lbl">Total data uji</div></div>
         </div>
-        <div class="v-key green"><i class="fas fa-plane"></i><span><b>Analogi:</b> seperti uji terbang di 24 cuaca berbeda, mulai bull run 2021, musim dingin kripto 2022, hingga halving 2024.</span></div>
-                </div>
+                <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>Cara kerjanya:</b> model belajar dari <b>30 hari</b> data, lalu diuji menebak <b>7 hari berikutnya</b> yang belum pernah dilihat. Jendela kemudian digeser maju sekitar 78 hari dan diulang, total <b>24 kali</b>.</p><p>Dengan begitu model diuji di kondisi pasar yang berbeda-beda: naik tajam (2021), jatuh (2022), stagnan (2023), halving (2024), hingga rekor tertinggi (2025). Cara ini meniru pemakaian nyata: <b>selalu belajar dari masa lalu untuk menebak masa depan</b>. Cara acak (random K-fold) tidak dipakai karena memakai data masa depan untuk menebak masa lalu.</p></div></div>
+        </div>
         </section>
 
-        <!-- SLIDE 13: 4 Model -->
-        <section class="slide" id="slide-13">
+        <!-- SLIDE 14: 4 Model -->
+        <section class="slide" id="slide-14">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-network-wired"></i> Layer 3 • Model AI</div>
             <h2 class="slide-title">4 Model yang <span>Dibandingkan</span></h2>
@@ -2329,13 +2399,13 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
             <div class="v-model"><div class="big-ico">⚡</div><div class="type">Deep Learning (RNN)</div><h4 style="color:#0984e3;">GRU</h4><p>Versi ringkas LSTM, 2 "gerbang"</p><div class="analog">Seperti <b>catatan ringkas</b>, cepat & hemat parameter</div></div>
             <div class="v-model"><div class="big-ico">🔭</div><div class="type">Transformer</div><h4 style="color:#6c5ce7;">Informer</h4><p>Mekanisme "attention" modern</p><div class="analog">Seperti <b>lampu sorot</b> yang fokus ke momen penting</div></div>
         </div>
-        <div class="v-key"><i class="fas fa-microchip"></i><span>Semua dilatih di <b>laptop biasa (CPU Intel i7)</b>, tanpa GPU mahal. Input: 24 jam × 15 fitur.</span></div>
+        <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>XGBoost</b> mewakili machine learning klasik yang populer, tetapi membaca data seperti tabel biasa tanpa memperhatikan urutan waktu. <b>LSTM</b> dan <b>GRU</b> adalah jaringan saraf yang dirancang untuk data berurutan seperti harga per jam.</p><p>LSTM memakai 3 "gerbang" (lupa, masuk, keluar) untuk mengatur memori; GRU menyederhanakannya jadi 2 gerbang sehingga parameternya lebih sedikit (154.881 vs 206.465). <b>Informer</b> adalah Transformer modern yang memilih momen terpenting dengan "attention". Semua dilatih dengan pengaturan sama di <b>laptop biasa (CPU Intel i7, tanpa GPU)</b> agar adil.</p></div></div>
         <div class="v-row-end"><span class="v-more" onclick="showModal('model-detail')"><i class="fas fa-table"></i> Spesifikasi model</span><span class="v-more" onclick="showModal('rumus-model')"><i class="fas fa-square-root-alt"></i> Rumus LSTM / GRU / Informer</span></div>
                 </div>
         </section>
 
-        <!-- SLIDE 14: Layer 4 dari prediksi ke keputusan -->
-        <section class="slide" id="slide-14">
+        <!-- SLIDE 15: Layer 4 dari prediksi ke keputusan -->
+        <section class="slide" id="slide-15">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-hand-holding-usd"></i> Layer 4 • Dari Prediksi ke Keputusan</div>
             <h2 class="slide-title">Prediksi Diubah Menjadi <span>Sinyal Beli / Jual</span></h2>
@@ -2355,12 +2425,13 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
             <div class="v-model"><div class="big-ico">⚖️</div><h4 style="color:#0984e3;">Sharpe Ratio</h4><p><b>Untung per unit risiko</b>, semakin tinggi semakin baik</p></div>
             <div class="v-model"><div class="big-ico">🛡️</div><h4 style="color:#00a383;">VaR 95%</h4><p><b>Batas rugi</b> terburuk per jam (95% kasus)</p></div>
         </div>
+        <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>Contoh:</b> jika model memprediksi harga minggu depan lebih tinggi dari harga sekarang, sistem memberi sinyal <b>Beli (+1)</b>; jika lebih rendah, sinyal <b>Jual/lindungi (−1)</b>. Sinyal dikunci selama 168 jam (1 minggu), lalu untung-ruginya dihitung dari perubahan harga sebenarnya.</p><p>Sharpe Ratio dihitung per tahun dengan faktor √8760 (365 hari × 24 jam) karena pasar kripto tidak pernah libur, dengan bunga bebas risiko 2% per tahun. Semua hasil disimpan ke database lalu ditampilkan di Power BI.</p></div></div>
         <div class="v-row-end"><span class="v-more" onclick="showModal('rumus-keuangan')"><i class="fas fa-square-root-alt"></i> Lihat rumus sinyal & Sharpe</span></div>
                 </div>
         </section>
 
-        <!-- SLIDE 15: Hasil 1 RMSE -->
-        <section class="slide" id="slide-15">
+        <!-- SLIDE 16: Hasil 1 RMSE -->
+        <section class="slide" id="slide-16">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-poll"></i> Hasil 1 • Ketepatan Angka</div>
             <h2 class="slide-title">GRU Paling <span>Presisi</span></h2>
@@ -2370,7 +2441,7 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
             <div class="v-chart">
                 <h4><i class="fas fa-ruler" style="color: var(--primary);"></i> Rata-rata error prediksi (RMSE) di 24 pengujian</h4>
                 <div class="hint">Batang lebih pendek = error lebih kecil = lebih baik</div>
-                <div class="cv" style="height: 320px;"><canvas id="rmseChart"></canvas></div>
+                <div class="cv" style="height: 270px;"><canvas id="rmseChart"></canvas></div>
             </div>
             <div class="v-points">
                 <div class="v-point"><div class="v-ico blue"><i class="fas fa-trophy"></i></div><div><b>GRU juara: 0,1058</b><span>Error terkecil & paling stabil (±0,0034)</span></div></div>
@@ -2378,26 +2449,28 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
                 <div class="v-point"><div class="v-ico grey"><i class="fas fa-info"></i></div><div><b>Skala 0–1</b><span>Error dihitung pada data yang dinormalisasi</span></div></div>
             </div>
         </div>
-                </div>
+                <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>RMSE</b> (Root Mean Square Error) adalah rata-rata besar selisih antara harga prediksi dan harga asli; <b>makin kecil makin baik</b>. GRU paling kecil (0,1058) dan paling konsisten di 24 pengujian (simpangan hanya ±0,0034). XGBoost tertinggal (0,1524) karena tidak membaca urutan waktu.</p><p><b>Baseline</b> adalah pembanding sederhana: tebakan naif (harga berikutnya = harga terakhir) RMSE 0,2341, dan ARIMA (model statistik klasik) 0,1987. Keempat model AI lebih baik dari keduanya.</p></div></div>
+        </div>
         </section>
 
-        <!-- SLIDE 16: Grafik prediksi vs aktual -->
-        <section class="slide" id="slide-16">
+        <!-- SLIDE 17: Grafik prediksi vs aktual -->
+        <section class="slide" id="slide-17">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-chart-line"></i> Hasil 1 • Contoh Visual</div>
             <h2 class="slide-title">Prediksi vs <span>Harga Sebenarnya</span></h2>
         </div>
         <div class="v-body">
-        <figure class="v-figure" style="max-width: 1100px; margin: 0 auto; width: 100%;">
+        <figure class="v-figure md" style="max-width: 1100px; margin: 0 auto; width: 100%;">
             <img src="images/prediksi_vs_aktual.png" alt="Grafik perbandingan prediksi GRU, LSTM, Informer, XGBoost dengan harga aktual pada satu jendela uji 168 jam" onclick="zoomImg(this)">
             <figcaption><i class="fas fa-search-plus"></i> Satu contoh jendela uji 7 hari. Garis hitam = harga asli; garis biru (GRU) paling dekat mengikutinya.</figcaption>
         </figure>
+        <div class="v-explain cols"><h5><i class="fas fa-glasses"></i> Cara membaca grafik</h5><div class="v-explain-body"><p><b>Cara membaca:</b> sumbu bawah adalah jam ke-1 sampai ke-168 (7 hari), sumbu kiri adalah harga yang sudah diskalakan 0–1. Garis hitam adalah <b>harga sebenarnya</b>.</p><p>Semakin dekat garis berwarna ke garis hitam, semakin baik prediksinya. <b>GRU (biru)</b> paling rapat mengikuti, sedangkan <b>XGBoost (merah titik-titik)</b> paling sering melenceng.</p></div></div>
         <div class="v-row-end"><span class="v-more" onclick="showModal('residual')"><i class="fas fa-chart-area"></i> Lihat sebaran error GRU</span></div>
                 </div>
         </section>
 
-        <!-- SLIDE 17: Uji Statistik -->
-        <section class="slide" id="slide-17">
+        <!-- SLIDE 18: Uji Statistik -->
+        <section class="slide" id="slide-18">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-calculator"></i> Uji Statistik</div>
             <h2 class="slide-title">Apakah Keunggulan GRU <span>Bukan Kebetulan?</span></h2>
@@ -2416,12 +2489,12 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
                 <div class="v-point"><div class="v-ico orange"><i class="fas fa-minus"></i></div><div><b>GRU vs LSTM</b><span>Arah sama, tapi belum signifikan setelah koreksi (p = 0,043)</span></div></div>
             </div>
         </div>
-        <div class="v-key"><i class="fas fa-balance-scale"></i><span>Uji berpasangan <b>Diebold-Mariano</b> dengan koreksi Bonferroni (α = 0,0167).</span></div>
-                </div>
+                <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p>Uji statistik dipakai untuk memastikan perbedaan hasil <b>bukan karena kebetulan</b>. <b>Kruskal-Wallis</b> membandingkan keempat model sekaligus: p &lt; 0,001 berarti hampir pasti ada perbedaan nyata.</p><p><b>Diebold-Mariano</b> membandingkan dua model satu per satu. Karena ada 3 perbandingan, batas signifikansi diperketat dari 0,05 menjadi 0,0167 (koreksi Bonferroni). GRU vs LSTM p = 0,043: GRU sedikit lebih baik, tetapi selisihnya belum cukup kuat setelah batas diperketat.</p></div></div>
+        </div>
         </section>
 
-        <!-- SLIDE 18: Hasil 2 Finansial -->
-        <section class="slide" id="slide-18">
+        <!-- SLIDE 19: Hasil 2 Finansial -->
+        <section class="slide" id="slide-19">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-chart-pie"></i> Hasil 2 • Keputusan Finansial</div>
             <h2 class="slide-title">LSTM Paling <span>Menguntungkan</span></h2>
@@ -2431,20 +2504,20 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
             <div class="v-chart">
                 <h4><i class="fas fa-compass" style="color: var(--primary);"></i> Tebakan arah benar (%)</h4>
                 <div class="hint">Sumbu mulai dari 50% (= tebak koin) • lebih tinggi = lebih baik</div>
-                <div class="cv"><canvas id="daChart"></canvas></div>
+                <div class="cv sm"><canvas id="daChart"></canvas></div>
             </div>
             <div class="v-chart">
                 <h4><i class="fas fa-balance-scale" style="color: var(--primary);"></i> Sharpe Ratio (untung per risiko)</h4>
                 <div class="hint">Lebih tinggi = lebih baik • abu-abu = beli & simpan saja</div>
-                <div class="cv"><canvas id="sharpeChart"></canvas></div>
+                <div class="cv sm"><canvas id="sharpeChart"></canvas></div>
             </div>
         </div>
-        <div class="v-key"><i class="fas fa-crown"></i><span><b>LSTM:</b> arah benar 57,8% • Sharpe 0,87 (mengalahkan Buy & Hold 0,58) • risiko rugi terkecil (VaR −1,18%/jam).</span></div>
-                </div>
+                <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>Akurasi arah:</b> dari 100 tebakan naik/turun, LSTM benar sekitar 58 kali. Untuk perdagangan per jam, akurasi arah di atas 55% sudah tergolong tinggi.</p><p><b>Sharpe Ratio 0,87:</b> untung per unit risiko LSTM lebih tinggi daripada sekadar membeli lalu menyimpan Bitcoin (0,58) atau model ARIMA (0,41).</p><p><b>VaR 95% = −1,18% per jam:</b> dalam 95% kondisi, kerugian per jam tidak lebih dari 1,18%. Ini paling aman dibanding XGBoost (−2,15%).</p></div></div>
+        </div>
         </section>
 
-        <!-- SLIDE 19: Divergence Paradox -->
-        <section class="slide" id="slide-19">
+        <!-- SLIDE 20: Divergence Paradox -->
+        <section class="slide" id="slide-20">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-lightbulb"></i> Temuan Utama</div>
             <h2 class="slide-title">The Divergence Paradox: <span>Dua Juara Berbeda</span></h2>
@@ -2466,12 +2539,13 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
                 <p>Seperti <b>navigator</b>: paling tahu kapan harus belok naik atau turun.</p>
             </div>
         </div>
-        <div class="v-key"><i class="fas fa-exclamation-circle"></i><span><b>Pelajaran:</b> error paling kecil ≠ untung paling besar. Model harus dinilai juga dari <b>arah & risiko</b>, bukan RMSE saja.</span></div>
+<div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>Kenapa bisa berbeda?</b> GRU punya struktur ringkas (2 gerbang) sehingga sangat tepat menebak <b>besar</b> perubahan harga jangka pendek, tetapi arah sinyalnya lebih sering berbalik-balik.</p><p>LSTM menyimpan "memori jangka panjang" secara terpisah (cell state), sehingga lebih konsisten mengikuti <b>arah tren besar</b>. Dalam investasi, tahu arah tren lebih menguntungkan daripada tepat sampai angka di belakang koma.</p></div></div>
+                <div class="v-key"><i class="fas fa-exclamation-circle"></i><span><b>Pelajaran:</b> error paling kecil ≠ untung paling besar. Model harus dinilai juga dari <b>arah & risiko</b>, bukan RMSE saja.</span></div>
                 </div>
         </section>
 
-        <!-- SLIDE 20: Dashboard Power BI -->
-        <section class="slide" id="slide-20">
+        <!-- SLIDE 21: Dashboard Power BI -->
+        <section class="slide" id="slide-21">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-desktop"></i> Layer 4 • Dashboard</div>
             <h2 class="slide-title">Hasil Disajikan di <span>Power BI</span></h2>
@@ -2503,11 +2577,12 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
                 <div class="v-point"><div class="v-ico purple"><i class="fas fa-equals"></i></div><div><b>Hitungan cocok</b><span>Selisih DAX vs Python ≤ 0,003</span></div></div>
             </div>
         </div>
-                </div>
+                <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>Alurnya:</b> hasil prediksi, sinyal, dan untung-rugi disimpan ke database PostgreSQL. Power BI membaca database itu secara langsung (mode <b>DirectQuery</b>), sehingga angka di dashboard selalu terbaru tanpa impor ulang.</p><p><b>Isi dashboard:</b> grafik harga asli vs prediksi, indikator Sharpe Ratio, peringatan batas risiko (VaR), dan rekomendasi posisi (Beli/Lindungi). Hitungan di Power BI sudah dicocokkan dengan Python dan hasilnya sama.</p></div></div>
+        </div>
         </section>
 
-        <!-- SLIDE 21: SUS -->
-        <section class="slide" id="slide-21">
+        <!-- SLIDE 22: SUS -->
+        <section class="slide" id="slide-22">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-user-check"></i> Uji Pengguna</div>
             <h2 class="slide-title">Dashboard <span>Mudah Digunakan</span></h2>
@@ -2539,11 +2614,12 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
                 <div class="v-point"><div class="v-ico blue"><i class="fas fa-smile"></i></div><div><b>Penilaian seragam (±3,2)</b><span>Analis bisa membaca sinyal tanpa memahami kode Python</span></div></div>
             </div>
         </div>
-                </div>
+                <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>SUS (System Usability Scale)</b> adalah kuesioner standar 10 pertanyaan untuk mengukur kemudahan sebuah sistem, dengan skor 0–100. Setelah demo 30 menit, 15 evaluator mengisi kuesioner.</p><p>Rata-ratanya <b>86,4</b> (rentang 80–92), masuk kategori <b>"Excellent"</b> (di atas 85,5). Artinya analis keuangan bisa memahami sinyal dan risiko <b>tanpa harus mengerti kode programnya</b>.</p></div></div>
+        </div>
         </section>
 
-        <!-- SLIDE 22: Perbandingan Literatur -->
-        <section class="slide" id="slide-22">
+        <!-- SLIDE 23: Perbandingan Literatur -->
+        <section class="slide" id="slide-23">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-book-open"></i> Perbandingan dengan Penelitian Lain</div>
             <h2 class="slide-title">Posisi Penelitian Ini <span>di Antara Studi Lain</span></h2>
@@ -2561,15 +2637,12 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
                 </tbody>
             </table>
         </div>
-        <div class="v-split even top" style="margin-top: 1.1rem;">
-            <div class="v-point"><div class="v-ico green"><i class="fas fa-plus"></i></div><div><b>Kelebihan</b><span>Satu-satunya yang menggabungkan uji 24 fold per jam + dashboard BI siap pakai.</span></div></div>
-            <div class="v-point"><div class="v-ico orange"><i class="fas fa-balance-scale"></i></div><div><b>Jujur</b><span>Angka tidak bisa dibandingkan langsung: beda data, horizon, dan biaya transaksi.</span></div></div>
+                <div class="v-explain cols"><h5><i class="fas fa-info-circle"></i> Penjelasan</h5><div class="v-explain-body"><p><b>Cara membaca:</b> kolom "Arah Benar" adalah persentase tebakan naik/turun yang tepat. Akurasi penelitian ini (55,3–57,8%) <b>lebih tinggi dari Jaquart dkk.</b> (52,9–54,1%). Kelebihan lainnya: satu-satunya yang menggabungkan uji 24 periode per jam dengan dashboard BI siap pakai.</p><p><b>Catatan jujur:</b> beberapa studi melaporkan angka lebih tinggi, tetapi memakai data harian atau data tambahan (on-chain), sehingga tidak setara. Sharpe studi lain sudah dikurangi biaya transaksi (net), sedangkan milik kami belum (gross).</p></div></div>
         </div>
-                </div>
         </section>
 
-        <!-- SLIDE 23: Keterbatasan -->
-        <section class="slide" id="slide-23">
+        <!-- SLIDE 24: Keterbatasan -->
+        <section class="slide" id="slide-24">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-shield-virus"></i> Keterbatasan</div>
             <h2 class="slide-title">3 Keterbatasan <span>Penelitian</span></h2>
@@ -2580,12 +2653,13 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
             <div class="v-model"><div class="big-ico">🦢</div><h4 style="color:#d97706;">Kejadian "Black Swan"</h4><p>Data harga saja tidak bisa memprediksi kejutan seperti <b>Terra-Luna</b> atau <b>FTX</b>.</p></div>
             <div class="v-model"><div class="big-ico">⚓</div><h4 style="color:#0984e3;">Sinyal Dikunci 7 Hari</h4><p>Arah posisi ditetapkan di awal minggu, <b>belum</b> diperbarui setiap jam.</p></div>
         </div>
+        <div class="v-explain cols"><h5><i class="fas fa-tools"></i> Langkah selanjutnya</h5><div class="v-explain-body"><p><b>Rencana perbaikan:</b> untung bersih dihitung sebagai untung strategi dikurangi biaya setiap kali sinyal berganti arah (fee 0,10% + selisih harga eksekusi). Karena sinyal hanya berubah mingguan, jumlah transaksi sekitar 24 kali lebih sedikit dibanding sinyal per jam.</p><p>Untuk kejadian tak terduga (black swan), perlu ditambahkan data <b>sentimen berita</b> dan <b>data on-chain</b>. Sinyal yang diperbarui setiap jam akan diuji di penelitian berikutnya.</p></div></div>
         <div class="v-row-end"><span class="v-more" onclick="showModal('rumus-net')"><i class="fas fa-square-root-alt"></i> Rencana rumus return bersih biaya</span></div>
                 </div>
         </section>
 
-        <!-- SLIDE 24: Kesimpulan -->
-        <section class="slide" id="slide-24">
+        <!-- SLIDE 25: Kesimpulan -->
+        <section class="slide" id="slide-25">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-flag-checkered"></i> Kesimpulan</div>
             <h2 class="slide-title">Kesimpulan & <span>Rekomendasi</span></h2>
@@ -2593,9 +2667,10 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
         <div class="v-body">
         <div class="v-split even" style="align-items: start;">
             <div class="v-points">
-                <div class="v-point"><div class="v-ico green"><i class="fas fa-check"></i></div><div><b>Sistem 4-layer berhasil dibangun</b><span>Dari data Binance sampai dashboard Power BI</span></div></div>
-                <div class="v-point"><div class="v-ico green"><i class="fas fa-check"></i></div><div><b>Paradoks terbukti</b><span>GRU paling presisi, LSTM paling menguntungkan</span></div></div>
-                <div class="v-point"><div class="v-ico green"><i class="fas fa-check"></i></div><div><b>Layak dipakai</b><span>Refresh 1,2 detik & SUS 86,4 (Excellent)</span></div></div>
+                <div class="v-point"><div class="v-ico green"><i class="fas fa-check"></i></div><div><b>Sistem 4-layer berhasil dibangun</b><span>Berjalan otomatis: data Binance → 15 fitur → 4 model AI → dashboard Power BI</span></div></div>
+                <div class="v-point"><div class="v-ico green"><i class="fas fa-check"></i></div><div><b>Paradoks terbukti</b><span>GRU paling presisi (RMSE 0,1058); LSTM paling menguntungkan (arah 57,8%, Sharpe 0,87)</span></div></div>
+                <div class="v-point"><div class="v-ico green"><i class="fas fa-check"></i></div><div><b>Terbukti secara statistik</b><span>GRU signifikan lebih baik dari XGBoost & Informer (uji Diebold-Mariano)</span></div></div>
+                <div class="v-point"><div class="v-ico green"><i class="fas fa-check"></i></div><div><b>Layak dipakai</b><span>Refresh 1,2 detik, data utuh 100%, dan dinilai "Excellent" oleh pengguna (SUS 86,4)</span></div></div>
             </div>
             <div>
                 <div style="font-weight:700; color: var(--primary-dark); margin-bottom: 0.6rem;"><i class="fas fa-chess-knight"></i> Rekomendasi: gunakan keduanya</div>
@@ -2609,25 +2684,25 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
                 </div>
         </section>
 
-        <!-- SLIDE 25: Riset Lanjutan -->
-        <section class="slide" id="slide-25">
+        <!-- SLIDE 26: Riset Lanjutan -->
+        <section class="slide" id="slide-26">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-rocket"></i> Penelitian Selanjutnya</div>
             <h2 class="slide-title">Rencana <span>Pengembangan</span></h2>
         </div>
         <div class="v-body">
-        <div class="v-road" style="margin-top: 1rem;">
-            <div class="v-road-item"><div class="dot"><i class="fas fa-receipt"></i></div><h4>Hitung Biaya Transaksi</h4><p>Sharpe bersih fee 0,10% + uji bootstrap</p></div>
-            <div class="v-road-item"><div class="dot" style="border-color:#0984e3; color:#0984e3;"><i class="fas fa-newspaper"></i></div><h4>Tambah Data Berita</h4><p>Sentimen berita (FinBERT/LLM) & data on-chain</p></div>
-            <div class="v-road-item"><div class="dot" style="border-color:#6c5ce7; color:#6c5ce7;"><i class="fab fa-ethereum"></i></div><h4>Kripto Lain</h4><p>Uji pada ETH, SOL, BNB</p></div>
-            <div class="v-road-item"><div class="dot" style="border-color:#e17055; color:#e17055;"><i class="fas fa-atom"></i></div><h4>Model Terbaru</h4><p>PatchTST & TimesNet</p></div>
+        <div class="v-road">
+            <div class="v-road-item"><div class="dot"><i class="fas fa-receipt"></i></div><h4>Hitung Biaya Transaksi</h4><p>Menghitung untung setelah dikurangi fee 0,10% dan menguji perbedaan Sharpe dengan uji bootstrap</p></div>
+            <div class="v-road-item"><div class="dot" style="border-color:#0984e3; color:#0984e3;"><i class="fas fa-newspaper"></i></div><h4>Tambah Data Berita</h4><p>Menggabungkan sentimen berita (FinBERT/LLM) dan data on-chain, misalnya arus dana ke bursa</p></div>
+            <div class="v-road-item"><div class="dot" style="border-color:#6c5ce7; color:#6c5ce7;"><i class="fab fa-ethereum"></i></div><h4>Kripto Lain</h4><p>Menguji apakah sistem juga bekerja pada Ethereum, Solana, dan BNB</p></div>
+            <div class="v-road-item"><div class="dot" style="border-color:#e17055; color:#e17055;"><i class="fas fa-atom"></i></div><h4>Model Terbaru</h4><p>Mencoba model Transformer terbaru (PatchTST & TimesNet) dengan cara uji yang sama</p></div>
         </div>
         <div class="v-key blue" style="margin-top: 2rem;"><i class="fas fa-database"></i><span>Kode, model, dan dataset tersedia atas permintaan akademik ke <b>asep.surahman@nusaputra.ac.id</b>.</span></div>
                 </div>
         </section>
 
-        <!-- SLIDE 26: Terima kasih & Tanya Jawab -->
-        <section class="slide" id="slide-26">
+        <!-- SLIDE 27: Terima kasih & Tanya Jawab -->
+        <section class="slide" id="slide-27">
         <div class="slide-header">
             <div class="slide-category"><i class="fas fa-comments"></i> Tanya Jawab</div>
             <h2 class="slide-title">Terima Kasih <span>🙏</span></h2>
@@ -2772,31 +2847,32 @@ html { font-size: max(13px, min(1.15vw, 2.05vh)); }
 // ─── Naskah presenter (tombol N). Detail teknis yang dihapus dari slide ada di sini. ───
 var speakerNotes = {
 "1": "Selamat pagi/siang kepada dewan penguji. Saya Asep Surahman Sulaeman dari Magister Informatika Universitas Nusa Putra. Judul penelitian saya: A Deep Learning Architecture for Cryptocurrency Price Forecasting Utilizing Business Intelligence. Singkatnya: saya memprediksi harga Bitcoin dengan deep learning, lalu menyajikannya sebagai dashboard Business Intelligence agar bisa langsung dipakai untuk mengambil keputusan.",
-"2": "Presentasi saya terdiri dari enam bagian: masalah, tujuan, metode berupa sistem 4 layer, hasil perbandingan model, dashboard Power BI beserta uji pengguna, lalu kesimpulan.",
-"3": "Jika diringkas dalam empat angka: 43.786 jam data Bitcoin selama 5 tahun; model diuji 24 kali secara walk-forward; model LSTM menebak arah harga dengan benar 57,8% dengan Sharpe Ratio 0,87; dan dashboard mendapat skor usability 86,4 (Excellent). Temuan terpentingnya adalah Divergence Paradox: model paling presisi (GRU, RMSE 0,1058) bukan model paling menguntungkan (LSTM).",
-"4": "Pasar kripto beroperasi 24 jam sehari, 7 hari seminggu, sekitar 8.760 jam per tahun. Harganya sangat fluktuatif: distribusi return berekor tebal dan variansinya berubah cepat (non-stasioner), misalnya dari sekitar 16 ribu USD di 2022 hingga 126 ribu USD di 2025. Di sisi lain, investor rentan panic selling dan FOMO. Karena itu dibutuhkan sistem pendukung keputusan berbasis AI yang objektif dan terukur risikonya.",
-"5": "Dari tinjauan literatur ada tiga kelemahan umum. Pertama, banyak studi memakai random split atau normalisasi global sehingga model secara tidak sadar melihat data masa depan (temporal leakage). Kedua, evaluasi berhenti di RMSE atau MAPE tanpa menilai arah, Sharpe Ratio, dan VaR. Ketiga, hasil tidak diintegrasikan ke sistem pendukung keputusan. Penelitian ini menjawab ketiganya: 24-fold chronological walk-forward, metrik keuangan, dan dashboard Power BI.",
-"6": "Tujuan penelitian ada tiga: membangun pipeline 4 layer end-to-end yang bebas kebocoran data; membandingkan XGBoost, LSTM, GRU, dan Informer dari sisi statistik maupun keputusan finansial; serta menyajikan hasilnya di dashboard Power BI dan menguji kemudahan penggunaannya dengan System Usability Scale.",
-"7": "Sistem terdiri dari 4 layer. Layer 1 mengambil data Binance Spot dan memverifikasi stasioneritas dengan uji ADF. Layer 2 menghitung 15 indikator teknikal dan menerapkan fold-local scaling. Layer 3 melatih empat model dengan protokol 24-fold walk-forward dan menghasilkan prediksi 168 jam. Layer 4 mengubah prediksi menjadi sinyal, Directional Accuracy, Sharpe Ratio, dan VaR, disimpan di PostgreSQL dan ditampilkan di Power BI DirectQuery dengan latensi 1,2 detik.",
-"8": "Layer 1 memakai 43.786 lilin per jam BTC/USDT dari Binance Spot API, Maret 2021 sampai Februari 2026. Integritas dicek dengan checksum SHA-256; 38 lilin bervolume nol dikeluarkan (kurang dari 0,01%) tanpa interpolasi. Uji ADF menunjukkan harga mentah tidak stasioner (p > 0,05), sehingga fitur berbasis level harga seperti EMA, ATR, OBV, dan volatilitas di-differencing hingga lulus ADF (p < 0,05) di seluruh 24 fold. Sebagai pembanding dipakai tiga baseline: Naive persistence (RMSE 0,2341), Buy-and-Hold (Sharpe 0,58), dan ARIMA(1,1,1) (RMSE 0,1987, DA 51,8%, Sharpe 0,41).",
-"9": "Layer 2 menghasilkan 15 indikator teknikal dalam empat kelompok: tren (EMA-12, EMA-26), momentum (RSI-14, Stochastic %K dan %D, ROC-10), volatilitas (Bollinger upper, lower, width, ATR-14, rolling volatility 24 jam), serta konvergensi dan volume (MACD line, signal, histogram, OBV). Model menerima jendela 24 jam terakhir, sehingga input berbentuk matriks 24 × 15.",
-"10": "Ini bagian yang paling krusial secara metodologi. Jika normalisasi dihitung dari seluruh dataset, rentang harga masa depan ikut bocor ke data latih, sehingga akurasi terlihat tinggi tetapi palsu. Penelitian ini memakai Fold-Local Min-Max Scaling (Persamaan 1): nilai minimum dan maksimum hanya diambil dari jendela latih 720 jam lalu dibekukan saat menormalisasi jendela uji 168 jam. Konsekuensinya, MAPE ditiadakan karena skala 0 sampai 1 berbeda di setiap fold.",
-"11": "Untuk membuka 'kotak hitam' deep learning dipakai analisis SHAP. Fitur paling berpengaruh adalah rolling volatility 24 jam dengan kontribusi 23,2%, diikuti RSI-14 dan MACD. Artinya model tidak menghafal harga secara acak, melainkan merespons kompresi volatilitas dan kelelahan momentum sesuai kaidah analisis teknikal.",
-"12": "Skema pengujian adalah 24-fold chronological walk-forward: jendela latih tetap 720 jam (30 hari) dan jendela uji 168 jam (7 hari). Jendela uji ditempatkan merata dengan stride 1.865 lilin (sekitar 77,7 hari), sehingga total 4.032 jam data uji (9,2% dataset) mencakup bull market 2021, bear market 2022, akumulasi 2023, halving 2024, hingga all-time high 2025. Random K-Fold tidak dipakai karena melatih dengan data masa depan untuk memprediksi masa lalu.",
-"13": "Empat model dibandingkan. XGBoost: 300 pohon, max depth 5, input vektor datar. LSTM: 2 layer 128 unit dengan 3 gerbang, 206.465 parameter. GRU: 2 layer 128 unit dengan 2 gerbang, 154.881 parameter. Informer: Transformer dengan ProbSparse attention, 223.617 parameter. Semua memakai Adam optimizer, batch 64, early stopping patience 10, dan dilatih di CPU Intel Core i7-1260P tanpa GPU. Rumus forget gate LSTM, update gate GRU, dan ProbSparse attention bisa ditampilkan lewat tombol rumus.",
-"14": "Layer 4 adalah jantung sistem pendukung keputusan. Prediksi 168 jam diubah menjadi sinyal: jika harga diprediksi naik maka +1 (beli), jika turun maka -1 (jual atau posisi protektif). Return strategi = sinyal × log return. Kinerja diukur dengan Directional Accuracy, Annualized Sharpe Ratio dengan faktor akar 8760 dan risk-free rate 2%, serta VaR 95% per jam. Semua hasil disimpan ke PostgreSQL dan ditampilkan di Power BI.",
-"15": "Hasil pertama adalah ketepatan angka (Tabel I). GRU memiliki RMSE terendah 0,1058 ± 0,0034 dan MAE 0,0948 ± 0,0028, diikuti LSTM (0,1145), Informer (0,1321), dan XGBoost (0,1524). Semua model AI mengalahkan ARIMA (0,1987) dan Naive persistence (0,2341). Nilai berada pada skala ternormalisasi 0 sampai 1 per fold.",
-"16": "Grafik ini contoh satu jendela uji 7 hari. Garis hitam adalah harga aktual; garis biru GRU paling dekat mengikutinya, sedangkan XGBoost (merah titik-titik) paling banyak menyimpang. Sebaran error GRU dapat dilihat lewat tombol di bawah: simetris pada kondisi normal, tetapi memiliki ekor panjang saat kejadian ekstrem seperti Terra-Luna Mei 2022.",
-"17": "Untuk memastikan keunggulan GRU bukan kebetulan, dilakukan uji formal. Kruskal-Wallis menolak kesamaan performa keempat model (H = 18,4; p < 0,001). Uji Diebold-Mariano berpasangan dengan koreksi sampel kecil Harvey (df = 23) dan koreksi Bonferroni (alfa = 0,0167) menunjukkan GRU signifikan lebih baik dari XGBoost (DM 4,21; p 0,0003) dan Informer (DM 2,87; p 0,009). Terhadap LSTM arahnya sama (DM 2,14; p 0,043) tetapi tidak signifikan setelah koreksi Bonferroni.",
-"18": "Hasil kedua (Tabel II): ketika dinilai dari keputusan finansial, urutannya berbalik. LSTM meraih Directional Accuracy tertinggi 57,8% ± 2,1%, Sharpe Ratio tertinggi 0,87 ± 0,12, dan VaR terkecil -1,18% per jam. GRU: 55,3%, Sharpe 0,72, VaR -1,32%. Informer: 53,6%, 0,54, -1,74%. XGBoost: 51,4%, 0,31, -2,15%. Buy-and-Hold hanya mencapai Sharpe 0,58.",
-"19": "Inilah kontribusi utama: Divergence Paradox. Model yang meminimalkan error kuadratik (GRU) belum tentu menghasilkan keputusan terbaik. GRU dengan struktur 2 gerbang sangat presisi terhadap besaran perubahan jangka pendek, tetapi lebih sering berganti arah sinyal (whipsaw). LSTM memiliki cell state terpisah sehingga mempertahankan arah tren makro dan menghasilkan sinyal yang lebih konsisten.",
-"20": "Prototipe dashboard Power BI terhubung ke PostgreSQL Data Mart melalui DirectQuery. Verifikasi menunjukkan latensi refresh rata-rata 1,2 detik, integritas 43.786 baris data 100% dengan checksum SHA-256, serta perhitungan DAX untuk Sharpe dan VaR identik dengan Python (selisih maksimal 0,003). Komponennya: grafik prediksi vs aktual, gauge Sharpe Ratio, indikator batas VaR, dan sinyal alokasi posisi.",
-"21": "Kemudahan penggunaan diuji dengan System Usability Scale (Brooke, 1996) oleh 15 evaluator: 10 peneliti pascasarjana informatika dan 5 profesional analitik keuangan senior, setelah walkthrough 30 menit. Skor rata-rata 86,4 ± 3,2 (rentang 80 sampai 92), melampaui ambang Excellent 85,5 menurut Bangor dkk. (2009).",
-"22": "Perbandingan dengan studi lain (Tabel III) bersifat ilustratif karena berbeda universe aset, horizon, dan perlakuan biaya. Directional Accuracy kami 55,3 sampai 57,8% lebih tinggi dari Jaquart dkk. (52,9 sampai 54,1%). Kami tidak mengklaim lebih unggul dari Sharpe Jaquart (3,23) atau Bysik dan Ślepaczuk (di atas 1) karena keduanya sudah net of costs. Keunikan penelitian ini adalah kombinasi walk-forward 24 fold per jam dengan integrasi DSS.",
-"23": "Tiga keterbatasan: pertama, Sharpe dan return masih gross, belum dikurangi fee taker Binance 0,10%; namun sinyal mingguan membuat turnover sekitar 24 kali lebih rendah. Kedua, fitur berbasis harga tidak dapat mengantisipasi kejutan makro seperti Terra-Luna, FTX, atau gugatan regulator. Ketiga, sinyal dikunci selama 168 jam, belum rolling per jam.",
-"24": "Kesimpulannya: sistem 4 layer berhasil dibangun end-to-end; Divergence Paradox terbukti, dengan GRU terbaik untuk ketepatan angka dan LSTM terbaik untuk keputusan; serta sistem layak pakai dengan latensi 1,2 detik dan SUS 86,4. Rekomendasi manajerial adalah DSS hibrida: gunakan GRU untuk position sizing dan stop-loss, gunakan LSTM untuk menentukan arah tren dan sinyal masuk pasar.",
-"25": "Penelitian selanjutnya: menghitung Sharpe bersih biaya transaksi dengan uji bootstrap; menambahkan data on-chain dan sentimen berita berbasis FinBERT atau LLM; menguji pada aset lain seperti ETH, SOL, dan BNB; serta mencoba arsitektur terbaru PatchTST dan TimesNet pada protokol walk-forward yang sama.",
-"26": "Demikian presentasi saya. Terima kasih atas perhatian dewan penguji. Saya siap menerima pertanyaan dan masukan."
+"2": "Penelitian ini dikerjakan bersama dua pembimbing. Saya sebagai peneliti utama fokus pada model deep learning, pengolahan data bursa kripto per jam, dan pencegahan kebocoran data. Dr. Deden Witarsyah membimbing sisi sistem pendukung keputusan, Business Intelligence, dan evaluasi SUS. Dr. Aswan Supriyadi Sunge membimbing sisi optimasi machine learning dan uji statistik pembanding. Hasilnya juga disusun sebagai makalah konferensi format IEEE 6 halaman dengan 49 referensi internasional, dan seluruh eksperimen bisa diulang di CPU biasa tanpa GPU.",
+"3": "Setelah perkenalan tim, presentasi saya terdiri dari enam bagian: masalah, tujuan, metode berupa sistem 4 layer, hasil perbandingan model, dashboard Power BI beserta uji pengguna, lalu kesimpulan.",
+"4": "Jika diringkas dalam empat angka: 43.786 jam data Bitcoin selama 5 tahun; model diuji 24 kali secara walk-forward; model LSTM menebak arah harga dengan benar 57,8% dengan Sharpe Ratio 0,87; dan dashboard mendapat skor usability 86,4 (Excellent). Temuan terpentingnya adalah Divergence Paradox: model paling presisi (GRU, RMSE 0,1058) bukan model paling menguntungkan (LSTM).",
+"5": "Pasar kripto beroperasi 24 jam sehari, 7 hari seminggu, sekitar 8.760 jam per tahun. Harganya sangat fluktuatif: distribusi return berekor tebal dan variansinya berubah cepat (non-stasioner), misalnya dari sekitar 16 ribu USD di 2022 hingga 126 ribu USD di 2025. Di sisi lain, investor rentan panic selling dan FOMO. Karena itu dibutuhkan sistem pendukung keputusan berbasis AI yang objektif dan terukur risikonya.",
+"6": "Dari tinjauan literatur ada tiga kelemahan umum. Pertama, banyak studi memakai random split atau normalisasi global sehingga model secara tidak sadar melihat data masa depan (temporal leakage). Kedua, evaluasi berhenti di RMSE atau MAPE tanpa menilai arah, Sharpe Ratio, dan VaR. Ketiga, hasil tidak diintegrasikan ke sistem pendukung keputusan. Penelitian ini menjawab ketiganya: 24-fold chronological walk-forward, metrik keuangan, dan dashboard Power BI.",
+"7": "Tujuan penelitian ada tiga: membangun pipeline 4 layer end-to-end yang bebas kebocoran data; membandingkan XGBoost, LSTM, GRU, dan Informer dari sisi statistik maupun keputusan finansial; serta menyajikan hasilnya di dashboard Power BI dan menguji kemudahan penggunaannya dengan System Usability Scale.",
+"8": "Sistem terdiri dari 4 layer. Layer 1 mengambil data Binance Spot dan memverifikasi stasioneritas dengan uji ADF. Layer 2 menghitung 15 indikator teknikal dan menerapkan fold-local scaling. Layer 3 melatih empat model dengan protokol 24-fold walk-forward dan menghasilkan prediksi 168 jam. Layer 4 mengubah prediksi menjadi sinyal, Directional Accuracy, Sharpe Ratio, dan VaR, disimpan di PostgreSQL dan ditampilkan di Power BI DirectQuery dengan latensi 1,2 detik.",
+"9": "Layer 1 memakai 43.786 lilin per jam BTC/USDT dari Binance Spot API, Maret 2021 sampai Februari 2026. Integritas dicek dengan checksum SHA-256; 38 lilin bervolume nol dikeluarkan (kurang dari 0,01%) tanpa interpolasi. Uji ADF menunjukkan harga mentah tidak stasioner (p > 0,05), sehingga fitur berbasis level harga seperti EMA, ATR, OBV, dan volatilitas di-differencing hingga lulus ADF (p < 0,05) di seluruh 24 fold. Sebagai pembanding dipakai tiga baseline: Naive persistence (RMSE 0,2341), Buy-and-Hold (Sharpe 0,58), dan ARIMA(1,1,1) (RMSE 0,1987, DA 51,8%, Sharpe 0,41).",
+"10": "Layer 2 menghasilkan 15 indikator teknikal dalam empat kelompok: tren (EMA-12, EMA-26), momentum (RSI-14, Stochastic %K dan %D, ROC-10), volatilitas (Bollinger upper, lower, width, ATR-14, rolling volatility 24 jam), serta konvergensi dan volume (MACD line, signal, histogram, OBV). Model menerima jendela 24 jam terakhir, sehingga input berbentuk matriks 24 × 15.",
+"11": "Ini bagian yang paling krusial secara metodologi. Jika normalisasi dihitung dari seluruh dataset, rentang harga masa depan ikut bocor ke data latih, sehingga akurasi terlihat tinggi tetapi palsu. Penelitian ini memakai Fold-Local Min-Max Scaling (Persamaan 1): nilai minimum dan maksimum hanya diambil dari jendela latih 720 jam lalu dibekukan saat menormalisasi jendela uji 168 jam. Konsekuensinya, MAPE ditiadakan karena skala 0 sampai 1 berbeda di setiap fold.",
+"12": "Untuk membuka 'kotak hitam' deep learning dipakai analisis SHAP. Fitur paling berpengaruh adalah rolling volatility 24 jam dengan kontribusi 23,2%, diikuti RSI-14 dan MACD. Artinya model tidak menghafal harga secara acak, melainkan merespons kompresi volatilitas dan kelelahan momentum sesuai kaidah analisis teknikal.",
+"13": "Skema pengujian adalah 24-fold chronological walk-forward: jendela latih tetap 720 jam (30 hari) dan jendela uji 168 jam (7 hari). Jendela uji ditempatkan merata dengan stride 1.865 lilin (sekitar 77,7 hari), sehingga total 4.032 jam data uji (9,2% dataset) mencakup bull market 2021, bear market 2022, akumulasi 2023, halving 2024, hingga all-time high 2025. Random K-Fold tidak dipakai karena melatih dengan data masa depan untuk memprediksi masa lalu.",
+"14": "Empat model dibandingkan. XGBoost: 300 pohon, max depth 5, input vektor datar. LSTM: 2 layer 128 unit dengan 3 gerbang, 206.465 parameter. GRU: 2 layer 128 unit dengan 2 gerbang, 154.881 parameter. Informer: Transformer dengan ProbSparse attention, 223.617 parameter. Semua memakai Adam optimizer, batch 64, early stopping patience 10, dan dilatih di CPU Intel Core i7-1260P tanpa GPU. Rumus forget gate LSTM, update gate GRU, dan ProbSparse attention bisa ditampilkan lewat tombol rumus.",
+"15": "Layer 4 adalah jantung sistem pendukung keputusan. Prediksi 168 jam diubah menjadi sinyal: jika harga diprediksi naik maka +1 (beli), jika turun maka -1 (jual atau posisi protektif). Return strategi = sinyal × log return. Kinerja diukur dengan Directional Accuracy, Annualized Sharpe Ratio dengan faktor akar 8760 dan risk-free rate 2%, serta VaR 95% per jam. Semua hasil disimpan ke PostgreSQL dan ditampilkan di Power BI.",
+"16": "Hasil pertama adalah ketepatan angka (Tabel I). GRU memiliki RMSE terendah 0,1058 ± 0,0034 dan MAE 0,0948 ± 0,0028, diikuti LSTM (0,1145), Informer (0,1321), dan XGBoost (0,1524). Semua model AI mengalahkan ARIMA (0,1987) dan Naive persistence (0,2341). Nilai berada pada skala ternormalisasi 0 sampai 1 per fold.",
+"17": "Grafik ini contoh satu jendela uji 7 hari. Garis hitam adalah harga aktual; garis biru GRU paling dekat mengikutinya, sedangkan XGBoost (merah titik-titik) paling banyak menyimpang. Sebaran error GRU dapat dilihat lewat tombol di bawah: simetris pada kondisi normal, tetapi memiliki ekor panjang saat kejadian ekstrem seperti Terra-Luna Mei 2022.",
+"18": "Untuk memastikan keunggulan GRU bukan kebetulan, dilakukan uji formal. Kruskal-Wallis menolak kesamaan performa keempat model (H = 18,4; p < 0,001). Uji Diebold-Mariano berpasangan dengan koreksi sampel kecil Harvey (df = 23) dan koreksi Bonferroni (alfa = 0,0167) menunjukkan GRU signifikan lebih baik dari XGBoost (DM 4,21; p 0,0003) dan Informer (DM 2,87; p 0,009). Terhadap LSTM arahnya sama (DM 2,14; p 0,043) tetapi tidak signifikan setelah koreksi Bonferroni.",
+"19": "Hasil kedua (Tabel II): ketika dinilai dari keputusan finansial, urutannya berbalik. LSTM meraih Directional Accuracy tertinggi 57,8% ± 2,1%, Sharpe Ratio tertinggi 0,87 ± 0,12, dan VaR terkecil -1,18% per jam. GRU: 55,3%, Sharpe 0,72, VaR -1,32%. Informer: 53,6%, 0,54, -1,74%. XGBoost: 51,4%, 0,31, -2,15%. Buy-and-Hold hanya mencapai Sharpe 0,58.",
+"20": "Inilah kontribusi utama: Divergence Paradox. Model yang meminimalkan error kuadratik (GRU) belum tentu menghasilkan keputusan terbaik. GRU dengan struktur 2 gerbang sangat presisi terhadap besaran perubahan jangka pendek, tetapi lebih sering berganti arah sinyal (whipsaw). LSTM memiliki cell state terpisah sehingga mempertahankan arah tren makro dan menghasilkan sinyal yang lebih konsisten.",
+"21": "Prototipe dashboard Power BI terhubung ke PostgreSQL Data Mart melalui DirectQuery. Verifikasi menunjukkan latensi refresh rata-rata 1,2 detik, integritas 43.786 baris data 100% dengan checksum SHA-256, serta perhitungan DAX untuk Sharpe dan VaR identik dengan Python (selisih maksimal 0,003). Komponennya: grafik prediksi vs aktual, gauge Sharpe Ratio, indikator batas VaR, dan sinyal alokasi posisi.",
+"22": "Kemudahan penggunaan diuji dengan System Usability Scale (Brooke, 1996) oleh 15 evaluator: 10 peneliti pascasarjana informatika dan 5 profesional analitik keuangan senior, setelah walkthrough 30 menit. Skor rata-rata 86,4 ± 3,2 (rentang 80 sampai 92), melampaui ambang Excellent 85,5 menurut Bangor dkk. (2009).",
+"23": "Perbandingan dengan studi lain (Tabel III) bersifat ilustratif karena berbeda universe aset, horizon, dan perlakuan biaya. Directional Accuracy kami 55,3 sampai 57,8% lebih tinggi dari Jaquart dkk. (52,9 sampai 54,1%). Kami tidak mengklaim lebih unggul dari Sharpe Jaquart (3,23) atau Bysik dan Ślepaczuk (di atas 1) karena keduanya sudah net of costs. Keunikan penelitian ini adalah kombinasi walk-forward 24 fold per jam dengan integrasi DSS.",
+"24": "Tiga keterbatasan: pertama, Sharpe dan return masih gross, belum dikurangi fee taker Binance 0,10%; namun sinyal mingguan membuat turnover sekitar 24 kali lebih rendah. Kedua, fitur berbasis harga tidak dapat mengantisipasi kejutan makro seperti Terra-Luna, FTX, atau gugatan regulator. Ketiga, sinyal dikunci selama 168 jam, belum rolling per jam.",
+"25": "Kesimpulannya: sistem 4 layer berhasil dibangun end-to-end; Divergence Paradox terbukti, dengan GRU terbaik untuk ketepatan angka dan LSTM terbaik untuk keputusan; serta sistem layak pakai dengan latensi 1,2 detik dan SUS 86,4. Rekomendasi manajerial adalah DSS hibrida: gunakan GRU untuk position sizing dan stop-loss, gunakan LSTM untuk menentukan arah tren dan sinyal masuk pasar.",
+"26": "Penelitian selanjutnya: menghitung Sharpe bersih biaya transaksi dengan uji bootstrap; menambahkan data on-chain dan sentimen berita berbasis FinBERT atau LLM; menguji pada aset lain seperti ETH, SOL, dan BNB; serta mencoba arsitektur terbaru PatchTST dan TimesNet pada protokol walk-forward yang sama.",
+"27": "Demikian presentasi saya. Terima kasih atas perhatian dewan penguji. Saya siap menerima pertanyaan dan masukan."
 };
 
 // ─── State ──────────────────────────────────────────────────
